@@ -4,7 +4,7 @@ const ContactUs = () => {
   return (
     <>
       <div className="px-10 mt-6">
-        <p className="text-xl">Contact Us</p>
+        <p className="text-xl">Contact Us!</p>
       </div>
     </>
   );
