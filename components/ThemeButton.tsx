@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-//- Daisy UI Component
+//- Daisy UI Theme Controller
 const ThemeButton = () => {
   const [themeColor, setThemeColor] = useState(true);
 

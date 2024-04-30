@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import ThemeButton from "./ThemeButton";
 
-//- Daisy UI Navbar component
+//- Daisy UI Navbar
 const Navbar = () => {
   return (
     <div className="drawer">
