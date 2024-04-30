@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-const ThemeBar = () => {
+//- Daisy UI Component
+const ThemeButton = () => {
   const [themeColor, setThemeColor] = useState(true);
 
   // Tailwind dark mode
@@ -9,7 +10,7 @@ const ThemeBar = () => {
 
     document
       .querySelector("html")
-      .setAttribute("data-theme", themeColor ? "dark" : "oxTheme");
+      .setAttribute("data-theme", themeColor ? "dark" : "light");
   }, [themeColor]);
 
   // Return the JSX element
@@ -27,7 +28,7 @@ const ThemeBar = () => {
 
         {/* sun icon */}
         <svg
-          className="swap-on h-7 w-7 fill-current"
+          className="swap-off h-7 w-7 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -36,7 +37,7 @@ const ThemeBar = () => {
 
         {/* moon icon */}
         <svg
-          className="swap-off m-auto h-5 w-5 fill-current"
+          className="swap-on m-auto h-5 w-5 fill-current"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
         >
@@ -47,4 +48,4 @@ const ThemeBar = () => {
   );
 };
 
-export default ThemeBar;
+export default ThemeButton;

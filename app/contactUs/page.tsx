@@ -4,8 +4,7 @@ import React from 'react'
 const ContactUs = () => {
   return (
     <>
-      <Link href="/">Home</Link>
-      <div className='mt-6'>ContactUs</div>
+      <div className='text-xl'>Contact Us</div>
     </>
   )
 }
