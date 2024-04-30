@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <p className="text-amber-600">HOME PAGE</p>
-      <button className="btn btn-primary">Daisy Btn</button>
+      <button className="btn btn-primary mt-2">Daisy Btn</button>
     </>
   );
 }
