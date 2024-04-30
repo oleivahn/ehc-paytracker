@@ -27,7 +27,7 @@ const Navbar = () => {
               <Image
                 src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-white.svg"
                 alt="logo"
-                // className="hidden dark:block"
+                // className="hidden hidden dark:block"
                 height={150}
                 width={150}
               />
@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
           
           <div className="flex-none hidden lg:block">
-            <ul className="menu menu-horizontal">
+            <ul className="menu menu-horizontal gap-2">
               {/* Navbar menu content here */}
               <li className="text-lg"><Link href="/">Home</Link></li>
               <li className="text-lg"><Link href="/contactUs">Contact Us</Link></li>
