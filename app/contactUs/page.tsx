@@ -4,7 +4,9 @@ import React from "react";
 const ContactUs = () => {
   return (
     <>
-      <div className="text-xl">Contact Us</div>
+      <div className="px-10 mt-6">
+        <p className="text-xl">Contact Us</p>
+      </div>
     </>
   );
 };
