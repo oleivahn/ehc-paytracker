@@ -4,16 +4,13 @@ import { useEffect, useState } from "react";
 const ThemeButton = () => {
   const [themeColor, setThemeColor] = useState(true);
 
-  // Tailwind dark mode
+  // Daisy UI set dark mode
   useEffect(() => {
-    // console.log("📗 LOG [ themeColor ]:", themeColor);
-
     document
       .querySelector("html")
-      .setAttribute("data-theme", themeColor ? "dark" : "light");
+      .setAttribute("data-theme", themeColor ? "dark" : "oxTheme");
   }, [themeColor]);
 
-  // Return the JSX element
   return (
     <div id="theme-bar">
       <label className="swap swap-rotate mt-1 ml-2 md:mr-7">
@@ -21,7 +18,6 @@ const ThemeButton = () => {
         <input
           type="checkbox"
           onClick={() => {
-            console.log("Theme switch clicked");
             setThemeColor(!themeColor);
           }}
         />
