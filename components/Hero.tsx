@@ -20,7 +20,7 @@ const Hero = () => {
           custom set for new color variables
         </p>
         <p>Look for the ox and ox-foreground color examples</p>
-        <div className="flex gap-5 mt-5">
+        <div className="flex flex-col md:flex-row gap-5 mt-5">
           <Button>Primary</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="destructive">Destructive</Button>
