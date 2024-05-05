@@ -66,6 +66,8 @@ export default function Navbar() {
     <div className="flex w-full flex-col border-b">
       <header className="container sticky top-0 flex h-20 items-center gap-4  bg-background px-4 md:px-6">
         {/* DRAWER */}
+        {/* HOW TO CLOSE THE DRAWER AFTER CLICKING ON A LINK */}
+        {/* https://github.com/saadeghi/daisyui/discussions/2444 */}
         <Sheet>
           <SheetTrigger asChild>
             <Button
