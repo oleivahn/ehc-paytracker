@@ -3,8 +3,8 @@ import React from "react";
 const ContactUs = () => {
   return (
     <>
-      <div className="px-10 mt-6">
-        <p className="text-xl">Contact Us!</p>
+      <div className="mt-6">
+        <p className="text-3xl">Contact Us!</p>
       </div>
     </>
   );
