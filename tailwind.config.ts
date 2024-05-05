@@ -56,6 +56,14 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        ox: {
+          DEFAULT: "hsl(var(--ox))",
+          foreground: "hsl(var(--ox-foreground))",
+        },
+        app: {
+          DEFAULT: "hsl(var(--app))",
+          // foreground: "hsl(var(--ox-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

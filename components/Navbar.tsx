@@ -134,7 +134,7 @@ export default function Navbar() {
                 href={href}
                 className={`${
                   isActive ? "text-foreground" : "text-muted-foreground"
-                } transition-colors hover:text-foreground text-nowrap hidden md:block`}
+                } transition-colors hover:text-foreground text-nowrap hidden md:block font-semibold`}
               >
                 {label}
               </Link>
@@ -154,7 +154,7 @@ export default function Navbar() {
                 href={href}
                 className={`${
                   isActive ? "text-foreground" : "text-muted-foreground"
-                } transition-colors hover:text-foreground text-nowrap hidden md:block`}
+                } transition-colors hover:text-foreground text-nowrap hidden md:block font-semibold`}
               >
                 {label}
               </Link>
