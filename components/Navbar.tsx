@@ -34,12 +34,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Table,
   TableBody,
@@ -66,9 +61,6 @@ export default function Navbar() {
     { href: "/pricing", label: "Pricing" },
     { href: "/contactUs", label: "Contact Us" },
   ];
-
-  // const isActive = pathname === "/contactUs";
-  // console.log("📗 LOG [ isActive ]:", isActive);
 
   return (
     <div className="flex w-full flex-col border-b">
