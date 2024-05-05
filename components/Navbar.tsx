@@ -34,7 +34,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import {
   Table,
   TableBody,
@@ -52,41 +57,23 @@ export default function Navbar() {
   // https://stackoverflow.com/questions/68978743/tailwindcss-active-link-text-color-not-changing
   const pathname = usePathname();
 
+  const LEFT_NAV_ITEMS = [
+    { href: "/services", label: "Services" },
+    { href: "/testimonies", label: "Testimonies" },
+  ];
+
+  const RIGHT_NAV_ITEMS = [
+    { href: "/pricing", label: "Pricing" },
+    { href: "/contactUs", label: "Contact Us" },
+  ];
+
+  // const isActive = pathname === "/contactUs";
+  // console.log("📗 LOG [ isActive ]:", isActive);
+
   return (
     <div className="flex w-full flex-col border-b">
-      <header className="container sticky top-0 flex h-16 items-center gap-4  bg-background px-4 md:px-6">
-        <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-          <Link href="/" className="flex items-center space-x-2">
-            <Icons.logo className="h-6 w-6" />
-            <span className="inline-block font-bold">{siteConfig.name}</span>
-          </Link>
-          <Link
-            href="contactUs"
-            className={`${
-              pathname === "/contactUs" ? "text-foreground" : ""
-            } text-muted-foreground transition-colors hover:text-foreground w-[80px] active:text-foreground`}
-          >
-            Contact Us
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Customers
-          </Link>
-          <Link
-            href="#"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Analytics
-          </Link>
-        </nav>
+      <header className="container sticky top-0 flex h-20 items-center gap-4  bg-background px-4 md:px-6">
+        {/* DRAWER */}
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -107,47 +94,72 @@ export default function Navbar() {
                 <Package2 className="h-6 w-6" />
                 <span className="sr-only">Acme Inc</span>
               </Link>
-              <Link href="#" className="hover:text-foreground">
-                Dashboard
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Orders
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Products
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Customers
-              </Link>
-              <Link
-                href="#"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                Analytics
-              </Link>
+              {[...LEFT_NAV_ITEMS, ...RIGHT_NAV_ITEMS].map(
+                ({ href, label }, i) => {
+                  const isActive = pathname === href;
+
+                  return (
+                    <Link
+                      key={i}
+                      href={href}
+                      onClick={() => {
+                        document.getElementById("close-drawer")?.click();
+                      }}
+                      className={`${
+                        isActive ? "text-foreground" : "text-muted-foreground"
+                      } transition-colors hover:text-foreground text-nowrap`}
+                    >
+                      {label}
+                    </Link>
+                  );
+                }
+              )}
             </nav>
           </SheetContent>
         </Sheet>
-        <div className="flex items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          <form className="ml-auto flex-1 sm:flex-initial">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-              />
-            </div>
-          </form>
+        {/* LOGO AND LEFT SIDE MENUS */}
+        <nav className="ie flex-col gap-6 text-lg  md:flex md:flex-row md:items-center md:gap-5 md:text-md lg:gap-10">
+          <Link href="/" className="flex items-center space-x-2">
+            <Icons.logo className="h-6 w-6" />
+            <span className="inline-block font-bold text-3xl">
+              {siteConfig.name}
+            </span>
+          </Link>
+          {LEFT_NAV_ITEMS.map(({ href, label }, i) => {
+            const isActive = pathname === href;
+
+            return (
+              <Link
+                key={i}
+                href={href}
+                className={`${
+                  isActive ? "text-foreground" : "text-muted-foreground"
+                } transition-colors hover:text-foreground text-nowrap hidden md:block`}
+              >
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* RIGHT SIDE MENUS */}
+        <div className="flex items-center gap-4 ml-auto md:gap-2 lg:gap-10 text-lg">
+          {RIGHT_NAV_ITEMS.map(({ href, label }, i) => {
+            console.log("📗 LOG [ href ]:", href, label, i);
+            const isActive = pathname === href;
+
+            return (
+              <Link
+                key={i}
+                href={href}
+                className={`${
+                  isActive ? "text-foreground" : "text-muted-foreground"
+                } transition-colors hover:text-foreground text-nowrap hidden md:block`}
+              >
+                {label}
+              </Link>
+            );
+          })}
           <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
