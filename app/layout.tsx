@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
+import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Ox App",
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <div className="relative flex min-h-screen flex-col">
-            <SiteHeader />
+            <Navbar />
             <div className="container">{children}</div>
           </div>
         </ThemeProvider>
