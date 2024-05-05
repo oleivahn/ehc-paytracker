@@ -43,7 +43,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ThemeToggle } from "./theme-toggle";
+import { ThemeToggle } from "./Theme-toggle";
 
 import { Icons } from "@/components/icons";
 
@@ -64,7 +64,7 @@ export default function Navbar() {
 
   return (
     <div className="flex w-full flex-col border-b">
-      <header className="container sticky top-0 flex h-20 items-center gap-4  bg-background px-4 md:px-6">
+      <header className="container sticky top-0 flex h-20 items-center gap-4 bg-background px-4 md:px-6">
         {/* DRAWER */}
         {/* HOW TO CLOSE THE DRAWER AFTER CLICKING ON A LINK */}
         {/* https://github.com/saadeghi/daisyui/discussions/2444 */}
@@ -112,10 +112,10 @@ export default function Navbar() {
           </SheetContent>
         </Sheet>
         {/* LOGO AND LEFT SIDE MENUS */}
-        <nav className="ie flex-col gap-6 text-lg  md:flex md:flex-row md:items-center md:gap-5 md:text-md lg:gap-10">
+        <nav className="ie md:text-md flex-col gap-6 text-lg md:flex md:flex-row md:items-center md:gap-5 lg:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <Icons.logo className="h-6 w-6" />
-            <span className="inline-block font-bold text-3xl">
+            <span className="inline-block text-3xl font-bold">
               {siteConfig.name}
             </span>
           </Link>
@@ -137,7 +137,7 @@ export default function Navbar() {
         </nav>
 
         {/* RIGHT SIDE MENUS */}
-        <div className="flex items-center gap-4 ml-auto md:gap-2 lg:gap-10 text-lg">
+        <div className="ml-auto flex items-center gap-4 text-lg md:gap-2 lg:gap-10">
           {RIGHT_NAV_ITEMS.map(({ href, label }, i) => {
             console.log("📗 LOG [ href ]:", href, label, i);
             const isActive = pathname === href;
