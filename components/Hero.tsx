@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 const Hero = () => {
   return (
     <div className="container">
-      <div className="bg-ox rounded-lg shadow-md mt-5 py-36 pt-15 p-20 flex flex-col items-center gap-1 text-center">
+      <div className="bg-ox rounded-lg shadow-md mt-5 py-10 md:py-36 pt-15 p-14 flex flex-col items-center gap-1 text-center">
         <h1 className="text-ox-foreground font-bold text-5xl mb-5">
           Home Page
         </h1>
