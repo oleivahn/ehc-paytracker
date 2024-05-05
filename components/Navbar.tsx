@@ -53,7 +53,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const LEFT_NAV_ITEMS = [
-    { href: "/services", label: "Services" },
+    { href: "/", label: "Home" },
     { href: "/testimonies", label: "Testimonies" },
   ];
 
