@@ -4,15 +4,15 @@ import { Button } from "./ui/button";
 const Hero = () => {
   return (
     <div className="container">
-      <div className="bg-ox rounded-lg shadow-md mt-5 py-10 md:py-36 pt-15 p-14 flex flex-col items-center gap-1 text-center">
-        <h1 className="text-ox-foreground font-bold text-5xl mb-5">
+      <div className="pt-15 mt-5 flex flex-col items-center gap-1 rounded-lg bg-ox p-14 py-10 text-center shadow-md md:py-36">
+        <h1 className="mb-5 text-5xl font-bold text-ox-foreground">
           Home Page
         </h1>
         <p>Start building your app here!</p>
-        <h3 className="text-3xl text-primary font-semibold mt-10">
+        <h3 className="mt-10 text-3xl font-semibold text-primary">
           Theme Ready
         </h3>
-        <p className="text-ox-foreground font-semibold">
+        <p className="font-semibold text-ox-foreground">
           Add the changes to the global .css file and tailwind.config.ts
         </p>
         <p className="mt-5">
@@ -20,7 +20,7 @@ const Hero = () => {
           custom set for new color variables
         </p>
         <p>Look for the ox and ox-foreground color examples</p>
-        <div className="flex flex-col md:flex-row gap-5 mt-5">
+        <div className="mt-5 flex flex-col gap-5 md:flex-row">
           <Button>Primary</Button>
           <Button variant="secondary">Secondary</Button>
           <Button variant="destructive">Destructive</Button>
