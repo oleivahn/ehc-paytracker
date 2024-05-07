@@ -23,7 +23,7 @@ const Hero = () => {
         <p>Look for the ox and ox-foreground color examples</p>
         <p className="py-4">
           .env ready{" "}
-          <span className="text-primary">
+          <span className="font-semibold text-green-700">
             {process.env?.TEST_VAR_2 || ".env file missing here"}
           </span>
         </p>
