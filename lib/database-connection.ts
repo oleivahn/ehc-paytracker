@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { green } from "console-log-colors";
 
-// Define the connection URL
 const MONGODB_URI = process.env.MONGODB_URI;
 
 // Connect to the MongoDB database
@@ -34,9 +33,6 @@ const connectDB = async () => {
     );
   }
 };
-
-// Export the Mongoose connection
-export const db = mongoose.connection;
 
 // Export the connectDB function
 export default connectDB;
