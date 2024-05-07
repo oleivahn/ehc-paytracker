@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 import { green } from "console-log-colors";
 
 // Define the connection URL
@@ -29,6 +28,7 @@ const connectDB = async () => {
     console.log(green("Database connected successfully"));
   } catch (error) {
     console.error("Database connection error", error);
+
     throw new Error(
       "Database connection error, check the db connection file: db.ts"
     );
