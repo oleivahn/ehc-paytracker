@@ -21,3 +21,9 @@
 TEST_VAR= I am a nested value
 
 TEST_VAR_2=This is a .env const ${TEST_VAR}
+
+---
+
+Console Colors
+
+https://www.npmjs.com/package/console-log-colors

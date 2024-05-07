@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+import { green } from "console-log-colors";
+
 // Define the connection URL
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -24,7 +26,7 @@ const connectDB = async () => {
       bufferCommands: false,
     });
 
-    console.log("Database connected successfully");
+    console.log(green("Database connected successfully"));
   } catch (error) {
     console.error("Database connection error", error);
     throw new Error(
