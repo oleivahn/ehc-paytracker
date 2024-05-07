@@ -8,6 +8,10 @@ const Hero = () => {
         <h1 className="mb-5 text-5xl font-bold text-ox-foreground">
           Home Page
         </h1>
+        <p>
+          .env ready{" "}
+          <span className="text-primary">{process.env.TEST_VAR_2}</span>
+        </p>
         <p>Start building your app here!</p>
         <h3 className="mt-10 text-3xl font-semibold text-primary">
           Theme Ready

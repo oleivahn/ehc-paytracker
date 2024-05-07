@@ -11,7 +11,7 @@ export const GET = async () => {
 
     return new NextResponse(JSON.stringify(users), { status: 200 });
   } catch (error) {
-    return new NextResponse.json(
+    return NextResponse.json(
       { message: "Error in fetching users", error: error.message },
       { status: 500 }
     );
@@ -32,8 +32,8 @@ export const POST = async (request: Request) => {
       { status: 201 }
     );
   } catch (error) {
+    console.log("There was an error creating a new user:", error.message);
     return NextResponse.json(
-      console.log("There was an error creating a new user:", error.message),
       { message: "Error creating user", error: error.message },
       { status: 500 }
     );
