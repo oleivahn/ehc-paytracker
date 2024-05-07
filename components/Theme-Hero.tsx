@@ -8,12 +8,7 @@ const Hero = () => {
         <h1 className="mb-5 text-5xl font-bold text-ox-foreground">
           Home Page
         </h1>
-        <p>
-          .env ready{" "}
-          <span className="text-primary">
-            {process.env?.TEST_VAR_2 || ".env file missing here"}
-          </span>
-        </p>
+
         <p>Start building your app here!</p>
         <h3 className="mt-10 text-3xl font-semibold text-primary">
           Theme Ready
@@ -26,6 +21,12 @@ const Hero = () => {
           custom set for new color variables
         </p>
         <p>Look for the ox and ox-foreground color examples</p>
+        <p className="py-4">
+          .env ready{" "}
+          <span className="text-primary">
+            {process.env?.TEST_VAR_2 || ".env file missing here"}
+          </span>
+        </p>
         <div className="mt-5 flex flex-col gap-5 md:flex-row">
           <Button>Primary</Button>
           <Button variant="secondary">Secondary</Button>
