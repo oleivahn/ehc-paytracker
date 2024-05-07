@@ -11,3 +11,13 @@
 ### Connecting Mongoose to MongoDB
 
 [Connect to - YouTube video](https://www.youtube.com/watch?v=-j7qvs3zKqM&t=123s&ab_channel=ProgrammingwithUmair)
+
+---
+
+<!-- Add this on the .env files if missing for the HomeHero -->
+
+### Add this on the .env files if missing for the HomeHero
+
+TEST_VAR= I am a nested value
+
+TEST_VAR_2=This is a .env const ${TEST_VAR}

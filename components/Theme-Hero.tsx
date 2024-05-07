@@ -10,7 +10,9 @@ const Hero = () => {
         </h1>
         <p>
           .env ready{" "}
-          <span className="text-primary">{process.env.TEST_VAR_2}</span>
+          <span className="text-primary">
+            {process.env?.TEST_VAR_2 || ".env file missing here"}
+          </span>
         </p>
         <p>Start building your app here!</p>
         <h3 className="mt-10 text-3xl font-semibold text-primary">
