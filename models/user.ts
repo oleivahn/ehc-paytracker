@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-// Define the schema for the User collection
+// - Define the schema for the User collection
 // Same as - Create the Users table
 const UserSchema = new Schema({
   email: {

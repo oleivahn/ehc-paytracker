@@ -4,6 +4,6 @@
     "app/contactUs/page.tsx": "ContactUs Page",
     "app/page.tsx": "Home Page",
     "app/api/test/route.ts": "Test Route",
-    "app/api/(auth)/users/route.ts": "user tab"
+    "app/api/(auth)/users/route.ts": "Auth Route"
   }
 }
