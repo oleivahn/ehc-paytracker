@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 // - Sample GET request
 export const GET = async () => {
   try {
-    return NextResponse.json({ message: "Hello World" }, { status: 200 });
+    return NextResponse.json({ message: "Hello World!!!" }, { status: 200 });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unknown error";
 
