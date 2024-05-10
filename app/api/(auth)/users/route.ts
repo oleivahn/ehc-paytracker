@@ -31,7 +31,7 @@ export const POST = async (request: Request) => {
       JSON.stringify({ message: "User is created", user: newUser }),
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.log("There was an error creating a new user:", error.message);
     return NextResponse.json(
       { message: "Error creating user", error: error.message },
