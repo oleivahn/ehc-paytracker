@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
 
-export const GET = async (request: Request) => {
+export const GET = async () => {
   try {
     // - Connect to the database
     await connectDB();
@@ -10,7 +10,7 @@ export const GET = async (request: Request) => {
     const users = await User.find();
 
     return new NextResponse(JSON.stringify(users), { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
       { message: "Error in fetching users", error: error.message },
       { status: 500 }
