@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export const GET = async () => {
   try {
     return NextResponse.json({ message: "Hello World" }, { status: 200 });
-  } catch (error: unknown) {
+  } catch (error: any | unknown) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };
@@ -17,7 +17,7 @@ export const POST = async (request: Request, respose: NextResponse) => {
 
     console.log("📗 LOG [ body ]:", body);
     return NextResponse.json(body, { status: 200 });
-  } catch (error: unknown) {
+  } catch (error: any | unknown) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

@@ -10,7 +10,7 @@ export const GET = async () => {
     const users = await User.find();
 
     return new NextResponse(JSON.stringify(users), { status: 200 });
-  } catch (error: unknown) {
+  } catch (error: any | unknown) {
     return NextResponse.json(
       { message: "Error in fetching users", error: error.message },
       { status: 500 }
@@ -31,7 +31,7 @@ export const POST = async (request: Request) => {
       JSON.stringify({ message: "User is created", user: newUser }),
       { status: 201 }
     );
-  } catch (error: unknown) {
+  } catch (error: any | unknown) {
     console.log("There was an error creating a new user:", error.message);
     return NextResponse.json(
       { message: "Error creating user", error: error.message },
