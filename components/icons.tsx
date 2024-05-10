@@ -6,7 +6,7 @@ import {
   Icon as LucideIcon,
 } from "lucide-react";
 
-export type Icon = LucideIcon;
+export type Icon = typeof LucideIcon;
 
 export const Icons = {
   sun: SunMedium,
@@ -20,7 +20,7 @@ export const Icons = {
       />
     </svg>
   ),
-  gitHub: (props: LucideProps) => (
+  gitHub: (props: any) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
         fill="currentColor"
