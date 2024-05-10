@@ -1,5 +1,4 @@
 import {
-  LucideIcon,
   LucideProps,
   Moon,
   SunMedium,
