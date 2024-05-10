@@ -10,9 +10,11 @@ export const GET = async () => {
     const users = await User.find();
 
     return new NextResponse(JSON.stringify(users), { status: 200 });
-  } catch (error: any | unknown) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
     return NextResponse.json(
-      { message: "Error in fetching users", error: error.message },
+      { message: "Error in fetching users", error: message },
       { status: 500 }
     );
   }
@@ -31,10 +33,12 @@ export const POST = async (request: Request) => {
       JSON.stringify({ message: "User is created", user: newUser }),
       { status: 201 }
     );
-  } catch (error: any | unknown) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+
     console.log("There was an error creating a new user:", error.message);
     return NextResponse.json(
-      { message: "Error creating user", error: error.message },
+      { message: "Error creating user", error: message },
       { status: 500 }
     );
   }
