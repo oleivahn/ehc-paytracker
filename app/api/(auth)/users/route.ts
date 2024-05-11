@@ -3,7 +3,7 @@ import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
 
 export const GET = async () => {
-  // return NextResponse.json({ message: "Hello World!!!" }, { status: 200 });
+
   try {
     // - Connect to the database
     await connectDB();
@@ -19,10 +19,11 @@ export const GET = async () => {
       { status: 500 }
     );
   }
+
 };
 
 export const POST = async (request: Request) => {
-  // return NextResponse.json({ message: "Hello World!!!" }, { status: 200 });
+
   try {
     const body = await request.json();
 
@@ -36,12 +37,14 @@ export const POST = async (request: Request) => {
       { status: 201 }
     );
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage = (error as Error).message;
 
-    console.log("There was an error creating a new user:", message);
+    console.log("There was an error creating a new user:", errorMessage);
+    
     return NextResponse.json(
-      { message: "Error creating user", error: message },
+      { message: "Error creating user", error: errorMessage },
       { status: 500 }
     );
   }
+  
 };
