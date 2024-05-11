@@ -10,24 +10,11 @@ import Navbar from "@/components/Navbar";
 export const metadata: Metadata = {
   title: "EHC Delivery",
   description: "Service you can trust",
-  // icons: [  
-  //   {
-  //     rel: "icon",
-  //     href: "/favicon.ico",
-  //     url: "/favicon.ico", // Add the 'url' property with the same value as 'href'
-  //   },
-  //   {
-  //     rel: "apple-touch-icon",
-  //     href: "/apple-touch-icon.png",
-  //     sizes: "180x180",
-  //     url: "/apple-touch-icon.png", // Add the 'url' property with the same value as 'href'
-  //   },
-  //   {
-  //     rel: "manifest",
-  //     href: "/site.webmanifest",
-  //     url: "/site.webmanifest", // Add the 'url' property with the same value as 'href'
-  //   },
-  // ],
+  icons: {
+    icon: ["/favicon.ico?=4"],
+    apple: ["/apple-touch-icon.png?=4"],
+    shortcut: ["/apple-touch-icon.png?=4"],
+  },
 };
 
 const fontSans = FontSans({
