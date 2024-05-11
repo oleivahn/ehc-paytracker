@@ -22,26 +22,26 @@ export const GET = async () => {
 };
 
 export const POST = async (request: Request) => {
-  return NextResponse.json({ message: "Hello World!!!" }, { status: 200 });
-  // try {
-  //   const body = await request.json();
+  // return NextResponse.json({ message: "Hello World!!!" }, { status: 200 });
+  try {
+    const body = await request.json();
 
-  //   await connectDB();
+    await connectDB();
 
-  //   const newUser = new User(body);
-  //   const user = await newUser.save();
+    const newUser = new User(body);
+    const user = await newUser.save();
 
-  //   return new NextResponse(
-  //     JSON.stringify({ message: "User is created", user: newUser }),
-  //     { status: 201 }
-  //   );
-  // } catch (error: unknown) {
-  //   const message = error instanceof Error ? error.message : "Unknown error";
+    return new NextResponse(
+      JSON.stringify({ message: "User is created", user: newUser }),
+      { status: 201 }
+    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
 
-  //   console.log("There was an error creating a new user:", error.message);
-  //   return NextResponse.json(
-  //     { message: "Error creating user", error: message },
-  //     { status: 500 }
-  //   );
-  // }
+    console.log("There was an error creating a new user:", error.message);
+    return NextResponse.json(
+      { message: "Error creating user", error: message },
+      { status: 500 }
+    );
+  }
 };
