@@ -16,6 +16,7 @@
 ---
 ### **TODOs**
 - [ ] Favicon 
+  - [Add favico](https://www.youtube.com/watch?v=VUNTiaIXW80&ab_channel=PracticalApplications)
 - [ ] App Title 
 - [x] Add bold keybind for .md files **5/11/24** 
 - [ ] Spend some time designing the app (Figma?)
