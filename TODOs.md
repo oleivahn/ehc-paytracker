@@ -20,4 +20,6 @@
 - [x] Add bold keybind for .md files **5/11/24** 
 - [ ] Spend some time designing the app (Figma?)
   - Look for Shadcn design pack
-  - 
+- [ ] Document current deployment process [[./notes/test.md]]
+- [x] Document Git steps to push to template repo **5/11/24**
+- [ ] Look into linking .md files (extension -> Markdown Notes)

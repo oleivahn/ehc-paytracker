@@ -8,8 +8,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
-  title: "Ox App",
-  description: "App description goes here",
+  title: "EHC Delivery",
+  description: "Service you can trust",
 };
 
 const fontSans = FontSans({
