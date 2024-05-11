@@ -24,7 +24,7 @@ const Hero = () => {
         <p className="py-4">
           .env ready{" "}
           <span className="font-semibold text-green-700">
-            {process.env?.TEST_VAR_2 || ".env file missing here"}
+            {`${process.env?.TEST_VAR_2} and this would be var 2 ${process.env.TEST_VAR}`  || ".env file missing here"}
           </span>
         </p>
         <div className="mt-5 flex flex-col gap-5 md:flex-row">
