@@ -1,8 +1,23 @@
 # Bugs and Todos
 
+### 5/02/24
 - [ ] On the main page, on light theme mode, the background doesnt cover all vertical space.
+  
+---
+### **Backlog**
+<!-- ======= -->
 
-  - Reproduce: Scroll down on light mode to see it
+- [ ] Domain on Google Workspace is not working
+  - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
   - Add more here...
 
-- [ ] New todo
+
+
+---
+### **TODOs**
+- [ ] Favicon 
+- [ ] App Title 
+- [x] Add bold keybind for .md files **5/11/24** 
+- [ ] Spend some time designing the app (Figma?)
+  - Look for Shadcn design pack
+  - 
