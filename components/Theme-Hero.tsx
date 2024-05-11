@@ -6,7 +6,7 @@ const Hero = () => {
     <div className="container">
       <div className="pt-15 mt-5 flex flex-col items-center gap-1 rounded-lg bg-ox p-14 py-10 text-center shadow-md md:py-36">
         <h1 className="mb-5 text-5xl font-bold text-ox-foreground">
-          Home Page
+          Home Page!
         </h1>
 
         <p>Start building your app here!</p>
@@ -24,7 +24,8 @@ const Hero = () => {
         <p className="py-4">
           .env ready{" "}
           <span className="font-semibold text-green-700">
-            {`${process.env?.TEST_VAR_2} and this would be var 2 ${process.env.TEST_VAR}`  || ".env file missing here"}
+            {`${process.env?.TEST_VAR_2} and this would be var 2 ${process.env.TEST_VAR}` ||
+              ".env file missing here"}
           </span>
         </p>
         <div className="mt-5 flex flex-col gap-5 md:flex-row">
