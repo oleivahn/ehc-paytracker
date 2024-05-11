@@ -1,6 +1,8 @@
 # Bugs and Todos
 
-# **TODOs**
+<!-- ----------------TODOS---------------------- -->
+
+## **TODOs**
 
 ### **5/11/24**
 
@@ -14,15 +16,27 @@
 
 - [ ] Replace the favicon with a transparent backgroud one
   - [Favicon Generator](https://favicon.io/favicon-converter/)
+- [ ] Find a good favicon image process (transparent background)
 - [ ] Spend some time designing the app (Figma?)
   - Look for Shadcn design pack
-- [ ] Document current deployment process [[./notes/test.md]]
+- [ ] Document current deployment process - How to configure the domain, next, vercel and env variables
 - [ ] Look into linking .md files (extension -> Markdown Notes)
 
-<!-- a -->
-<!-- a -->
+- [ ] Add authorization and secure routes
+- [ ] Make a standard form and save it's data
+- [ ] ShadCn compatible with tailgrids?
+-
+
+<!-- @ -->
+<!-- @ -->
+<!-- @ -->
+<!-- @ -->
+<!-- @ -->
+<!-- @ -->
+<!-- @ -->
 <!-- ----------------BACKLOG---------------------- -->
 
+&nbsp;  
 &nbsp;  
 &nbsp;
 
@@ -31,3 +45,4 @@
 - [ ] Domain on Google Workspace is not working
   - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
 - [ ] On the main page, on light theme mode, the background doesnt cover all vertical space.
+- [ ] Change the sun icon on the toggle bar. Looks like a cog wheel
