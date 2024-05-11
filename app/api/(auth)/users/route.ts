@@ -38,7 +38,7 @@ export const POST = async (request: Request) => {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unknown error";
 
-    console.log("There was an error creating a new user:", error.message);
+    console.log("There was an error creating a new user:", message);
     return NextResponse.json(
       { message: "Error creating user", error: message },
       { status: 500 }
