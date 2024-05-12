@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  /* - Light Theme */
+  /* - Light Theme  */
   :root {
     --test-color: hsl(0, 0%, 75%);
     --background: 0 0% 100%;
