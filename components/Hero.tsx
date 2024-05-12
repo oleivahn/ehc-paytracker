@@ -5,10 +5,7 @@ import Link from "next/link";
 
 const Hero = () => {
   return (
-    <section
-      id="about"
-      className="bg-gray-1 dark:bg-dark-2 pb-8 pt-20 lg:pb-[70px] lg:pt-[120px]"
-    >
+    <section id="about" className="pb-8 pt-20 lg:pb-[70px] lg:pt-[120px]">
       <div className="container">
         <div className="wow fadeInUp" data-wow-delay=".2s">
           <div className="-mx-4 flex flex-wrap items-center">
