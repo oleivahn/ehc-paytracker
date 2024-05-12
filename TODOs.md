@@ -51,6 +51,7 @@
 **MVP**
 
 - [ ] Send email
+- [ ] Form validation. Zod?
 - [x] Connection to a database
 - [ ] Prod and dev theme set
 - [ ] Maybe basic auth
