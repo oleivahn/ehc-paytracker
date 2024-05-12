@@ -1,6 +1,6 @@
 # Bugs and Todos
 
-<!-- ----------------TODOs---------------------- -->
+<!-- ----------------TODOS---------------------- -->
 
 ## **TODOs**
 
@@ -25,6 +25,7 @@
 - [ ] Add authorization and secure routes
 - [ ] Make a standard form and save it's data
 - [ ] ShadCn compatible with tailgrids?
+-
 
 <!-- @ -->
 <!-- @ -->
