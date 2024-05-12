@@ -115,7 +115,7 @@ export default function Navbar() {
         <nav className="ie md:text-md flex-col gap-6 text-lg md:flex md:flex-row md:items-center md:gap-5 lg:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <Icons.logo className="h-6 w-6" />
-            <span className="inline-block text-nowrap text-3xl font-bold">
+            <span className="inline-block text-nowrap text-xl font-bold md:text-3xl">
               {siteConfig.name}
             </span>
           </Link>
