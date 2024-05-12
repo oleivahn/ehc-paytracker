@@ -5,14 +5,14 @@
 @layer base {
   /* - Light Theme  */
   :root {
-    --test-color: hsl(0, 0%, 75%);
+    --test-color: hsl(27, 83%, 54%);
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 34.2 86.2% 51.3%;
+    --primary: 27 83% 54%;
     --primary-foreground: 210 40% 98%;
     --secondary: 0 0% 78%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -27,7 +27,7 @@
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
     --darker: 0, 0%, 94%;
-    --darker-foreground: 334, 100%, 42%;
+    --darker-foreground: 0, 64%, 44%;
     --app: 210, 20%, 98%;
   }
 
