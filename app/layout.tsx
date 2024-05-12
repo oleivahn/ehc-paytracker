@@ -27,6 +27,7 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+  console.log("Theme", process.env.DEFAULT_THEME);
   return (
     <html lang="en">
       <body
