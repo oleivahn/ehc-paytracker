@@ -50,7 +50,8 @@
 
 **MVP**
 
-- [ ] Send email
+- [ ] Send email and contact us form
+  - [YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
 - [ ] Form validation. Zod?
 - [x] Connection to a database
 - [ ] Prod and dev theme set
