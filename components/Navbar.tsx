@@ -100,7 +100,7 @@ export default function Navbar() {
                         document.getElementById("close-drawer")?.click();
                       }}
                       className={`${
-                        isActive ? "text-foreground" : "text-muted-foreground"
+                        isActive ? "text-primary" : "text-muted-foreground"
                       } transition-colors hover:text-foreground text-nowrap`}
                     >
                       {label}
@@ -127,7 +127,7 @@ export default function Navbar() {
                 key={i}
                 href={href}
                 className={`${
-                  isActive ? "text-foreground" : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-muted-foreground"
                 } transition-colors hover:text-foreground text-nowrap hidden md:block font-semibold`}
               >
                 {label}
@@ -147,7 +147,7 @@ export default function Navbar() {
                 key={i}
                 href={href}
                 className={`${
-                  isActive ? "text-foreground" : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-muted-foreground"
                 } transition-colors hover:text-foreground text-nowrap hidden md:block font-semibold`}
               >
                 {label}
