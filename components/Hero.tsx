@@ -15,19 +15,18 @@ const Hero = () => {
                   EHC Delivery, LLC.
                 </h2>
                 <p className="text-body-color dark:text-dark-6 mb-10 text-base leading-relaxed">
-                  The main thrust is to focus on educating attendees on how to
-                  best protect highly vulnerable business applications with
-                  interactive panel discussions and roundtables led by subject
-                  matter experts.
+                  The main EHC Website is currently under construction. We will
+                  let our customers know when it is ready for use.
                   <br />
                   <br />
-                  The main thrust is to focus on educating attendees on how to
-                  best protect highly vulnerable business applications with
-                  interactive panel.
+                  In the meantime, you can send us an email and we will get back
+                  to you as soon as we can.
+                  <br />
+                  Thank you for your understanding.
                 </p>
                 <Link href="/contactUs">
                   <Button size="lg" className="mr-4">
-                    Get Started
+                    Contact Us
                   </Button>
                 </Link>
               </div>

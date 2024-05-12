@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
 
 export default function ContactUs() {
   return (
@@ -55,7 +56,9 @@ export default function ContactUs() {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline">Cancel</Button>
-          <Button>Deploy</Button>
+          <Link href="/">
+            <Button>Deploy</Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>
