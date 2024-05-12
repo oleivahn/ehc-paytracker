@@ -37,7 +37,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme={process.env.defaultTheme ? process.env.defaultTheme: "light"}
+          defaultTheme={process.env.DEFAULT_THEME ? process.env.DEFAULT_THEME : "light"}
           enableSystem
           disableTransitionOnChange
         >
