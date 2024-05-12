@@ -25,7 +25,7 @@
 
 - [ ] Add authorization and secure routes
 - [ ] Make a standard form and save it's data
-- [ ] ShadCn compatible with tailgrids?
+- [x] ShadCn compatible with tailgrids? **5/11/24**
 -
 
 <!-- @ -->
@@ -45,5 +45,5 @@
 
 - [ ] Domain on Google Workspace is not working!
   - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
-- [ ] On the main page, on light theme mode, the background doesnt cover all vertical space.
-- [ ] Change the sun icon on the toggle bar. Looks like a cog wheel
+- [x] On the main page, on light theme mode, the background doesnt cover all vertical space.
+- [x] Change the sun icon on the toggle bar. Looks like a cog wheel

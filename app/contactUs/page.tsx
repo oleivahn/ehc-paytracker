@@ -22,7 +22,7 @@ import {
 export default function ContactUs() {
   return (
     <div className="mt-10 flex flex-col items-center">
-      <Card className="w-[650px] shadow-lg dark:bg-darker">
+      <Card className="shadow-lg dark:bg-darker md:w-[650px]">
         <CardHeader>
           <CardTitle>Contact EHC</CardTitle>
           <CardDescription>
