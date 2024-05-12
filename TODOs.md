@@ -30,6 +30,6 @@
 
 # **Backlog**
 
-- [ ] Domain on Google Workspace is not working
+- [ ] Domain on Google Workspace is not working!
   - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
 - [x] On the main page, on light theme mode, the background doesnt cover all vertical space. **5/11/24**
