@@ -24,7 +24,7 @@ export default function ContactUs() {
     <div className="mt-10 flex flex-col items-center">
       <Card className="w-[650px] shadow-lg dark:bg-darker">
         <CardHeader>
-          <CardTitle>Create project</CardTitle>
+          <CardTitle>Contact EHC</CardTitle>
           <CardDescription>
             Deploy your new project in one-click.
           </CardDescription>
