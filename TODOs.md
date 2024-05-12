@@ -47,3 +47,11 @@
   - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
 - [x] On the main page, on light theme mode, the background doesnt cover all vertical space.
 - [x] Change the sun icon on the toggle bar. Looks like a cog wheel
+
+**MVP**
+
+- [ ] Send email
+- [x] Connection to a database
+- [ ] Prod and dev theme set
+- [ ] Maybe basic auth
+- [ ] English Spanish?
