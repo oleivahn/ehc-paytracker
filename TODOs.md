@@ -9,6 +9,7 @@
 - [x] App Title **5/11/24**
 - [x] Add bold keybind for .md files **5/11/24**
 - [x] Document Git steps to push to template repo **5/11/24**
+- [x] Integrate TailGrids with Shadcn and UI **5/11/24**
 
 ### **[Date]**
 
@@ -30,4 +31,4 @@
 
 - [ ] Domain on Google Workspace is not working
   - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
-- [ ] On the main page, on light theme mode, the background doesnt cover all vertical space.
+- [x] On the main page, on light theme mode, the background doesnt cover all vertical space. **5/11/24**

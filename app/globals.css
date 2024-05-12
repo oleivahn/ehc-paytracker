@@ -3,16 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  /* - Light Theme */
   :root {
+    --test-color: hsl(0, 0%, 75%);
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
+    --primary: 34.2 86.2% 51.3%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
+    --secondary: 0 0% 78%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -24,12 +26,14 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
-    --ox: 12, 19%, 90%;
-    --ox-foreground: 334, 100%, 42%;
-    --app: 204, 5%, 85%;
+    --darker: 0, 0%, 94%;
+    --darker-foreground: 334, 100%, 42%;
+    --app: 210, 20%, 98%;
   }
 
+  /* - Dark Theme */
   .dark {
+    --test-color: hsl(0, 64%, 37%);
     --background: 212, 28%, 17%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
@@ -49,8 +53,8 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
-    --ox: 225, 59%, 11%;
-    --ox-foreground: 4, 82%, 67%;
+    --darker: 219, 40%, 11%;
+    --darker-foreground: 4, 82%, 67%;
   }
 }
 

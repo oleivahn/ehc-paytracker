@@ -56,9 +56,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        ox: {
-          DEFAULT: "hsl(var(--ox))",
-          foreground: "hsl(var(--ox-foreground))",
+        darker: {
+          DEFAULT: "hsl(var(--darker))",
+          foreground: "hsl(var(--darker-foreground))",
         },
         app: {
           DEFAULT: "hsl(var(--app))",

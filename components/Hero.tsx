@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -27,14 +28,11 @@ const Hero = () => {
                   best protect highly vulnerable business applications with
                   interactive panel.
                 </p>
-
-                <Button>Get Started</Button>
-                <a
-                  href="/#"
-                  className="inline-flex items-center justify-center rounded-md bg-primary px-7 py-3 text-center text-base font-medium text-white duration-300 hover:bg-primary/90"
-                >
-                  Know More
-                </a>
+                <Link href="/contactUs">
+                  <Button size="lg" className="mr-4">
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
 

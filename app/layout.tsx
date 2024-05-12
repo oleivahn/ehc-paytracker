@@ -43,7 +43,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="relative flex min-h-screen flex-col">
             <Navbar />
-            <div className="h-screen bg-app dark:bg-background">{children}</div>
+            <div className="min-h-screen bg-darker pb-10 dark:bg-background">
+              {children}
+            </div>
           </div>
         </ThemeProvider>
       </body>
