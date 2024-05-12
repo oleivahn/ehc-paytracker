@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
@@ -23,6 +24,7 @@ const Hero = () => {
                   Stay posted for updates and new features.
                 </p>
 
+                <Button>Test Button</Button>
                 <a
                   href="/#"
                   className="inline-flex items-center justify-center rounded-md bg-primary px-7 py-3 text-center text-base font-medium text-white duration-300 hover:bg-primary/90"
