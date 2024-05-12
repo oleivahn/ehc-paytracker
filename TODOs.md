@@ -55,3 +55,4 @@
 - [ ] Prod and dev theme set
 - [ ] Maybe basic auth
 - [ ] English Spanish?
+- [ ] Images service
