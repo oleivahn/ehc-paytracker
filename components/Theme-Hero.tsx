@@ -9,7 +9,7 @@ const Hero = () => {
           Home Page
         </h1>
 
-        <p>Start building your app here!</p>
+        <p>Start building your app here</p>
         <h3 className="mt-10 text-3xl font-semibold text-primary">
           Theme Ready
         </h3>
