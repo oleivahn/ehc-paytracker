@@ -48,7 +48,11 @@
 - [x] On the main page, on light theme mode, the background doesnt cover all vertical space.
 - [x] Change the sun icon on the toggle bar. Looks like a cog wheel
 
-**MVP**
+&nbsp;  
+&nbsp;  
+&nbsp;
+
+# **MVP**
 
 - [ ] Send email and contact us form
   - [YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
