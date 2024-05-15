@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -22,22 +23,31 @@ import {
 import Link from "next/link";
 import { useFormState } from "react-dom";
 
-import { handleContactForm } from "../actions/handleContactForm";
+import { handleContactForm } from "@/app/actions/handleContactForm";
 
 export default function ContactUs() {
   // - Easy way to handle form state with Server Actions
   // Example 1: This FormData is a built-in browser API, not one I defined
-  function formAction(formData: FormData) {
-    console.log("📗 LOG [ formData ]:", formData);
+  // CANT USE ASYNC ON THIS ONE
+  // function formAction(formData: FormData) {
+  //   console.log("📗 LOG [ formData ]:", formData.get("name"));
+  //   // TODO: Connect the right form and send the data to mongodb
+  //   handleContactForm(formData);
+  // }
+
+  const formAction = (formData: FormData) => {
+    // TODO: Connect the right form and send the data to mongodb
     handleContactForm(formData);
-  }
+  };
 
   // Example 2: Harder way - This is an example of a form submission in React using the onSubmit event handler
-  async function formSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault(); // Prevent the form from submitting normally
-    const formData = new FormData(event.currentTarget); // Create a FormData instance from the form
-    handleContactForm(formData);
-  }
+  // async function formSubmit(event: React.FormEvent<HTMLFormElement>) {
+  //   event.preventDefault(); // Prevent the form from submitting normally
+
+  //   console.log("WE ARE HERE");
+  //   const formData = new FormData(event.currentTarget); // Create a FormData instance from the form
+  //   handleContactForm(formData);
+  // }
 
   return (
     <div className="mt-10 flex flex-col items-center px-4">
