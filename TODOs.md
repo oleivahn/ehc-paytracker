@@ -69,3 +69,5 @@
 - [ ] Maybe basic auth
 - [ ] English Spanish?
 - [ ] Images service
+- [ ] Configs if you want auth or not... keep it modular
+  - Auth
