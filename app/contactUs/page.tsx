@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -19,10 +20,44 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { useFormState } from "react-dom";
+
+import { handleContactForm } from "../actions/handleContactForm";
 
 export default function ContactUs() {
+  // - Easy way to handle form state with Server Actions
+  // Example 1: This FormData is a built-in browser API, not one I defined
+  function formAction(formData: FormData) {
+    console.log("📗 LOG [ formData ]:", formData);
+    handleContactForm(formData);
+  }
+
+  // Example 2: Harder way - This is an example of a form submission in React using the onSubmit event handler
+  async function formSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    const formData = new FormData(event.currentTarget); // Create a FormData instance from the form
+    handleContactForm(formData);
+  }
+
   return (
     <div className="mt-10 flex flex-col items-center px-4">
+      <form
+        action={formAction}
+        // onSubmit={formSubmit}
+      >
+        <label htmlFor="name">Name</label>
+        <input id="name" name="name" placeholder="Name of your project" />
+        <label htmlFor="email">Email</label>
+        <input id="email" name="email" placeholder="Name of your project" />
+        {/* <label htmlFor="framework">Framework</label>
+        <select id="framework">
+          <option value="next">Next.js</option>
+          <option value="sveltekit">SvelteKit</option>
+          <option value="astro">Astro</option>
+          <option value="nuxt">Nuxt.js</option>
+        </select> */}
+        <button type="submit">Deploy</button>
+      </form>
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px]">
         <CardHeader>
           <CardTitle>Contact EHC</CardTitle>
@@ -31,11 +66,16 @@ export default function ContactUs() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {/* TODO: Implement the actual shadcn form here */}
           <form>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Name of your project" />
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="Name of your project"
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Framework</Label>
@@ -56,9 +96,9 @@ export default function ContactUs() {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline">Cancel</Button>
-          <Link href="/">
-            <Button>Deploy</Button>
-          </Link>
+          {/* <Link href="/"> */}
+          <Button type="submit">Deploy</Button>
+          {/* </Link> */}
         </CardFooter>
       </Card>
     </div>
