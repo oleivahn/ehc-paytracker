@@ -1,6 +1,26 @@
 # Bugs and Todos
 
+# **MVP**
+
+- [ ] Send email and contact us form
+  - [YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
+- [ ] Form validation. Zod?
+- [x] Connection to a database
+- [x] Prod and dev theme set
+- [ ] Maybe basic auth
+- [ ] English Spanish?
+- [ ] Images service
+  - [Theo's video](https://www.youtube.com/watch?v=d5x0JCZbAJs&t=2396s&ab_channel=Theo-t3%E2%80%A4gg)
+  - [UploadThing.com](https://uploadthing.com/dashboard)
+  - Sign in with Github
+- [ ] Configs if you want auth or not... keep it modular
+  - Auth
+
 <!-- ----------------TODOS---------------------- -->
+
+- [ ] **Next** Make a standard form template (Contact Us) and save it's data using server actions maybe?
+  - Send to MongoDB
+- [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
 
 ## **Change log**
 
@@ -32,9 +52,9 @@
 - [ ] Spend some time designing the app (Figma?)
   - Look for Shadcn design pack
 - [ ] Document current deployment process - How to configure the domain, next, vercel and env variables
+- [ ] Gradient letters on the title "Delivery" (New trend)
 
 - [ ] Add authorization and secure routes
-- [ ] Make a standard form template (Contact Us) and save it's data using server actions maybe?
 
 <!-- @ -->
 <!-- @ -->
@@ -58,16 +78,3 @@
 &nbsp;  
 &nbsp;  
 &nbsp;
-
-# **MVP**
-
-- [ ] Send email and contact us form
-  - [YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
-- [ ] Form validation. Zod?
-- [x] Connection to a database
-- [x] Prod and dev theme set
-- [ ] Maybe basic auth
-- [ ] English Spanish?
-- [ ] Images service
-- [ ] Configs if you want auth or not... keep it modular
-  - Auth

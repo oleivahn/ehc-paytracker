@@ -23,7 +23,7 @@ import {
 import Link from "next/link";
 import { useFormState } from "react-dom";
 
-import { handleContactForm } from "@/app/actions/handleContactForm";
+import { contactFormAction } from "@/app/actions/contactFormAction";
 
 export default function ContactUs() {
   // - Easy way to handle form state with Server Actions
@@ -37,7 +37,8 @@ export default function ContactUs() {
 
   const formAction = (formData: FormData) => {
     // TODO: Connect the right form and send the data to mongodb
-    handleContactForm(formData);
+    const results = contactFormAction(formData);
+    console.log("📗 LOG [ results ]:", results);
   };
 
   // Example 2: Harder way - This is an example of a form submission in React using the onSubmit event handler
