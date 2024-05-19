@@ -2,7 +2,10 @@
 
 # **MVP**
 
-- [ ] Send email and contact us form
+- [ ] Send email
+  - [Resend Link](https://resend.com/)
+  - [How to use, example 1 (YouTube)](https://www.youtube.com/watch?v=UqQxfpTQBaE&ab_channel=Resend)
+- [ ] contact us form
   - [YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
 - [ ] Form validation. Zod?
 - [x] Connection to a database
