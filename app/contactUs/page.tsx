@@ -53,7 +53,7 @@ export default function ContactUs() {
   return (
     <div className="mt-10 flex flex-col items-center px-4">
       <form
-        action={handleContactForm}
+        action={formAction}
         // action={formAction}
         // onSubmit={formSubmit}
       >
