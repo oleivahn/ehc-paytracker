@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +23,7 @@ import { useFormState } from "react-dom";
 
 import { contactFormAction } from "@/app/actions/contactFormAction";
 
-export default function ContactUs() {
+export default async function ContactUs() {
   // - Easy way to handle form state with Server Actions
   // Example 1: This FormData is a built-in browser API, not one I defined
   // CANT USE ASYNC ON THIS ONE
@@ -35,9 +33,11 @@ export default function ContactUs() {
   //   handleContactForm(formData);
   // }
 
-  const formAction = (formData: FormData) => {
+  const formAction = async (formData: FormData) => {
+    "use server";
+
     // TODO: Connect the right form and send the data to mongodb
-    const results = contactFormAction(formData);
+    const results = await contactFormAction(formData);
     console.log("📗 LOG [ results ]:", results);
   };
 

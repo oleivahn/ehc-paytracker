@@ -8,5 +8,5 @@ export const contactFormAction = async (formData: any) => {
   console.log("We are in the server!!");
   console.log("name", name);
   console.log("email", email);
-  return { name: name, email: email };
+  return { name, email };
 };
