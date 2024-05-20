@@ -10,6 +10,8 @@
 - [ ] contact us form
   - [Next.js Server Actions YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
 - [ ] Form validation. Zod?
+  - Conform for form validation? Easier than ShadCn?
+  - [Conform Docs](https://conform.guide/integration/nextjs)
 - [x] Connection to a database
 - [x] Prod and dev theme set
 - [ ] Maybe basic auth
