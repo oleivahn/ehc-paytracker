@@ -12,6 +12,7 @@
 - [ ] Form validation. Zod?
   - Conform for form validation? Easier than ShadCn?
   - [Conform Docs](https://conform.guide/integration/nextjs)
+  - [WebDevCody Using it and useFormState](https://www.youtube.com/watch?v=YyPwb8NFVA8)
 - [x] Connection to a database
 - [x] Prod and dev theme set
 - [ ] Maybe basic auth
