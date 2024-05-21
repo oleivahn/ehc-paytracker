@@ -20,8 +20,11 @@
 - [x] Default Prod and dev theme set - Set thru an environment variable 
 - [ ] Maybe basic auth
 - [ ] English Spanish?
+
 - [ ] Play Video
-  - [Play Video YT Video](https://www.youtube.com/watch?v=8guP6F56TPk&t=29s&ab_channel=Mux)
+  - [Next Video YT Video](https://www.youtube.com/watch?v=8guP6F56TPk&t=29s&ab_channel=Mux)
+  - [Mux.com](https://www.mux.com/)
+
 - [ ] Images service
   - [Theo's video](https://www.youtube.com/watch?v=d5x0JCZbAJs&t=2396s&ab_channel=Theo-t3%E2%80%A4gg)
   - [UploadThing.com](https://uploadthing.com/dashboard)
