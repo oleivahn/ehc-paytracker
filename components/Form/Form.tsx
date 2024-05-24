@@ -1,6 +1,9 @@
 "use client";
-
 import React from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,10 +24,34 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { contactFormAction } from "@/app/actions/contactFormAction";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+
 import SubmitButton from "./SubmitButton";
 
-const Form = () => {
+import { contactFormAction } from "@/app/actions/contactFormAction";
+import { schema } from "./formSchema";
+
+const ContactForm = () => {
+  // - Validation
+  const form = useForm<z.output<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      employeeId: "",
+      name: "",
+      date: "",
+      location: "",
+    },
+  });
+
+  // - Form Action
   const ref = React.useRef<HTMLFormElement>(null);
 
   const formAction = async (formData: FormData) => {
@@ -34,65 +61,77 @@ const Form = () => {
     console.log("📗 [ formAction? ]:", res);
   };
 
+  // - Form Submit
+  const onSubmit = async (data: z.output<typeof schema>) => {
+    console.log("📗 [ onSubmit? ]:", data);
+    // const formData = new FormData();
+
+    // for (const key in data) {
+    //   formData.append(key, data[key]);
+    // }
+
+    // await formAction(formData);
+  };
+
   return (
     <div className="mt-10 flex flex-col items-center px-4">
-      <form
-        ref={ref}
-        action={formAction}
-        // action={formAction}
-        // onSubmit={formSubmit}
-      >
-        <label htmlFor="name">Name</label>
-        <input id="name" name="name" placeholder="Name of your project" />
-        <label htmlFor="email">Email</label>
-        <input id="email" name="email" placeholder="Name of your project" />
-        <SubmitButton />
-      </form>
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px]">
         <CardHeader>
           <CardTitle>Contact EHC</CardTitle>
           <CardDescription>
-            Deploy your new project in one-click.
+            Send us a direct message and a member of our team will reach out to
+            you as soon as possible.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {/* TODO: Implement the actual shadcn form here */}
-          <form>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  placeholder="Name of your project"
-                />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Employee Name" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This is the employee name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Location" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      What warehouse did the employee worked at.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex justify-end">
+                <Button type="submit">Submit</Button>
               </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="framework">Framework</Label>
-                <Select>
-                  <SelectTrigger id="framework">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="next">Next.js</SelectItem>
-                    <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                    <SelectItem value="astro">Astro</SelectItem>
-                    <SelectItem value="nuxt">Nuxt.js</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
-        <CardFooter className="flex justify-between">
+        {/* <CardFooter className="flex justify-between">
           <Button variant="outline">Cancel</Button>
-          {/* <Link href="/"> */}
           <Button type="submit">Deploy</Button>
-          {/* </Link> */}
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </div>
   );
 };
 
-export default Form;
+export default ContactForm;
