@@ -7,21 +7,19 @@
 - [ ] Send email
   - [Resend Website](https://resend.com/)
   - [How to use, example 1 (YouTube)](https://www.youtube.com/watch?v=UqQxfpTQBaE&ab_channel=Resend)
-  
 - [ ] contact us form
   - [Next.js Server Actions YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
-  
-- [ ] Form validation. Zod?
+- [x] Form validation. Zod?
   - Conform for form validation? Easier than ShadCn?
   - [Conform Docs](https://conform.guide/integration/nextjs)
   - [WebDevCody Using it and useFormState](https://www.youtube.com/watch?v=YyPwb8NFVA8)
-  
 - [x] Connection to a database
-- [x] Default Prod and dev theme set - Set thru an environment variable 
+- [x] Default Prod and dev theme set - Set thru an environment variable
 - [ ] Maybe basic auth
 - [ ] English Spanish?
 
 - [ ] Play Video
+
   - [Next Video YT Video](https://www.youtube.com/watch?v=8guP6F56TPk&t=29s&ab_channel=Mux)
   - [Mux.com](https://www.mux.com/)
 
@@ -44,6 +42,10 @@
 <!-- ------------ CHANGELOG -------------->
 
 ## Change log
+
+### **5/24/24**
+
+- [x] Form validation with Zod
 
 ### **5/19/24**
 
