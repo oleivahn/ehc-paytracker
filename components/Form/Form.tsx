@@ -1,11 +1,6 @@
 "use client";
 import React from "react";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -25,44 +20,55 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-
+import { Textarea } from "../ui/textarea";
 import SubmitButton from "./SubmitButton";
 
-import { contactFormAction } from "@/app/actions/contactFormAction";
-import { schema } from "./formSchema";
-import { Textarea } from "../ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { useFormState } from "react-dom";
+import { schema } from "./formSchema";
+import { contactFormAction } from "@/app/actions/contactFormAction";
 
 const ContactForm = () => {
-  // const [state, formAction] = useFormState(contactFormAction, {
-  //   message: "",
-  // });
+  const ref = React.useRef<HTMLFormElement>(null);
+
+  const defaultValues = {
+    // employeeId: "",
+    name: "",
+    // date: "",
+    location: "",
+    // email: "",
+    // message: "",
+  };
 
   // - Validation
   const form = useForm<z.output<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      // employeeId: "",
-      name: "",
-      // date: "",
-      location: "",
-      // email: "",
-      // message: "",
-    },
+    defaultValues: defaultValues,
   });
 
-  // - Form Action
-  const ref = React.useRef<HTMLFormElement>(null);
+  const formAction = async (formData: FormData) => {
+    ref.current?.reset();
+
+    const res = await contactFormAction(formData);
+    console.log("📗 [ formAction? ]:", res);
+  };
 
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
+    // wait one second
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     console.log("📗 LOG [ data ]:", values);
 
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
 
-    ref.current?.reset();
+    // ref.current?.reset();
+    form.reset(defaultValues);
 
     const res = await contactFormAction(formData);
 

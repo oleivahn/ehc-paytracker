@@ -13,6 +13,9 @@
   - Conform for form validation? Easier than ShadCn?
   - [Conform Docs](https://conform.guide/integration/nextjs)
   - [WebDevCody Using it and useFormState](https://www.youtube.com/watch?v=YyPwb8NFVA8)
+- [ ] Backend Validation
+- [ ] Backend API
+  - [Better explanation Cody](https://www.youtube.com/watch?v=BCQK4STfzn4&list=PL63l3MjGviFS2oBuMshpK5fm6EyHQAsTf&index=5&t=298s&ab_channel=WebDevCody)
 - [x] Connection to a database
 - [x] Default Prod and dev theme set - Set thru an environment variable
 - [ ] Maybe basic auth

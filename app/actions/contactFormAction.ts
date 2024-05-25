@@ -14,10 +14,10 @@ export const contactFormAction = async (
   // prevState: FormState,
   data: FormData
 ): Promise<FormState> => {
-  // const name = formData.get("name");
-  // const location = formData.get("location");
-  // console.log(green(`NAME: ${name}`));
-  // console.log(green(`LOCATION: ${location}`));
+  // const name = data.get("name");
+  // const location = data.get("location");
+  // console.log(green(`NAME FORMDATA: ${name}`));
+  // console.log(green(`LOCATION FORMDATA: ${location}`));
 
   console.log("We are in the server!!");
 
@@ -29,15 +29,9 @@ export const contactFormAction = async (
 
   if (!parsed.success) {
     return {
-      message: "Invalid form data on the server!",
+      message: "Invalid form data sent to the server!",
     };
   }
-
-  // if (parsed.data.email.includes("a")) {
-  //   return {
-  //     message: "Invalid email on the server!",
-  //   };
-  // }
 
   try {
     // - Do something here
