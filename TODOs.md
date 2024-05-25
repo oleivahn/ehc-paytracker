@@ -5,6 +5,7 @@
 - [x] **Next** Add correct data to mongoDB
 - [x] **Next** Send email - Resend
 - [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
+- [ ] Change to testimonials  
 
 
 &nbsp;  
