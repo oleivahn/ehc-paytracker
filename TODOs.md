@@ -2,7 +2,8 @@
 
 <!-- TODO: -->
 
-- [ ] **Next** Save form data to MongoDB
+- [x] **Next** Add correct data to mongoDB
+- [x] **Next** Send email - Resend
 - [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
 
 
@@ -38,6 +39,7 @@
 ### **5/25/24**
 
 - [x] Clerk for auth
+- [x] Save form data to MongoDB
 
 ### **5/24/24**
 
