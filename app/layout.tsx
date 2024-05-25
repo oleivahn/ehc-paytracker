@@ -43,7 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <ClerkProvider       
       appearance={{
-        baseTheme: theme,
+        baseTheme: dark,
     }}>
     <html lang="en">
       <body
