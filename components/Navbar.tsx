@@ -5,6 +5,13 @@ import { usePathname } from "next/navigation";
 
 import { siteConfig } from "@/config/site";
 import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+
+import {
   Activity,
   ArrowUpRight,
   CircleUser,
@@ -155,7 +162,13 @@ export default function Navbar() {
             );
           })}
           <ThemeToggle />
-          <DropdownMenu>
+          <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <CircleUser className="h-5 w-5" />
@@ -170,7 +183,7 @@ export default function Navbar() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
         {/* </div> */}
       </header>

@@ -58,12 +58,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="relative flex min-h-screen flex-col">
             <Navbar />
-            <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+
             <div className="min-h-screen bg-darker pb-10 dark:bg-background">
               {children}
             </div>
