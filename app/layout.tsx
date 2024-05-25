@@ -38,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     process.env.DEFAULT_THEME ? process.env.DEFAULT_THEME : "light"
   );
 
-  const theme = process.env.DEFAULT_THEME = "dark" ? dark : light;
+  const theme = process.env.DEFAULT_THEME === "dark" ? dark : undefined;
 
   return (
     <ClerkProvider       
