@@ -1,6 +1,9 @@
 "use server";
 
 import { schema } from "@/components/Form/formSchema";
+import connectDB from "@/lib/database-connection";
+import User from "@/models/user";
+
 
 import { green } from "console-log-colors";
 import { revalidatePath } from "next/cache";
@@ -29,8 +32,20 @@ export const contactFormAction = async (
     };
   }
 
+
   try {
     // - Do something here
+    await connectDB();
+
+    const TEST_DATA = {
+      email: "action@dj.com",
+      username: "Action User",
+      password: "Action124",
+    };
+
+    const newUser = new User(TEST_DATA);
+    // const newUser = new User(body);
+    const user = await newUser.save();
 
     revalidatePath("/contactUs");
     return {
