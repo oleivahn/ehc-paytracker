@@ -15,14 +15,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   Form,
@@ -38,46 +30,50 @@ import SubmitButton from "./SubmitButton";
 
 import { contactFormAction } from "@/app/actions/contactFormAction";
 import { schema } from "./formSchema";
+import { Textarea } from "../ui/textarea";
+import { useFormState } from "react-dom";
 
 const ContactForm = () => {
+  // const [state, formAction] = useFormState(contactFormAction, {
+  //   message: "",
+  // });
+
   // - Validation
   const form = useForm<z.output<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      employeeId: "",
+      // employeeId: "",
       name: "",
-      date: "",
+      // date: "",
       location: "",
+      // email: "",
+      // message: "",
     },
   });
 
   // - Form Action
   const ref = React.useRef<HTMLFormElement>(null);
 
-  const formAction = async (formData: FormData) => {
+  // - Form Submit
+  const submitForm = async (values: z.infer<typeof schema>) => {
+    console.log("📗 LOG [ data ]:", values);
+
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("location", values.location);
+
     ref.current?.reset();
 
     const res = await contactFormAction(formData);
-    console.log("📗 [ formAction? ]:", res);
-  };
 
-  // - Form Submit
-  const onSubmit = async (data: z.output<typeof schema>) => {
-    console.log("📗 [ onSubmit? ]:", data);
-    // const formData = new FormData();
-
-    // for (const key in data) {
-    //   formData.append(key, data[key]);
-    // }
-
-    // await formAction(formData);
+    console.log("📗 [ client ]:", res.message);
   };
 
   return (
     <div className="mt-10 flex flex-col items-center px-4">
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px]">
         <CardHeader>
-          <CardTitle>Contact EHC</CardTitle>
+          <CardTitle className="mb-6">Contact EHC</CardTitle>
           <CardDescription>
             Send us a direct message and a member of our team will reach out to
             you as soon as possible.
@@ -86,7 +82,13 @@ const ContactForm = () => {
         <CardContent>
           {/* TODO: Implement the actual shadcn form here */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              // action={formAction}
+              onSubmit={form.handleSubmit(submitForm)}
+              ref={ref}
+              className="space-y-8"
+            >
+              {/* Name */}
               <FormField
                 control={form.control}
                 name="name"
@@ -103,6 +105,7 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               />
+              {/* Location */}
               <FormField
                 control={form.control}
                 name="location"
@@ -119,8 +122,42 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex justify-end">
-                <Button type="submit">Submit</Button>
+              {/* Email */}
+              {/* <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="email address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
+              {/* Message */}
+              {/* <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Message</FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Add text here..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
+              <div className="mt-16 flex justify-end">
+                {/* <Button type="submit" className="h-12 w-full">
+                  Send
+                </Button> */}
+                <SubmitButton />
               </div>
             </form>
           </Form>
@@ -129,6 +166,13 @@ const ContactForm = () => {
           <Button variant="outline">Cancel</Button>
           <Button type="submit">Deploy</Button>
         </CardFooter> */}
+        {/* <form className="m-4 flex gap-2" ref={ref} action={formAction}>
+          <label htmlFor="name">Name</label>
+          <input id="name" name="name" placeholder="Name of your project" />
+          <label htmlFor="email">Email</label>
+          <input id="email" name="email" placeholder="Name of your project" />
+          <SubmitButton />
+        </form> */}
       </Card>
     </div>
   );

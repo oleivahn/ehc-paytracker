@@ -1,13 +1,14 @@
 import React from "react";
 import { useFormStatus } from "react-dom";
+import { Button } from "../ui/button";
 
 const SubmitButton = () => {
   const { pending } = useFormStatus();
 
   return (
-    <button disabled={pending} type="submit">
+    <Button disabled={pending} type="submit" className="h-12 w-full">
       {pending ? "Sending..." : "Send Email"}
-    </button>
+    </Button>
   );
 };
 

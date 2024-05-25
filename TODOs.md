@@ -96,6 +96,8 @@
 - [ ] Domain on Google Workspace is not working!
   - Reproduce: En la cuenta de ehc, el dominio no esta funcionando
 - [ ] Look into linking .md files (extension -> Markdown Notes)
+- [ ] Make a conform js example for form validation (Form-example.tsx)
+  - [Conform Docs](https://conform.guide/integration/nextjs)
 
 &nbsp;  
 &nbsp;  
