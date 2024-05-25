@@ -4,6 +4,7 @@
 
 - [ ] **Next** Save form data to MongoDB
 - [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
+- [ ] Clerk for auth
 
 &nbsp;  
 &nbsp;
