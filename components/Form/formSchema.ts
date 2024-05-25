@@ -11,13 +11,13 @@ export const schema = z.object({
   // date: z.string().min(2, {
   //   message: "Date must be at least 2 characters.",
   // }),
-  location: z.string().min(2, {
-    message: "Location must be filled.",
+  // location: z.string().min(2, {
+  //   message: "Location must be filled.",
+  // }),
+  email: z.string().email({
+    message: "Invalid email address.",
   }),
-  // email: z.string().email({
-  //   message: "Invalid email address.",
-  // }),
-  // message: z.string().min(1, {
-  //   message: "Message area cannot be empty, please add a message.",
-  // }),
+  message: z.string().min(1, {
+    message: "The message area cannot be empty, please add a message.",
+  }),
 });

@@ -14,11 +14,7 @@ export const contactFormAction = async (
   // prevState: FormState,
   data: FormData
 ): Promise<FormState> => {
-  // const name = data.get("name");
-  // const location = data.get("location");
-  // console.log(green(`NAME FORMDATA: ${name}`));
-  // console.log(green(`LOCATION FORMDATA: ${location}`));
-
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
   console.log("We are in the server!!");
 
   const formData = Object.fromEntries(data);

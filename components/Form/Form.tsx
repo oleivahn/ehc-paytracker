@@ -1,16 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-
 import {
   Form,
   FormControl,
@@ -20,79 +19,75 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { Textarea } from "../ui/textarea";
-import SubmitButton from "./SubmitButton";
 
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-import { useFormState } from "react-dom";
 import { schema } from "./formSchema";
 import { contactFormAction } from "@/app/actions/contactFormAction";
+import { Textarea } from "@/components/ui/textarea";
 
+//
+//
 const ContactForm = () => {
+  const [pending, setPending] = useState(false);
   const ref = React.useRef<HTMLFormElement>(null);
 
   const defaultValues = {
     // employeeId: "",
     name: "",
     // date: "",
-    location: "",
-    // email: "",
-    // message: "",
+    // location: "",
+    email: "",
+    message: "",
   };
 
+  //
   // - Validation
   const form = useForm<z.output<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues,
   });
 
-  const formAction = async (formData: FormData) => {
-    ref.current?.reset();
-
-    const res = await contactFormAction(formData);
-    console.log("📗 [ formAction? ]:", res);
-  };
-
+  //
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
-    // wait one second
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    console.log("📗 LOG [ data ]:", values);
-
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append("location", values.location);
+    formData.append("email", values.email);
+    formData.append("message", values.message);
 
-    // ref.current?.reset();
-    form.reset(defaultValues);
+    setPending(true);
+    // wait 1 second for testing purposes
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const res = await contactFormAction(formData);
 
+    // Reset the form
+    form.reset(defaultValues);
+    setPending(false);
     console.log("📗 [ client ]:", res.message);
   };
 
   return (
     <div className="mt-10 flex flex-col items-center px-4">
-      <Card className="w-full shadow-lg dark:bg-darker md:w-[650px]">
-        <CardHeader>
-          <CardTitle className="mb-6">Contact EHC</CardTitle>
+      <Card className="w-full px-6 py-8 shadow-lg dark:bg-darker md:w-[650px]">
+        <CardHeader className="mb-4">
+          <CardTitle className="mb-6 text-4xl font-bold text-primary">
+            Contact Us
+          </CardTitle>
           <CardDescription>
             Send us a direct message and a member of our team will reach out to
             you as soon as possible.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* TODO: Implement the actual shadcn form here */}
           <Form {...form}>
             <form
-              // action={formAction}
               onSubmit={form.handleSubmit(submitForm)}
               ref={ref}
-              className="space-y-8"
+              className="space-y-6"
             >
               {/* Name */}
               <FormField
@@ -102,17 +97,15 @@ const ContactForm = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Employee Name" {...field} />
+                      <Input placeholder="Add your name" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      This is the employee name.
-                    </FormDescription>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               {/* Location */}
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="location"
                 render={({ field }) => (
@@ -127,58 +120,54 @@ const ContactForm = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               {/* Email */}
-              {/* <FormField
+              <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="email address"
-                        {...field}
-                      />
+                      <Input placeholder="Enter an email address" {...field} />
                     </FormControl>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
+              />
               {/* Message */}
-              {/* <FormField
+              <FormField
                 control={form.control}
                 name="message"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Message</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Add text here..." {...field} />
+                      <Textarea
+                        className="h-44"
+                        placeholder="Add your message here..."
+                        {...field}
+                      />
                     </FormControl>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
+              />
               <div className="mt-16 flex justify-end">
-                {/* <Button type="submit" className="h-12 w-full">
-                  Send
-                </Button> */}
-                <SubmitButton />
+                <Button
+                  type="submit"
+                  disabled={pending}
+                  className="h-12 w-full"
+                >
+                  {pending ? "Sending..." : "Send Message"}
+                </Button>
+                {/* <SubmitButton /> */}
               </div>
             </form>
           </Form>
         </CardContent>
-        {/* <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
-          <Button type="submit">Deploy</Button>
-        </CardFooter> */}
-        {/* <form className="m-4 flex gap-2" ref={ref} action={formAction}>
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" placeholder="Name of your project" />
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" placeholder="Name of your project" />
-          <SubmitButton />
-        </form> */}
       </Card>
     </div>
   );

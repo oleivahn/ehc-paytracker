@@ -139,7 +139,7 @@ export default function Navbar() {
         {/* RIGHT SIDE MENUS */}
         <div className="ml-auto flex items-center gap-4 text-lg md:gap-2 lg:gap-10">
           {RIGHT_NAV_ITEMS.map(({ href, label }, i) => {
-            console.log("📗 LOG [ href ]:", href, label, i);
+            // console.log("📗 LOG [ href ]:", href, label, i);
             const isActive = pathname === href;
 
             return (
