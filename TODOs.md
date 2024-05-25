@@ -4,14 +4,40 @@
 
 - [ ] **Next** Save form data to MongoDB
 - [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
-- [ ] Clerk for auth
 
+
+&nbsp;  
+&nbsp;
+&nbsp;
+
+
+<!-- ------------ Pending Changes -------------->
+
+## Pending Changes
+
+- [ ] Replace the favicon with a transparent backgroud one
+  - [Favicon Generator Website](https://favicon.io/favicon-converter/)
+- [ ] Find a good favicon image process (transparent background)
+- [ ] Spend some time designing the app (Figma?)
+  - Look for Shadcn design pack
+- [ ] Document current deployment process - How to configure the domain, next, vercel and env variables
+- [ ] Gradient letters on the title "Delivery" (New trend)
+- [ ] Hide entire tab if not logged in
+
+- [ ] Add authorization and secure routes
+
+
+&nbsp;  
 &nbsp;  
 &nbsp;
 
 <!-- ------------ CHANGELOG -------------->
 
 ## Change log
+
+### **5/25/24**
+
+- [x] Clerk for auth
 
 ### **5/24/24**
 
@@ -38,23 +64,6 @@
 - [x] Integrate TailGrids with Shadcn and UI **5/11/24**
 - [x] ShadCn compatible with tailgrids? **5/11/24**
 
-&nbsp;  
-&nbsp;  
-&nbsp;
-
-<!-- ------------ Pending Changes -------------->
-
-## Pending Changes
-
-- [ ] Replace the favicon with a transparent backgroud one
-  - [Favicon Generator Website](https://favicon.io/favicon-converter/)
-- [ ] Find a good favicon image process (transparent background)
-- [ ] Spend some time designing the app (Figma?)
-  - Look for Shadcn design pack
-- [ ] Document current deployment process - How to configure the domain, next, vercel and env variables
-- [ ] Gradient letters on the title "Delivery" (New trend)
-
-- [ ] Add authorization and secure routes
 
 <!-- ----------------BACKLOG---------------------- -->
 

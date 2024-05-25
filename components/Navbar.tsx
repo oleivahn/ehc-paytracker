@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { currentUser } from '@clerk/nextjs/server';
 
 import { siteConfig } from "@/config/site";
 import {
@@ -58,6 +59,7 @@ export default function Navbar() {
   // - How to set colors for active links
   // https://stackoverflow.com/questions/68978743/tailwindcss-active-link-text-color-not-changing
   const pathname = usePathname();
+  // const user = await currentUser();
 
   const LEFT_NAV_ITEMS = [
     { href: "/", label: "Home" },
@@ -100,6 +102,7 @@ export default function Navbar() {
                   const isActive = pathname === href;
 
                   return (
+
                     <Link
                       key={i}
                       href={href}
