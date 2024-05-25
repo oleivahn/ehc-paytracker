@@ -8,7 +8,7 @@ import {
   ClerkProvider,
 } from '@clerk/nextjs';
 
-import {dark, light } from "@clerk/themes";
+import { dark } from "@clerk/themes";
 
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -43,7 +43,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <ClerkProvider       
       appearance={{
-        baseTheme: dark,
+        baseTheme: theme,
     }}>
     <html lang="en">
       <body
