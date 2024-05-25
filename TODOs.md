@@ -1,42 +1,8 @@
 # **TODOS**
 
-<!-- ----------------MVP---------------------- -->
-
-## MVP
-
-- [ ] Send email
-  - [Resend Website](https://resend.com/)
-  - [How to use, example 1 (YouTube)](https://www.youtube.com/watch?v=UqQxfpTQBaE&ab_channel=Resend)
-- [ ] contact us form
-  - [Next.js Server Actions YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
-- [x] Form validation. Zod?
-  - Conform for form validation? Easier than ShadCn?
-  - [Conform Docs](https://conform.guide/integration/nextjs)
-  - [WebDevCody Using it and useFormState](https://www.youtube.com/watch?v=YyPwb8NFVA8)
-- [ ] Backend Validation
-- [ ] Backend API
-  - [Better explanation Cody](https://www.youtube.com/watch?v=BCQK4STfzn4&list=PL63l3MjGviFS2oBuMshpK5fm6EyHQAsTf&index=5&t=298s&ab_channel=WebDevCody)
-- [x] Connection to a database
-- [x] Default Prod and dev theme set - Set thru an environment variable
-- [ ] Maybe basic auth
-- [ ] English Spanish?
-
-- [ ] Play Video
-
-  - [Next Video YT Video](https://www.youtube.com/watch?v=8guP6F56TPk&t=29s&ab_channel=Mux)
-  - [Mux.com](https://www.mux.com/)
-
-- [ ] Images service
-  - [Theo's video](https://www.youtube.com/watch?v=d5x0JCZbAJs&t=2396s&ab_channel=Theo-t3%E2%80%A4gg)
-  - [UploadThing.com](https://uploadthing.com/dashboard)
-  - Sign in with Github
-- [ ] Configs if you want auth or not... keep it modular
-  - Auth
-
 <!-- TODO: -->
 
-- [ ] **Next** Make a standard form template (Contact Us) and save it's data using server actions maybe?
-  - Send to MongoDB
+- [ ] **Next** Save form data to MongoDB
 - [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
 
 &nbsp;  
@@ -48,7 +14,8 @@
 
 ### **5/24/24**
 
-- [x] Form validation with Zod
+- [x] Frontend Form validation with Zod
+- [x] Backend Form validation with Zod
 
 ### **5/19/24**
 
@@ -105,3 +72,36 @@
 &nbsp;  
 &nbsp;  
 &nbsp;
+
+<!-- ----------------MVP---------------------- -->
+
+## MVP
+
+- [ ] Send email
+  - [Resend Website](https://resend.com/)
+  - [How to use, example 1 (YouTube)](https://www.youtube.com/watch?v=UqQxfpTQBaE&ab_channel=Resend)
+- [x] contact us form
+  - [Next.js Server Actions YouTube Video](https://www.youtube.com/watch?v=a2oa0qL4CB8&ab_channel=GTCoding)
+- [x] Form validation. Zod?
+  - Conform for form validation? Easier than ShadCn?
+  - [Conform Docs](https://conform.guide/integration/nextjs)
+  - [WebDevCody Using it and useFormState](https://www.youtube.com/watch?v=YyPwb8NFVA8)
+- [x] Backend Validation
+- [ ] Backend API
+  - [Better explanation Cody](https://www.youtube.com/watch?v=BCQK4STfzn4&list=PL63l3MjGviFS2oBuMshpK5fm6EyHQAsTf&index=5&t=298s&ab_channel=WebDevCody)
+- [x] Connection to a database
+- [x] Default Prod and dev theme set - Set thru an environment variable
+- [ ] Maybe basic auth
+- [ ] English Spanish?
+
+- [ ] Play Video
+
+  - [Next Video YT Video](https://www.youtube.com/watch?v=8guP6F56TPk&t=29s&ab_channel=Mux)
+  - [Mux.com](https://www.mux.com/)
+
+- [ ] Images service
+  - [Theo's video](https://www.youtube.com/watch?v=d5x0JCZbAJs&t=2396s&ab_channel=Theo-t3%E2%80%A4gg)
+  - [UploadThing.com](https://uploadthing.com/dashboard)
+  - Sign in with Github
+- [ ] Configs if you want auth or not... keep it modular
+  - Auth
