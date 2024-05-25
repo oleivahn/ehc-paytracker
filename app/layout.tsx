@@ -4,6 +4,14 @@ import { cn } from "@/lib/utils";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -32,6 +40,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     process.env.DEFAULT_THEME ? process.env.DEFAULT_THEME : "light"
   );
   return (
+    <ClerkProvider>
     <html lang="en">
       <body
         className={cn(
@@ -49,6 +58,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
         >
           <div className="relative flex min-h-screen flex-col">
             <Navbar />
+            <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
             <div className="min-h-screen bg-darker pb-10 dark:bg-background">
               {children}
             </div>
@@ -56,5 +71,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </ThemeProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
