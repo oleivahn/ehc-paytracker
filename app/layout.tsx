@@ -8,7 +8,7 @@ import {
   ClerkProvider,
 } from '@clerk/nextjs';
 
-import {dark } from "@clerk/themes";
+import { dark } from "@clerk/themes";
 
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -38,14 +38,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
     process.env.DEFAULT_THEME ? process.env.DEFAULT_THEME : "light"
   );
 
-  // const theme = process.env.DEFAULT_THEME === "dark" ? dark : undefined;
+  const theme = process.env.DEFAULT_THEME === "dark" ? dark : undefined;
 
   return (
     <ClerkProvider       
       appearance={{
-        baseTheme: dark,
-    }}
-    >
+        baseTheme: theme,
+    }}>
     <html lang="en">
       <body
         className={cn(
