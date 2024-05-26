@@ -1,27 +1,32 @@
 import { Schema, model, models } from "mongoose";
+import { date } from "zod";
 
 // - Define the schema for the User collection
-// Same as - Create the Users table
 const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  shiftDate: {
+    type: Date,
+    default: Date.now,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
+  message: {
     type: String,
     required: true,
   },
 });
 
 // - THIS IS WHERE YOU DEFINE THE TABLE NAME FOR MONGO_DB
-// model = table
-// If models.User (on mongo) exists, use it, otherwise create a new model (or a "table")
 const User = models.User || model("User", UserSchema);
 
 export default User;

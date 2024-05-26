@@ -2,17 +2,14 @@
 
 <!-- TODO: -->
 
-- [x] **Next** Add correct data to mongoDB
-- [x] **Next** Send email - Resend
-- [ ] Fix the zod inputs in the banckend form changes
-- [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
-- [ ] Change to testimonials  
+- [] **Next** Send email - Resend
 
+- [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
+- [ ] Change to testimonials
 
 &nbsp;  
 &nbsp;
 &nbsp;
-
 
 <!-- ------------ Pending Changes -------------->
 
@@ -29,7 +26,6 @@
 
 - [ ] Add authorization and secure routes
 
-
 &nbsp;  
 &nbsp;  
 &nbsp;
@@ -37,6 +33,12 @@
 <!-- ------------ CHANGELOG -------------->
 
 ## Change log
+
+### **5/26/24**
+
+- [x] Add correct data to mongoDB
+- [x] Fix the zod inputs in the banckend form changes
+- [x] Invalid Date message not showing the correct message
 
 ### **5/25/24**
 
@@ -67,7 +69,6 @@
 - [x] Document Git steps to push to template repo **5/11/24**
 - [x] Integrate TailGrids with Shadcn and UI **5/11/24**
 - [x] ShadCn compatible with tailgrids? **5/11/24**
-
 
 <!-- ----------------BACKLOG---------------------- -->
 

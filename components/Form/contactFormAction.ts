@@ -4,54 +4,49 @@ import { schema } from "@/components/Form/formSchema";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
 
-
-import { green } from "console-log-colors";
+import { green, red } from "console-log-colors";
 import { revalidatePath } from "next/cache";
 
-// - What we are returning
+// - What we return
 export type FormState = {
   message: string;
+  data: object | null | string;
+  error?: boolean | null;
 };
 
-export const contactFormAction = async (
-  // prevState: FormState,
-  data: FormData
-): Promise<FormState> => {
+// - Form Action
+export const contactFormAction = async (data: FormData): Promise<FormState> => {
   // await new Promise((resolve) => setTimeout(resolve, 2000));
-  console.log("We are in the server!!");
-
   const formData = Object.fromEntries(data);
   const parsed = schema.safeParse(formData);
 
-  console.log("📗 LOG [ formData ]:", formData);
-  console.log("📗 LOG [ parsed ]:", parsed);
-
   if (!parsed.success) {
     return {
-      message: "Invalid form data sent to the server!",
+      message: "Invalid form data sent to the server! [Parse Error]",
+      data: "Something didn't parse correctly!",
     };
   }
 
-
   try {
-    // - Do something here
+    // Do something here
     await connectDB();
 
-    const TEST_DATA = {
-      email: "action@dj.com",
-      username: "Action User",
-      password: "Action124",
-    };
-
-    const newUser = new User(TEST_DATA);
-    // const newUser = new User(body);
-    const user = await newUser.save();
+    const newUser = new User(formData);
+    await newUser.save();
 
     revalidatePath("/contactUs");
+    console.log(green("Record created successfully"));
     return {
       message: "Form Action Success!",
+      data: formData,
     };
   } catch (error: unknown) {
-    return { message: (error as Error).message };
+    console.log(red("DB Error: Could not create record:"));
+    console.log((error as Error).message);
+    return {
+      message: (error as Error).message,
+      data: formData,
+      error: true,
+    };
   }
 };

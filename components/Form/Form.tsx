@@ -1,10 +1,19 @@
 "use client";
 import React, { useState } from "react";
 
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import Link from "next/link";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
+import { schema } from "./formSchema";
+import { contactFormAction } from "./contactFormAction";
+
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+// - UI Components
 import { Button } from "../ui/button";
 import {
   Card,
@@ -27,74 +36,72 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
-
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { toast } from "@/components/ui/use-toast"
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
-import { schema } from "./formSchema";
-import { contactFormAction } from "./contactFormAction";
+} from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
 
 //
 //
+//
+// - Main Component
 const ContactForm = () => {
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
   const ref = React.useRef<HTMLFormElement>(null);
 
-  // TODO: Fix the defaukt values and validation changes
   const defaultValues = {
-    // employeeId: "",
     name: "",
-    date: new Date(),
-    // location: "",
+    shiftDate: new Date(),
+    // shiftDate: undefined,
+    location: "",
     email: "",
     message: "",
   };
 
-  //
   // - Validation
   const form = useForm<z.output<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues,
   });
 
-  //
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("email", values.email);
     formData.append("message", values.message);
+    formData.append("location", values.location);
+    formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
+
+    console.log("🚧 LOG [ formData ]:", formData);
 
     setPending(true);
     // wait 1 second for testing purposes
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const res = await contactFormAction(formData);
 
     // Reset the form
     form.reset(defaultValues);
     setPending(false);
-    console.log("📗 [ client ]:", res.message);
+    console.log("📗 [ Client message: ]:", res.message);
+    console.log("📗 [ Data Submitted ]:", res.data);
+    if (res.error) {
+      console.error("📕 [ Error ]:", res.message);
+      setError(res.message);
+    }
   };
 
+  // - Markup
   return (
     <div className="mt-10 flex flex-col items-center px-4">
       <Card className="w-full px-6 py-8 shadow-lg dark:bg-darker md:w-[650px]">
@@ -129,23 +136,31 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               />
-              {/* Select */}
-              {/* <FormField
+              {/* Dropdown */}
+              <FormField
                 control={form.control}
-                name="email"
+                name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormLabel>Location</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
+                          {field.value ? (
+                            <SelectValue placeholder="Select a warehouse" />
+                          ) : (
+                            "Select a warehouse"
+                          )}
+                          {/* <SelectValue placeholder="Select a warehouse" /> */}
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="m@example.com">m@example.com</SelectItem>
-                        <SelectItem value="m@google.com">m@google.com</SelectItem>
-                        <SelectItem value="m@support.com">m@support.com</SelectItem>
+                        <SelectItem value="fidelitone">Fidelitone</SelectItem>
+                        <SelectItem value="hubGroup">Hub Group</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription>
@@ -155,33 +170,14 @@ const ContactForm = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
-              {/* Location */}
-              {/* <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Location</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Location" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      What warehouse did the employee worked at.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
-              {/* TODO: Fix the zod inputs in the banckend */}
+              />
               {/* Date */}
-              {/* <FormField
+              <FormField
                 control={form.control}
-                name="date"
+                name="shiftDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Date of birth</FormLabel>
+                    <FormLabel>Shift Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -213,13 +209,11 @@ const ContactForm = () => {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription>
-                      Your date of birth is used to calculate your age.
-                    </FormDescription>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
+              />
               {/* Email */}
               <FormField
                 control={form.control}
@@ -264,6 +258,14 @@ const ContactForm = () => {
                 </Button>
                 {/* <SubmitButton /> */}
               </div>
+              {error && (
+                <>
+                  <div className="mt-4 text-center text-red-500">
+                    Server Error:
+                  </div>
+                  <div className="text-center text-red-500">{error}</div>
+                </>
+              )}
             </form>
           </Form>
         </CardContent>
