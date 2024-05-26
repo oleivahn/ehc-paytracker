@@ -20,13 +20,24 @@ import {
   FormMessage,
 } from "../ui/form";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { schema } from "./formSchema";
-import { contactFormAction } from "@/app/actions/contactFormAction";
+import { contactFormAction } from "./contactFormAction";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 
 //
 //
@@ -104,6 +115,33 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               />
+              {/* Select */}
+              {/* <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="m@example.com">m@example.com</SelectItem>
+                        <SelectItem value="m@google.com">m@google.com</SelectItem>
+                        <SelectItem value="m@support.com">m@support.com</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      You can manage email addresses in your{" "}
+                      <Link href="/examples/forms">email settings</Link>.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
               {/* Location */}
               {/* <FormField
                 control={form.control}
