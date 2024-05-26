@@ -8,9 +8,9 @@ export const schema = z.object({
   name: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  // date: z.string().min(2, {
-  //   message: "Date must be at least 2 characters.",
-  // }),
+  date: z.date({
+    required_error: "A date is required.",
+  }),
   // location: z.string().min(2, {
   //   message: "Location must be filled.",
   // }),

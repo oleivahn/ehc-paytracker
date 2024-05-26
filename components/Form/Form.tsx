@@ -1,6 +1,10 @@
 "use client";
 import React, { useState } from "react";
 
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+
 import { Button } from "../ui/button";
 import {
   Card,
@@ -30,6 +34,15 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { toast } from "@/components/ui/use-toast"
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -48,7 +61,7 @@ const ContactForm = () => {
   const defaultValues = {
     // employeeId: "",
     name: "",
-    // date: "",
+    date: new Date(),
     // location: "",
     email: "",
     message: "",
@@ -159,6 +172,51 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               /> */}
+              {/* Date */}
+              <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Date of birth</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-[240px] pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) =>
+                      date > new Date() || date < new Date("1900-01-01")
+                    }
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                Your date of birth is used to calculate your age.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
               {/* Email */}
               <FormField
                 control={form.control}
