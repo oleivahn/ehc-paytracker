@@ -2,7 +2,7 @@ import { Schema, model, models } from "mongoose";
 import { date } from "zod";
 
 // - Define the schema for the User collection
-const UserSchema = new Schema({
+const ShiftSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -14,19 +14,10 @@ const UserSchema = new Schema({
   location: {
     type: String,
     required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    // unique: true,
-  },
-  message: {
-    type: String,
-    required: true,
-  },
+  }
 });
 
 // - THIS IS WHERE YOU DEFINE THE TABLE NAME FOR MONGO_DB
-const User = models.User || model("User", UserSchema);
+const Shift = models.Shift || model("Shift", ShiftSchema);
 
-export default User;
+export default Shift;

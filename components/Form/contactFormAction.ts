@@ -2,7 +2,7 @@
 
 import { schema } from "@/components/Form/formSchema";
 import connectDB from "@/lib/database-connection";
-import User from "@/models/user";
+import Shift from "@/models/shift";
 
 import { green, red } from "console-log-colors";
 import { revalidatePath } from "next/cache";
@@ -31,8 +31,8 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     // Do something here
     await connectDB();
 
-    const newUser = new User(formData);
-    await newUser.save();
+    const newShift = new Shift(formData);
+    await newShift.save();
 
     revalidatePath("/contactUs");
     console.log(green("Record created successfully"));

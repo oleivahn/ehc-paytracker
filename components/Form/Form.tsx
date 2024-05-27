@@ -62,9 +62,7 @@ const ContactForm = () => {
     name: "",
     shiftDate: new Date(),
     // shiftDate: undefined,
-    location: "",
-    email: "",
-    message: "",
+    location: ""
   };
 
   // - Validation
@@ -77,8 +75,6 @@ const ContactForm = () => {
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append("email", values.email);
-    formData.append("message", values.message);
     formData.append("location", values.location);
     formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
 
@@ -128,10 +124,28 @@ const ContactForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Add your name" {...field} />
-                    </FormControl>
-                    <FormDescription></FormDescription>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          {field.value ? (
+                            <SelectValue placeholder="Employee Name" />
+                          ) : (
+                            "Employee Name"
+                          )}
+                          {/* <SelectValue placeholder="Select a warehouse" /> */}
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="brooks">Brooks</SelectItem>
+                        <SelectItem value="yasiel">Yasiel</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -209,40 +223,6 @@ const ContactForm = () => {
                         />
                       </PopoverContent>
                     </Popover>
-                    <FormDescription></FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Email */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter an email address" {...field} />
-                    </FormControl>
-                    <FormDescription></FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Message */}
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Message</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="h-44"
-                        placeholder="Add your message here..."
-                        {...field}
-                      />
-                    </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>

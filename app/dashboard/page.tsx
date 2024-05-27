@@ -4,7 +4,7 @@ const Pricing = () => {
   return (
     <>
       <div className="container mt-6">
-        <p className="text-3xl">Pricing</p>
+        <p className="text-3xl">Dashboard</p>
       </div>
     </>
   );

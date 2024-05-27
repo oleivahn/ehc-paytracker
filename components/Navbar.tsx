@@ -67,8 +67,8 @@ export default function Navbar() {
   ];
 
   const RIGHT_NAV_ITEMS = [
-    { href: "/pricing", label: "Pricing" },
-    { href: "/contactUs", label: "Contact Us" },
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/new_day", label: "New Day" },
   ];
 
   return (

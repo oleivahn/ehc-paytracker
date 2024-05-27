@@ -6,7 +6,7 @@ export const schema = z.object({
   //   message: "Employee ID must be at least 2 characters.",
   // }),
   name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Name cannot be empty",
   }),
   shiftDate: z.coerce.date({
     errorMap: ({ code }, { defaultError }) => {
@@ -15,12 +15,6 @@ export const schema = z.object({
     },
   }),
   location: z.string().min(2, {
-    message: "Location must be filled.",
-  }),
-  email: z.string().email({
-    message: "Invalid email address.",
-  }),
-  message: z.string().min(1, {
-    message: "The message area cannot be empty, please add a message.",
-  }),
+    message: "Location must be filled",
+  })
 });
