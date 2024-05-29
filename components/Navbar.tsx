@@ -50,20 +50,26 @@ import { ThemeToggle } from "./Theme-toggle";
 
 import { Icons } from "@/components/icons";
 
+type NavItem = {
+  href: string;
+  label: string;
+  protected: boolean;
+};
+
 export default function Navbar() {
   // - How to set colors for active links
   // https://stackoverflow.com/questions/68978743/tailwindcss-active-link-text-color-not-changing
   const pathname = usePathname();
   // const user = await currentUser();
 
-  const LEFT_NAV_ITEMS = [
-    { href: "/", label: "Home" },
-    { href: "/new_employee", label: "New Employee" },
+  const LEFT_NAV_ITEMS: NavItem[] = [
+    { href: "/", label: "Home", protected: false },
+    { href: "/dashboard", label: "Dashboard", protected: true },
   ];
 
-  const RIGHT_NAV_ITEMS = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/new_day", label: "New Day" },
+  const RIGHT_NAV_ITEMS: NavItem[] = [
+    { href: "/new_employee", label: "New Employee", protected: false },
+    { href: "/new_day", label: "New Day", protected: false },
   ];
 
   return (

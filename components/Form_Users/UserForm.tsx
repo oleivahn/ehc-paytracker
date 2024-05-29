@@ -208,7 +208,7 @@ const UserForm = () => {
                   disabled={pending}
                   className="h-12 w-full"
                 >
-                  {pending ? "Creating..." : "Create User"}
+                  {pending ? "Adding..." : "Add Employee"}
                 </Button>
                 {/* <SubmitButton /> */}
               </div>
