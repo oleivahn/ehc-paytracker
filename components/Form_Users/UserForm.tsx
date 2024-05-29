@@ -6,8 +6,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { schema } from "./formSchema";
-import { contactFormAction } from "./contactFormAction";
+import { schema } from "./userFormSchema";
+import { contactFormAction } from "./userFormAction";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -55,7 +55,7 @@ import { ToastAction } from "@/components/ui/toast";
 //
 //
 // - Main Component
-const ContactForm = () => {
+const UserForm = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
@@ -63,9 +63,9 @@ const ContactForm = () => {
 
   const defaultValues = {
     name: "",
-    shiftDate: new Date(),
+    startDate: undefined,
     // shiftDate: undefined,
-    location: "",
+    email: "",
   };
 
   // - Validation
@@ -78,8 +78,8 @@ const ContactForm = () => {
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
     formData.append("name", values.name);
-    formData.append("location", values.location);
-    formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
+    formData.append("startDate", values.startDate.toLocaleString()); // Convert Date object to string
+    formData.append("email", values.email);
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -98,6 +98,7 @@ const ContactForm = () => {
       console.error("📕 [ Error ]:", res.message);
       setError(res.message);
     } else {
+      setError("");
       toast({
         variant: "success",
         title: "Success",
@@ -113,12 +114,9 @@ const ContactForm = () => {
       <Card className="w-full px-6 py-8 shadow-lg dark:bg-darker md:w-[650px]">
         <CardHeader className="mb-4">
           <CardTitle className="mb-6 text-4xl font-bold text-primary">
-            Enter a new day details
+            Add a new employee
           </CardTitle>
-          <CardDescription>
-            Enter the date and details about the employees and the shifts they
-            worked.
-          </CardDescription>
+          <CardDescription>Enter the employee details.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -132,10 +130,10 @@ const ContactForm = () => {
               {/* Date */}
               <FormField
                 control={form.control}
-                name="shiftDate"
+                name="startDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Shift Date</FormLabel>
+                    <FormLabel>Start Date</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -180,62 +178,25 @@ const ContactForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Name</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          {field.value ? (
-                            <SelectValue placeholder="Employee Name" />
-                          ) : (
-                            "Employee Name"
-                          )}
-                          {/* <SelectValue placeholder="Select a warehouse" /> */}
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="brooks">Brooks</SelectItem>
-                        <SelectItem value="yasiel">Yasiel</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <Input placeholder="Add your name" {...field} />
+                    </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              {/* Dropdown */}
+              {/* Email */}
               <FormField
                 control={form.control}
-                name="location"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Location</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          {field.value ? (
-                            <SelectValue placeholder="Select a warehouse" />
-                          ) : (
-                            "Select a warehouse"
-                          )}
-                          {/* <SelectValue placeholder="Select a warehouse" /> */}
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="fidelitone">Fidelitone</SelectItem>
-                        <SelectItem value="hubGroup">Hub Group</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      You can manage email addresses in your{" "}
-                      <Link href="/examples/forms">email settings</Link>.
-                    </FormDescription>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter an email address" {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -247,7 +208,7 @@ const ContactForm = () => {
                   disabled={pending}
                   className="h-12 w-full"
                 >
-                  {pending ? "Sending..." : "Send Message"}
+                  {pending ? "Creating..." : "Create User"}
                 </Button>
                 {/* <SubmitButton /> */}
               </div>
@@ -267,4 +228,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default UserForm;

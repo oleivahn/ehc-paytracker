@@ -2,15 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { currentUser } from '@clerk/nextjs/server';
+import { currentUser } from "@clerk/nextjs/server";
 
 import { siteConfig } from "@/config/site";
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 import {
   Activity,
@@ -63,7 +58,7 @@ export default function Navbar() {
 
   const LEFT_NAV_ITEMS = [
     { href: "/", label: "Home" },
-    { href: "/testimonies", label: "Testimonies" },
+    { href: "/new_employee", label: "New Employee" },
   ];
 
   const RIGHT_NAV_ITEMS = [
@@ -102,7 +97,6 @@ export default function Navbar() {
                   const isActive = pathname === href;
 
                   return (
-
                     <Link
                       key={i}
                       href={href}
@@ -166,11 +160,11 @@ export default function Navbar() {
           })}
           <ThemeToggle />
           <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
           {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
