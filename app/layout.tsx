@@ -13,8 +13,8 @@ import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "EHC Delivery",
-  description: "Service you can trust",
+  title: "EHC Paytracker",
+  description: "A simple pay tracking app for EHC employees.",
   icons: {
     icon: ["/favicon.ico?=4"],
     apple: ["/apple-touch-icon.png?=4"],
