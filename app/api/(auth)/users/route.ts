@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/database-connection";
-import User from "@/models/shift";
+import User from "@/models/user";
 
 export const GET = async () => {
-
   try {
     // - Connect to the database
     await connectDB();
@@ -19,11 +18,9 @@ export const GET = async () => {
       { status: 500 }
     );
   }
-
 };
 
 export const POST = async (request: Request) => {
-
   try {
     const body = await request.json();
 
@@ -40,11 +37,10 @@ export const POST = async (request: Request) => {
     const errorMessage = (error as Error).message;
 
     console.log("There was an error creating a new user:", errorMessage);
-    
+
     return NextResponse.json(
       { message: "Error creating user", error: errorMessage },
       { status: 500 }
     );
   }
-  
 };
