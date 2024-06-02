@@ -15,7 +15,7 @@ export type FormState = {
 };
 
 // - Form Action
-export const getDataAction = async () => {
+export const getDataAction = async (formData: FormData): Promise<FormState>=> {
   try {
     // - Do something here
     await connectDB();
@@ -23,13 +23,17 @@ export const getDataAction = async () => {
     revalidatePath("/dashboard");
     console.log(green("Record created successfully"));
 
-    return shifts;
+    return {
+      message: "Form Action Success!",
+      data: shifts,
+      // error: true,
+    };;
   } catch (error: unknown) {
     console.log(red("DB Error: Could not create record:"));
     console.log((error as Error).message);
     return {
       message: (error as Error).message,
-      // data: formData,
+      data: formData,
       error: true,
     };
   }
