@@ -80,6 +80,7 @@ const DashboardForm = () => {
     
     // Reset the form
     form.reset(defaultValues);
+    // setData(res.data);
     setData(JSON.stringify(res.data, null, 2));
 
     setPending(false);

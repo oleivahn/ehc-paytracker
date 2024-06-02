@@ -25,7 +25,8 @@ export const getDataAction = async (formData: FormData): Promise<FormState>=> {
 
     return {
       message: "Form Action Success!",
-      data: shifts,
+      // data: shifts,
+      data: JSON.parse(JSON.stringify(shifts)),
       // error: true,
     };;
   } catch (error: unknown) {
