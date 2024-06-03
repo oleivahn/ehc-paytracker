@@ -33,6 +33,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -44,28 +55,25 @@ import { useToast } from "@/components/ui/use-toast";
 //
 //
 //
-// - Main Component
+// - Main -
 const DashboardForm = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
-  const [data, setData] = useState("");
+  const [data, setData] = useState<any>("");
   const ref = React.useRef<HTMLFormElement>(null);
 
   const defaultValues = {
-    // name: "",
-    // startDate: undefined,
     shiftDate: undefined,
-    // email: "",
   };
 
-  // - Validation
+  // Validation
   const form = useForm<z.output<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues,
   });
 
-  // - Form Submit
+  // Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
     formData.append("startDate", values.shiftDate.toLocaleString()); // Convert Date object to string
@@ -73,11 +81,8 @@ const DashboardForm = () => {
     console.log("🚧 LOG [ formData ]:", formData);
 
     setPending(true);
-    // wait 1 second for testing purposes
-    // await new Promise((resolve) => setTimeout(resolve, 1000));
-    
     const res = await getDataAction(formData);
-    
+
     // Reset the form
     form.reset(defaultValues);
     // setData(res.data);
@@ -99,6 +104,25 @@ const DashboardForm = () => {
       });
     }
   };
+
+  const invoices = [
+    {
+      invoice: "Brooks",
+      paymentStatus: "Fidelitone",
+      totalAmount: "$250.00",
+      paymentMethod: "Credit Card",
+    },
+    {
+      invoice: "Yasiel",
+      paymentStatus: "Hub Group",
+      totalAmount: "$150.00",
+      paymentMethod: "PayPal",
+    },
+  ];
+
+  const currentTime = new Date();
+  currentTime.setDate(currentTime.getDate() - 14);
+  console.log("📗 LOG [ currentTime ]:", currentTime);
 
   // - Markup
   return (
@@ -186,6 +210,47 @@ const DashboardForm = () => {
           </Form>
         </CardContent>
       </Card>
+      <div className="mt-6 w-full rounded-md bg-white px-6 py-8 shadow-lg dark:bg-darker md:w-[1050px]">
+        <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead className="w-[100px]">Sunday</TableHead>
+              <TableHead className="w-[100px]">Monday</TableHead>
+              <TableHead className="w-[100px]">Tuesday</TableHead>
+              <TableHead className="w-[100px]">Wednesday</TableHead>
+              <TableHead className="w-[100px]">Thursday</TableHead>
+              <TableHead className="w-[100px]">Friday</TableHead>
+              <TableHead className="w-[100px]">Saturday</TableHead>
+              <TableHead className="text-right">Total</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {invoices.map((invoice) => (
+              <TableRow key={invoice.invoice}>
+                <TableCell className="font-medium">{invoice.invoice}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell>{invoice.paymentStatus}</TableCell>
+                <TableCell className="text-right">
+                  {invoice.totalAmount}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={8}>Total</TableCell>
+              <TableCell className="text-right">$2,500.00</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
       {data && (
         <div className="mt-8">
           <pre>{data}</pre>
