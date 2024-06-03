@@ -132,7 +132,6 @@ const DashboardForm = () => {
           <CardTitle className="text-4xl font-bold text-primary">
             Select a week to view a report
           </CardTitle>
-          {/* <CardDescription>Enter the employee details.</CardDescription> */}
         </CardHeader>
         <CardContent>
           <Form {...form}>
