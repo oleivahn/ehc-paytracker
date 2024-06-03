@@ -28,9 +28,8 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
   }
 
   try {
-    // Do something here
+    // Connect to the database and save the new user
     await connectDB();
-
     const newUser = new User(formData);
     await newUser.save();
 

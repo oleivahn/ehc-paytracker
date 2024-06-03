@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { z } from "zod";
@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { schema } from "./formSchema";
-import { contactFormAction } from "./contactFormAction";
+import { contactFormAction, getUsersAction } from "./contactFormAction";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -52,6 +52,11 @@ import { toast, useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
 //
+const getData = async () => {
+  // "use server";
+  const res = await getUsersAction();
+  console.log("📗 [ Data ]:", res);
+};
 //
 //
 // - Main Component
@@ -60,11 +65,21 @@ const ContactForm = () => {
   const [error, setError] = useState("");
   const { toast } = useToast();
   const ref = React.useRef<HTMLFormElement>(null);
+  const [users, setUsers] = useState<any[]>([]);
+
+  const getData = async () => {
+    const res = await getUsersAction();
+    console.log("📗 [ Data ]:", res);
+    setUsers(Array.isArray(res.data) ? res.data : []);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const defaultValues = {
     name: "",
     shiftDate: new Date(),
-    // shiftDate: undefined,
     location: "",
   };
 
@@ -74,12 +89,20 @@ const ContactForm = () => {
     defaultValues: defaultValues,
   });
 
+  // {
+  //   "_id": { "$oid": "665e1347a8a09c914a9c3b3e" },
+  //   "name": "Omar",
+  //   "shiftDate": "25-mar-24",
+  //   "location": "VA"
+  // }
+
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
     formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
+    // formData.append("shiftDate", "16-jun-24"); // Convert Date object to string
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -198,6 +221,11 @@ const ContactForm = () => {
                       <SelectContent>
                         <SelectItem value="brooks">Brooks</SelectItem>
                         <SelectItem value="yasiel">Yasiel</SelectItem>
+                        {users.map((user, i) => (
+                          <SelectItem key={i} value={user.name}>
+                            {user.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormDescription></FormDescription>
