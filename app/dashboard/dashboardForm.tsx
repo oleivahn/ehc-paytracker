@@ -297,42 +297,46 @@ const DashboardForm = () => {
           </TableHeader>
           <TableBody>
             {data &&
-              data.map((data: any) => (
-                <TableRow key={data.user}>
-                  <TableCell className="font-medium">{data.user}</TableCell>
-                  {data.shifts.map((shift: any, index: number) => (
-                    <React.Fragment key={index}>
-                      <TableCell>
-                        {shift.day === "Sunday" ? shift.location : ""}
-                      </TableCell>
-                      <TableCell>
-                        {shift.day === "Monday" ? shift.location : ""}
-                      </TableCell>
-                      <TableCell>
-                        {shift.day === "Tuesday" ? shift.location : ""}
-                      </TableCell>
-                      <TableCell>
-                        {shift.day === "Wednesday" ? shift.location : ""}
-                      </TableCell>
-                      <TableCell>
-                        {shift.day === "Thursday" ? shift.location : ""}
-                      </TableCell>
-                      <TableCell>
-                        {shift.day === "Friday" ? shift.location : ""}
-                      </TableCell>
-                      <TableCell>
-                        {shift.day === "Saturday" ? shift.location : ""}
-                      </TableCell>
-                    </React.Fragment>
-                  ))}
-                  <TableCell className="text-right">$150</TableCell>
-                </TableRow>
-              ))}
+              data.map((data: any) => {
+                const total = data.shifts.length * 135;
+                return (
+                  <TableRow key={data.user}>
+                    <TableCell className="font-medium">{data.user}</TableCell>
+                    {[
+                      "Sunday",
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                    ].map((day, index) => {
+                      const shift = data.shifts.find(
+                        (shift: any) => shift.day === day
+                      );
+                      return (
+                        <TableCell key={index}>
+                          {shift ? shift.location : ""}
+                        </TableCell>
+                      );
+                    })}
+                    <TableCell className="text-right">${total}</TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={8}>Total</TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
+              <TableCell className="text-right">
+                $
+                {data
+                  .reduce(
+                    (sum: number, user: any) => sum + user.shifts.length * 135,
+                    0
+                  )
+                  .toFixed(2)}
+              </TableCell>
             </TableRow>
           </TableFooter>
         </Table>
