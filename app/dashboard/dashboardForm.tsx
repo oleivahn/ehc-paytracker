@@ -389,8 +389,8 @@ const DashboardForm = () => {
       </div>
       {data && (
         <div className="mt-8">
-          <pre>{JSON.stringify(weeks, null, 2)}</pre>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(weeks, null, 2)}</pre>
+          <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </div>
       )}
     </div>
