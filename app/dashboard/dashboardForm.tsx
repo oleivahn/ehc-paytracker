@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { z } from "zod";
@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { schema } from "./dashboardValidationSchema";
-import { getDataAction } from "./getDataAction";
+import { getDataAction, getShiftsAction } from "./getDataAction";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -63,6 +63,51 @@ const DashboardForm = () => {
   const [data, setData] = useState<any>("");
   const ref = React.useRef<HTMLFormElement>(null);
 
+  const getData = async () => {
+    const res = await getShiftsAction();
+    console.log("📗 [ getShiftsAction ]:", res);
+    setData(Array.isArray(res.data) ? res.data : []);
+  };
+
+  useEffect(() => {
+    console.log("FIRST RUN:");
+    // - Get date - 2 weeks
+    const currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() - 14);
+    console.log("📗 LOG [ currentTime ]:", currentTime);
+
+    const newDate = new Date(currentTime).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    console.log("📗 LOG [ newDate ]:", newDate);
+
+    // - Get the date's week
+    const curr = new Date(newDate); // get current date
+    let first = curr.getDate() - curr.getDay();
+    const firstdayOb = new Date(curr.setDate(first));
+    const firstday = firstdayOb.toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+
+    const firstdayTemp = firstdayOb;
+
+    const lastday = new Date(
+      firstdayTemp.setDate(firstdayTemp.getDate() + 6)
+    ).toLocaleDateString("en-us", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    console.log(firstday);
+    console.log(lastday);
+
+    getData();
+  }, []);
+
   const defaultValues = {
     shiftDate: undefined,
   };
@@ -76,7 +121,7 @@ const DashboardForm = () => {
   // Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
-    formData.append("startDate", values.shiftDate.toLocaleString()); // Convert Date object to string
+    formData.append("startDate", values.shiftDate?.toISOString() ?? ""); // Convert Date object to string
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -120,10 +165,6 @@ const DashboardForm = () => {
     },
   ];
 
-  const currentTime = new Date();
-  currentTime.setDate(currentTime.getDate() - 14);
-  console.log("📗 LOG [ currentTime ]:", currentTime);
-
   // - Markup
   return (
     <div className="mt-10 flex flex-col items-center px-4">
@@ -141,7 +182,6 @@ const DashboardForm = () => {
               className="space-y-6"
             >
               {/* TODO: Move the calendar to the right */}
-              {/* <div className="flex justify-items-end"> */}
               {/* Date */}
               <FormField
                 control={form.control}

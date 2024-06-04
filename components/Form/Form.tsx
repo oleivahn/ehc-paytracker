@@ -51,12 +51,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast, useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
-//
-const getData = async () => {
-  // "use server";
-  const res = await getUsersAction();
-  console.log("📗 [ Data ]:", res);
+type User = {
+  _id: string;
+  name: string;
+  startDate: string;
+  email: string;
+  __v: number;
 };
+
 //
 //
 // - Main Component
@@ -65,7 +67,7 @@ const ContactForm = () => {
   const [error, setError] = useState("");
   const { toast } = useToast();
   const ref = React.useRef<HTMLFormElement>(null);
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   const getData = async () => {
     const res = await getUsersAction();
@@ -98,11 +100,17 @@ const ContactForm = () => {
 
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
+    const getId = (name: string) => {
+      const user = users.find((user) => user.name === name);
+      return user ? user._id : "";
+    };
+
+    console.log("📗 LOG [ values ]:", values);
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
     formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
-    // formData.append("shiftDate", "16-jun-24"); // Convert Date object to string
+    formData.append("user", getId(values.name));
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -219,12 +227,13 @@ const ContactForm = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="brooks">Brooks</SelectItem>
-                        <SelectItem value="yasiel">Yasiel</SelectItem>
                         {users.map((user, i) => (
-                          <SelectItem key={i} value={user.name}>
-                            {user.name}
-                          </SelectItem>
+                          <div key={i}>
+                            <SelectItem value={user.name} id={user._id}>
+                              {user.name}
+                            </SelectItem>
+                            <input type="hidden" name="user" value={user._id} />
+                          </div>
                         ))}
                       </SelectContent>
                     </Select>

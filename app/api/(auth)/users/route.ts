@@ -44,3 +44,53 @@ export const POST = async (request: Request) => {
     );
   }
 };
+
+export const PATCH = async (request: Request) => {
+  try {
+    const body = await request.json();
+
+    await connectDB();
+
+    const newUser = new User(body);
+    const user = await newUser.save();
+
+    return new NextResponse(
+      JSON.stringify({ message: "User is created", user: newUser }),
+      { status: 201 }
+    );
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
+
+    console.log("There was an error creating a new user:", errorMessage);
+
+    return NextResponse.json(
+      { message: "Error creating user", error: errorMessage },
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (request: Request) => {
+  try {
+    const body = await request.json();
+
+    await connectDB();
+
+    const newUser = new User(body);
+    const user = await newUser.save();
+
+    return new NextResponse(
+      JSON.stringify({ message: "User is created", user: newUser }),
+      { status: 201 }
+    );
+  } catch (error: unknown) {
+    const errorMessage = (error as Error).message;
+
+    console.log("There was an error creating a new user:", errorMessage);
+
+    return NextResponse.json(
+      { message: "Error creating user", error: errorMessage },
+      { status: 500 }
+    );
+  }
+};
