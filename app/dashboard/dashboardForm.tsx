@@ -208,8 +208,8 @@ const DashboardForm = () => {
 
   // - Markup
   return (
-    <div className="mt-10 flex flex-col items-center px-4">
-      <Card className="w-full px-6 py-8 shadow-lg dark:bg-darker md:w-[650px]">
+    <div className="mt-10 flex flex-col items-center md:px-4">
+      <Card className="w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
         <CardHeader className="mb-4">
           <CardTitle className="text-4xl font-bold text-primary">
             Select a week to view a report
@@ -290,7 +290,7 @@ const DashboardForm = () => {
           </Form>
         </CardContent>
       </Card>
-      <div className="mt-6 w-full rounded-md bg-white px-6 py-8 shadow-lg dark:bg-darker md:w-[1050px]">
+      <div className="my-4 w-full bg-white shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:rounded-md md:px-6 md:py-8">
         <Table>
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>

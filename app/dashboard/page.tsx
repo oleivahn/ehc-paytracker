@@ -8,7 +8,7 @@ const Dashboard = async () => {
 
   return (
     <>
-      <div className="container mt-6">
+      <div className="mt-6 px-2">
         <DashboardForm />
       </div>
     </>
