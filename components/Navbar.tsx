@@ -63,12 +63,12 @@ export default function Navbar() {
   // const user = await currentUser();
 
   const LEFT_NAV_ITEMS: NavItem[] = [
-    { href: "/", label: "Home", protected: false },
+    // { href: "/", label: "Home", protected: false },
     { href: "/dashboard", label: "Dashboard", protected: true },
   ];
 
   const RIGHT_NAV_ITEMS: NavItem[] = [
-    { href: "/new_employee", label: "New Employee", protected: false },
+    // { href: "/new_employee", label: "New Employee", protected: false },
     { href: "/new_day", label: "New Day", protected: false },
   ];
 

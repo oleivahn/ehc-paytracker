@@ -284,7 +284,7 @@ const DashboardForm = () => {
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead className="">Name</TableHead>
               <TableHead className="w-[100px]">Sunday</TableHead>
               <TableHead className="w-[100px]">Monday</TableHead>
               <TableHead className="w-[100px]">Tuesday</TableHead>
@@ -296,6 +296,39 @@ const DashboardForm = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
+            <TableRow>
+              <TableCell className="font-medium">Broooks</TableCell>
+              <TableCell></TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell></TableCell>
+              <TableCell className="text-right">${1500}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Yasiel</TableCell>
+              <TableCell></TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell></TableCell>
+              <TableCell className="text-right">${1500}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">Leiva</TableCell>
+              <TableCell></TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell>Admin</TableCell>
+              <TableCell></TableCell>
+              <TableCell className="text-right">${1000}</TableCell>
+            </TableRow>
             {data &&
               data.map((data: any) => {
                 const total = data.shifts.length * 135;
@@ -343,7 +376,7 @@ const DashboardForm = () => {
       </div>
       {data && (
         <div className="mt-8">
-          <pre>{JSON.stringify(data, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
         </div>
       )}
     </div>
