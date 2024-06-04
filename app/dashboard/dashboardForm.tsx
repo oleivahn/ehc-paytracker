@@ -289,7 +289,7 @@ const DashboardForm = () => {
           </Form>
         </CardContent>
       </Card>
-      <div className="my-4 w-full rounded-lg bg-white py-8 shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:px-6">
+      <div className="my-4 w-full rounded-lg bg-white pb-6 pt-4 shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:px-6 md:pb-8">
         <div className="mb-4 px-4">
           <h3 className="mb-2 pt-6 text-xl font-bold text-primary md:pt-4 md:text-2xl">
             {weeks.thisWeek && weeks.thisWeek.firstday
