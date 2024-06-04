@@ -295,9 +295,9 @@ const DashboardForm = () => {
             {weeks.thisWeek && weeks.thisWeek.firstday
               ? weeks.thisWeek.firstday
               : "Select a week"}{" "}
-            -{" "}
+            - {/* TODO: Get the actual year */}
             {weeks.thisWeek && weeks.thisWeek.lastday
-              ? weeks.thisWeek.lastday
+              ? weeks.thisWeek.lastday + ", 2024"
               : ""}
           </h3>
           <p>
