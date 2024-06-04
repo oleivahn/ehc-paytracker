@@ -280,7 +280,7 @@ const DashboardForm = () => {
       </Card>
       <div className="my-4 w-full bg-white shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:rounded-md md:px-6 md:py-8">
         <div className="mb-4 px-4">
-          <h3 className="mb-2 text-2xl font-bold text-primary">
+          <h3 className="mb-2 text-xl font-bold text-primary md:text-2xl">
             {weeks.thisWeek && weeks.thisWeek.firstday
               ? weeks.thisWeek.firstday
               : "Week"}{" "}
@@ -398,7 +398,7 @@ const DashboardForm = () => {
                     (sum: number, user: any) =>
                       sum + user.shifts.length * user.salary,
                     0
-                  ) + 3500
+                  ) + 4000
                 ).toFixed(2)}
               </TableCell>
             </TableRow>
