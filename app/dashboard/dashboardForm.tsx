@@ -293,31 +293,31 @@ const DashboardForm = () => {
         <div className="mb-4 px-4">
           <h3 className="mb-2 pt-6 text-xl font-bold text-primary md:pt-4 md:text-2xl">
             {weeks.thisWeek && weeks.thisWeek.firstday
-              ? weeks.thisWeek.firstday
+              ? weeks.thisWeek.firstday.replace(/, 2024/g, "")
               : "Select a week"}{" "}
             - {/* TODO: Get the actual year */}
             {weeks.thisWeek && weeks.thisWeek.lastday
-              ? weeks.thisWeek.lastday + ", 2024"
+              ? weeks.thisWeek.lastday.replace(/, 2024/g, "") + ", 2024"
               : ""}
           </h3>
           <p>
             <span className="pr-4 font-bold">Fidelitone:</span>
             {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
-              ? weeks.fidelitoneWeek.firstday
+              ? weeks.fidelitoneWeek.firstday.replace(/, 2024/g, "")
               : ""}{" "}
             -{" "}
             {weeks.thisWeek && weeks.thisWeek.lastday
-              ? weeks.fidelitoneWeek.lastday
+              ? weeks.fidelitoneWeek.lastday.replace(/, 2024/g, "")
               : ""}
           </p>
           <p>
             <span className="pr-4 font-bold">Hub Group:</span>
             {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
-              ? weeks.hupGroupWeek.firstday
+              ? weeks.hupGroupWeek.firstday.replace(/, 2024/g, "")
               : ""}{" "}
             -{" "}
             {weeks.hupGroupWeek && weeks.hupGroupWeek.lastday
-              ? weeks.hupGroupWeek.lastday
+              ? weeks.hupGroupWeek.lastday.replace(/, 2024/g, "")
               : ""}
           </p>
         </div>
