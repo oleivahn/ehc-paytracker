@@ -66,6 +66,8 @@ const UserForm = () => {
     startDate: undefined,
     // shiftDate: undefined,
     email: "",
+    salary: "",
+    employeeType: "",
   };
 
   // - Validation
@@ -80,6 +82,8 @@ const UserForm = () => {
     formData.append("name", values.name);
     formData.append("startDate", values.startDate.toLocaleString()); // Convert Date object to string
     formData.append("email", values.email);
+    formData.append("employeeType", values.employeeType);
+    formData.append("salary", values.salary.toString()); // Convert number to string
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -180,6 +184,36 @@ const UserForm = () => {
                     <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Add your name" {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Employee Type */}
+              <FormField
+                control={form.control}
+                name="employeeType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Employee Type</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Type of employee" {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* salary */}
+              <FormField
+                control={form.control}
+                name="salary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Salary</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Salary" {...field} />
                     </FormControl>
                     <FormDescription></FormDescription>
                     <FormMessage />

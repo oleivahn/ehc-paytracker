@@ -16,6 +16,14 @@ const UserSchema = new Schema({
     required: true,
     // unique: true,
   },
+  salary: {
+    type: String,
+    required: true,
+  },
+  employeeType: {
+    type: String,
+    required: true,
+  },
   // shifts: [
   //   {
   //     // Reference is the name of the model we are linking it to, this is the relationship

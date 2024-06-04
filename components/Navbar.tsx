@@ -68,7 +68,7 @@ export default function Navbar() {
   ];
 
   const RIGHT_NAV_ITEMS: NavItem[] = [
-    // { href: "/new_employee", label: "New Employee", protected: false },
+    { href: "/new_employee", label: "New Employee", protected: false },
     { href: "/new_day", label: "New Day", protected: false },
   ];
 
