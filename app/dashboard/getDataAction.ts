@@ -56,23 +56,25 @@ const getPreviousWeek = (date: string, daysBefore: number) => {
   });
 };
 
+// get day of the week
+function getDayOfTheWeek(date: Date) {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  return { day: days[date.getDay()], index: days.indexOf(days[date.getDay()]) };
+}
+
 // - Form Action
 export const getShiftsAction = async (): Promise<FormState> => {
   try {
     await connectDB();
-
-    // const user = await User.findById(userId);
-    // console.log("📗 LOG [ user ]:", user);
-
-    // if (!user) {
-    //   return {
-    //     message: "User Not Found",
-    //     data: "No User Found",
-    //   };
-    // }
-
-    // const shifts = await Shift.find({ user: new Types.ObjectId(userId) });
-    // console.log("📗 LOG [ shifts ]:", shifts);
 
     revalidatePath("/contactUs");
     console.log(green("Record created successfully"));
@@ -121,8 +123,17 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       },
     });
 
+    // TODO: Add the day property here to each one of the shifts
+    const shiftsWithDay = shifts.map((shift) => {
+      return {
+        ...shift._doc,
+        day: getDayOfTheWeek(shift.shiftDate),
+      };
+    });
+    console.log("📗 LOG [ shifts ]:", shiftsWithDay);
+
     //  split shifts by name
-    const shiftsByUser = shifts.reduce((acc, shift) => {
+    const shiftsByUser = shiftsWithDay.reduce((acc, shift) => {
       if (!acc[shift.name]) {
         acc[shift.name] = [];
       }
@@ -130,15 +141,21 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       return acc;
     }, {});
 
-    console.log("📗 LOG [ shifts ]:", shiftsByUser);
+    console.log("📗 LOG [ ShiftByUser ]:", shiftsByUser);
+
+    interface Shift {
+      day: {
+        index: number;
+      };
+    }
 
     revalidatePath("/contactUs");
     console.log(green("Record created successfully"));
 
     return {
       message: "Form Action Success!",
-      data: "shifts",
-      // data: JSON.parse(JSON.stringify(shifts)),
+      // data: "shifts",
+      data: JSON.parse(JSON.stringify(shiftsByUser)),
       // error: true,
     };
   } catch (error: unknown) {

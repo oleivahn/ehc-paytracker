@@ -60,7 +60,7 @@ const DashboardForm = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
-  const [data, setData] = useState<any>("");
+  const [data, setData] = useState<any>([]);
   const ref = React.useRef<HTMLFormElement>(null);
 
   const getData = async () => {
@@ -128,10 +128,40 @@ const DashboardForm = () => {
     setPending(true);
     const res = await getDataAction(formData);
 
+    // Grab the data coming from the server and format it
+    type Shift = {
+      day: string;
+      dayIndex: number;
+      location: string;
+    };
+
+    type UserShifts = {
+      user: string;
+      shifts: Shift[];
+    };
+
+    let result: UserShifts[] = [];
+
+    if (res.data) {
+      for (let user in res.data as Object) {
+        let shifts = (res.data as any)[user].map((shift: any) => {
+          return {
+            day: shift.day.day,
+            dayIndex: shift.day.index,
+            location: shift.location,
+          };
+        });
+
+        result.push({ user: user, shifts: shifts });
+      }
+    }
+
+    console.log(result);
+
     // Reset the form
     form.reset(defaultValues);
-    // setData(res.data);
-    setData(JSON.stringify(res.data, null, 2));
+    setData(result);
+    // setData(JSON.stringify(result, null, 2));
 
     setPending(false);
     console.log("📗 [ Client message: ]:", res.message);
@@ -266,21 +296,38 @@ const DashboardForm = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell className="text-right">
-                  {invoice.totalAmount}
-                </TableCell>
-              </TableRow>
-            ))}
+            {data &&
+              data.map((data: any) => (
+                <TableRow key={data.user}>
+                  <TableCell className="font-medium">{data.user}</TableCell>
+                  {data.shifts.map((shift: any, index: number) => (
+                    <React.Fragment key={index}>
+                      <TableCell>
+                        {shift.day === "Sunday" ? shift.location : ""}
+                      </TableCell>
+                      <TableCell>
+                        {shift.day === "Monday" ? shift.location : ""}
+                      </TableCell>
+                      <TableCell>
+                        {shift.day === "Tuesday" ? shift.location : ""}
+                      </TableCell>
+                      <TableCell>
+                        {shift.day === "Wednesday" ? shift.location : ""}
+                      </TableCell>
+                      <TableCell>
+                        {shift.day === "Thursday" ? shift.location : ""}
+                      </TableCell>
+                      <TableCell>
+                        {shift.day === "Friday" ? shift.location : ""}
+                      </TableCell>
+                      <TableCell>
+                        {shift.day === "Saturday" ? shift.location : ""}
+                      </TableCell>
+                    </React.Fragment>
+                  ))}
+                  <TableCell className="text-right">$150</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
           <TableFooter>
             <TableRow>
@@ -292,7 +339,7 @@ const DashboardForm = () => {
       </div>
       {data && (
         <div className="mt-8">
-          <pre>{data}</pre>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
       )}
     </div>
