@@ -53,6 +53,17 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 
 //
+const getParsedLocation = (location: string) => {
+  let parsedLocation = "";
+  if (location === "fidelitone") {
+    parsedLocation = "Fidelitone";
+  } else if (location === "hupGroup") {
+    parsedLocation = "Hup Group";
+  } else {
+    parsedLocation = "Unknown";
+  }
+  return parsedLocation;
+};
 //
 //
 // - Main -
@@ -379,7 +390,7 @@ const DashboardForm = () => {
                       );
                       return (
                         <TableCell key={index}>
-                          {shift ? shift.location : ""}
+                          {shift ? getParsedLocation(shift.location) : ""}
                         </TableCell>
                       );
                     })}

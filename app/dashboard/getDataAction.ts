@@ -136,12 +136,14 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
         $lt: new Date(thisWeek.lastday),
       },
     });
+    console.log("📗 LOG [ shifts ]:", shifts);
 
     // TODO: Add the day property here to each one of the shifts
     const shiftsWithDay = shifts.map((shift) => {
       return {
         ...shift._doc,
         day: getDayOfTheWeek(shift.shiftDate),
+        // location: getParsedLocation(shift.location),
       };
     });
     console.log("📗 LOG [ shifts ]:", shiftsWithDay);
