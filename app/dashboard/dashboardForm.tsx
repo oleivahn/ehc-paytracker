@@ -149,6 +149,8 @@ const DashboardForm = () => {
             day: shift.day.day,
             dayIndex: shift.day.index,
             location: shift.location,
+            salary: shift.salary,
+            employeeType: shift.employeeType,
           };
         });
 
@@ -376,7 +378,7 @@ const DashboardForm = () => {
       </div>
       {data && (
         <div className="mt-8">
-          {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+          <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
       )}
     </div>

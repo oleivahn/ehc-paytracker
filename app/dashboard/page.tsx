@@ -10,10 +10,6 @@ const Dashboard = async () => {
     <>
       <div className="container mt-6">
         <DashboardForm />
-
-
-        
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </div>
     </>
   );

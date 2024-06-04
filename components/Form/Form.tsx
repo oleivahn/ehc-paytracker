@@ -56,6 +56,8 @@ type User = {
   name: string;
   startDate: string;
   email: string;
+  salary: string;
+  employeeType: string;
   __v: number;
 };
 
@@ -104,12 +106,22 @@ const ContactForm = () => {
       const user = users.find((user) => user.name === name);
       return user ? user._id : "";
     };
+    const getSalary = (name: string) => {
+      const user = users.find((user) => user.name === name);
+      return user ? user.salary : "";
+    };
+    const getEmployeeType = (name: string) => {
+      const user = users.find((user) => user.name === name);
+      return user ? user.employeeType : "";
+    };
 
     console.log("📗 LOG [ values ]:", values);
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
     formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
+    formData.append("salary", getSalary(values.name));
+    formData.append("employeeType", getEmployeeType(values.name));
     formData.append("user", getId(values.name));
 
     console.log("🚧 LOG [ formData ]:", formData);

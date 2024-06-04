@@ -15,6 +15,14 @@ const ShiftSchema = new Schema({
     type: String,
     required: true,
   },
+  salary: {
+    type: String,
+    required: true,
+  },
+  employeeType: {
+    type: String,
+    required: true,
+  },
   user: [
     {
       // Reference is the name of the model we are linking it to, this is the relationship
