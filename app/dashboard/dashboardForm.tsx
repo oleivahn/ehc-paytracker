@@ -368,33 +368,63 @@ const DashboardForm = () => {
             <TableRow>
               <TableCell className="font-medium">Broooks</TableCell>
               <TableCell></TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1500}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Yasiel</TableCell>
               <TableCell></TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1500}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Leiva</TableCell>
-              <TableCell className="text-center"></TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
-              <TableCell className="text-center">{"\u00B7"}</TableCell>
+              <TableCell className="text-center font-bold"></TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
+              <TableCell className="text-center font-bold">
+                {"\u00B7"}
+              </TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1000}</TableCell>
             </TableRow>
