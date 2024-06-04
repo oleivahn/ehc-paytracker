@@ -13,6 +13,20 @@ import { revalidatePath } from "next/cache";
 export type FormState = {
   message: string;
   data: object | null | string;
+  weeks?: {
+    thisWeek: {
+      firstday: string;
+      lastday: string;
+    };
+    fidelitoneWeek: {
+      firstday: string;
+      lastday: string;
+    };
+    hupGroupWeek: {
+      firstday: string;
+      lastday: string;
+    };
+  };
   error?: boolean | null;
 };
 
@@ -156,6 +170,11 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       message: "Form Action Success!",
       // data: "shifts",
       data: JSON.parse(JSON.stringify(shiftsByUser)),
+      weeks: {
+        thisWeek,
+        fidelitoneWeek,
+        hupGroupWeek,
+      },
       // error: true,
     };
   } catch (error: unknown) {

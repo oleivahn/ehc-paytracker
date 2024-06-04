@@ -145,7 +145,7 @@ const ContactForm = () => {
         variant: "success",
         title: "Success",
         description: "Your message has been sent!",
-        // action: <ToastAction altText="Try again">Success</ToastAction>,
+        action: <ToastAction altText="Try again">Success</ToastAction>,
       });
     }
   };
@@ -296,7 +296,7 @@ const ContactForm = () => {
                   disabled={pending}
                   className="h-12 w-full"
                 >
-                  {pending ? "Sending..." : "Send Message"}
+                  {pending ? "Creating..." : "Finish"}
                 </Button>
                 {/* <SubmitButton /> */}
               </div>

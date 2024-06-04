@@ -190,17 +190,38 @@ const UserForm = () => {
                   </FormItem>
                 )}
               />
-              {/* Employee Type */}
+              {/* Employee type */}
               <FormField
                 control={form.control}
                 name="employeeType"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Employee Type</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Type of employee" {...field} />
-                    </FormControl>
-                    <FormDescription></FormDescription>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          {field.value ? (
+                            <SelectValue placeholder="Employee Type" />
+                          ) : (
+                            "Select an employee type"
+                          )}
+                          {/* <SelectValue placeholder="Select a warehouse" /> */}
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="manager">Manager</SelectItem>
+                        <SelectItem value="driver">Driver</SelectItem>
+                        <SelectItem value="helper">Helper</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      You can manage email addresses in your{" "}
+                      <Link href="/examples/forms">email settings</Link>.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

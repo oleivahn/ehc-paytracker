@@ -61,6 +61,7 @@ const DashboardForm = () => {
   const [error, setError] = useState("");
   const { toast } = useToast();
   const [data, setData] = useState<any>([]);
+  const [weeks, setWeeks] = useState<any>([]);
   const ref = React.useRef<HTMLFormElement>(null);
 
   const getData = async () => {
@@ -172,6 +173,7 @@ const DashboardForm = () => {
     // Reset the form
     form.reset(defaultValues);
     setData(result);
+    setWeeks(res.weeks);
     // setData(JSON.stringify(result, null, 2));
 
     setPending(false);
@@ -182,29 +184,15 @@ const DashboardForm = () => {
       setError(res.message);
     } else {
       setError("");
-      toast({
-        variant: "success",
-        title: "Success",
-        description: "Your message has been sent!",
-        // action: <ToastAction altText="Try again">Success</ToastAction>,
-      });
+      // toast({
+      //   variant: "success",
+      //   title: "Success",
+      //   description: "Your message has been sent!",
+      //   // action: <ToastAction altText="Try again">Success</ToastAction>,
+      // });
+      console.log("Success dashboard!");
     }
   };
-
-  const invoices = [
-    {
-      invoice: "Brooks",
-      paymentStatus: "Fidelitone",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "Yasiel",
-      paymentStatus: "Hub Group",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
-    },
-  ];
 
   // - Markup
   return (
@@ -291,6 +279,19 @@ const DashboardForm = () => {
         </CardContent>
       </Card>
       <div className="my-4 w-full bg-white shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:rounded-md md:px-6 md:py-8">
+        <div className="mb-4 px-4">
+          <h3 className="mb-2 text-2xl font-bold text-primary">
+            {weeks.thisWeek.firstday} - {weeks.thisWeek.lastday}
+          </h3>
+          <p>
+            <span className="pr-4 font-bold">Fidelitone pays:</span>
+            {weeks.fidelitoneWeek.firstday} - {weeks.fidelitoneWeek.lastday}
+          </p>
+          <p>
+            <span className="pr-4 font-bold">Hub Group pays:</span>
+            {weeks.hupGroupWeek.firstday} - {weeks.hupGroupWeek.lastday}
+          </p>
+        </div>
         <Table>
           <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
@@ -310,39 +311,39 @@ const DashboardForm = () => {
             <TableRow>
               <TableCell className="font-medium">Broooks</TableCell>
               <TableCell></TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1500}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Yasiel</TableCell>
               <TableCell></TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1500}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Leiva</TableCell>
-              <TableCell></TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
-              <TableCell>Admin</TableCell>
+              <TableCell className="text-center"></TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
+              <TableCell className="text-center">X</TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1000}</TableCell>
             </TableRow>
             {data &&
               data.map((data: any) => {
-                const total = data.shifts.length * 135;
+                const total = data.shifts.length * data.salary;
                 return (
                   <TableRow key={data.user}>
                     <TableCell className="font-medium">{data.user}</TableCell>
@@ -374,12 +375,13 @@ const DashboardForm = () => {
               <TableCell colSpan={8}>Total</TableCell>
               <TableCell className="text-right">
                 $
-                {data
-                  .reduce(
-                    (sum: number, user: any) => sum + user.shifts.length * 135,
+                {(
+                  data.reduce(
+                    (sum: number, user: any) =>
+                      sum + user.shifts.length * user.salary,
                     0
-                  )
-                  .toFixed(2)}
+                  ) + 3500
+                ).toFixed(2)}
               </TableCell>
             </TableRow>
           </TableFooter>
@@ -387,6 +389,7 @@ const DashboardForm = () => {
       </div>
       {data && (
         <div className="mt-8">
+          <pre>{JSON.stringify(weeks, null, 2)}</pre>
           <pre>{JSON.stringify(data, null, 2)}</pre>
         </div>
       )}
