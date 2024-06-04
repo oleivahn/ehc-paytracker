@@ -281,15 +281,33 @@ const DashboardForm = () => {
       <div className="my-4 w-full bg-white shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:rounded-md md:px-6 md:py-8">
         <div className="mb-4 px-4">
           <h3 className="mb-2 text-2xl font-bold text-primary">
-            {weeks.thisWeek.firstday} - {weeks.thisWeek.lastday}
+            {weeks.thisWeek && weeks.thisWeek.firstday
+              ? weeks.thisWeek.firstday
+              : "Week"}{" "}
+            -{" "}
+            {weeks.thisWeek && weeks.thisWeek.lastday
+              ? weeks.thisWeek.lastday
+              : ""}
           </h3>
           <p>
             <span className="pr-4 font-bold">Fidelitone pays:</span>
-            {weeks.fidelitoneWeek.firstday} - {weeks.fidelitoneWeek.lastday}
+            {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
+              ? weeks.fidelitoneWeek.firstday
+              : ""}{" "}
+            -{" "}
+            {weeks.thisWeek && weeks.thisWeek.lastday
+              ? weeks.fidelitoneWeek.lastday
+              : ""}
           </p>
           <p>
             <span className="pr-4 font-bold">Hub Group pays:</span>
-            {weeks.hupGroupWeek.firstday} - {weeks.hupGroupWeek.lastday}
+            {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
+              ? weeks.hupGroupWeek.firstday
+              : ""}{" "}
+            -{" "}
+            {weeks.hupGroupWeek && weeks.hupGroupWeek.lastday
+              ? weeks.hupGroupWeek.lastday
+              : ""}
           </p>
         </div>
         <Table>
