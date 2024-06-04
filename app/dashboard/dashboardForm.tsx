@@ -57,8 +57,8 @@ const getParsedLocation = (location: string) => {
   let parsedLocation = "";
   if (location === "fidelitone") {
     parsedLocation = "Fidelitone";
-  } else if (location === "hupGroup") {
-    parsedLocation = "Hup Group";
+  } else if (location === "hubGroup") {
+    parsedLocation = "HubGroup";
   } else {
     parsedLocation = "Unknown";
   }
