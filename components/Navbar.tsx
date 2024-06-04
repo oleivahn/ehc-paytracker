@@ -68,8 +68,8 @@ export default function Navbar() {
   ];
 
   const RIGHT_NAV_ITEMS: NavItem[] = [
-    { href: "/new_day", label: "New Day", protected: false },
     { href: "/dashboard", label: "Dashboard", protected: true },
+    { href: "/new_day", label: "New Day", protected: false },
   ];
 
   return (
