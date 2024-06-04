@@ -113,11 +113,11 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
 
   // Get day - 2 weeks and 3 weeks ago (mpn, tue ...)
   const previous2Weeks = await getPreviousWeek(formData.startDate as string, 2);
-  const previous3Weeks = await getPreviousWeek(formData.startDate as string, 3);
+  const previousWeek = await getPreviousWeek(formData.startDate as string, 1);
 
   // Get the week's ranges on days
   const fidelitoneWeek = await getWeek(previous2Weeks);
-  const hupGroupWeek = await getWeek(previous3Weeks);
+  const hupGroupWeek = await getWeek(previousWeek);
   const thisWeek = await getWeek(formData.startDate as string);
 
   console.log("📗 LOG [ thisWeek ]:", thisWeek);
