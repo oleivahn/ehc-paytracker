@@ -137,6 +137,8 @@ const DashboardForm = () => {
 
     type UserShifts = {
       user: string;
+      salary: string;
+      employeeType: string;
       shifts: Shift[];
     };
 
@@ -144,17 +146,24 @@ const DashboardForm = () => {
 
     if (res.data) {
       for (let user in res.data as Object) {
+        let salary = "";
+        let employeeType = "";
         let shifts = (res.data as any)[user].map((shift: any) => {
+          salary = shift.salary;
+          employeeType = shift.employeeType;
           return {
             day: shift.day.day,
             dayIndex: shift.day.index,
             location: shift.location,
-            salary: shift.salary,
-            employeeType: shift.employeeType,
           };
         });
 
-        result.push({ user: user, shifts: shifts });
+        result.push({
+          user: user,
+          salary: salary,
+          employeeType: employeeType,
+          shifts: shifts,
+        });
       }
     }
 
