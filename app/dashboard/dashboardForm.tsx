@@ -210,7 +210,7 @@ const DashboardForm = () => {
     <div className="mt-10 flex flex-col items-center md:px-4">
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
         <CardHeader className="mb-4">
-          <CardTitle className="text-4xl font-bold text-primary">
+          <CardTitle className="text-3xl font-bold text-primary md:text-4xl">
             Select a week to view a report
           </CardTitle>
         </CardHeader>
