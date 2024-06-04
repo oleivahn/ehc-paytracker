@@ -283,14 +283,14 @@ const DashboardForm = () => {
           <h3 className="mb-2 text-xl font-bold text-primary md:text-2xl">
             {weeks.thisWeek && weeks.thisWeek.firstday
               ? weeks.thisWeek.firstday
-              : "Week"}{" "}
+              : "Select a week"}{" "}
             -{" "}
             {weeks.thisWeek && weeks.thisWeek.lastday
               ? weeks.thisWeek.lastday
               : ""}
           </h3>
           <p>
-            <span className="pr-4 font-bold">Fidelitone pays:</span>
+            <span className="pr-4 font-bold">Fidelitone:</span>
             {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
               ? weeks.fidelitoneWeek.firstday
               : ""}{" "}
@@ -300,7 +300,7 @@ const DashboardForm = () => {
               : ""}
           </p>
           <p>
-            <span className="pr-4 font-bold">Hub Group pays:</span>
+            <span className="pr-4 font-bold">Hub Group:</span>
             {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
               ? weeks.hupGroupWeek.firstday
               : ""}{" "}
