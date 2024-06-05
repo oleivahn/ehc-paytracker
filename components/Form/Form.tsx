@@ -7,14 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { schema } from "./formSchema";
-import { contactFormAction, getUsersAction } from "./contactFormAction";
+import {
+  contactFormAction,
+  getUsersAction,
+  updateShiftAction,
+} from "./contactFormAction";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // - UI Components
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -32,6 +36,16 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import {
   Select,
@@ -68,6 +82,8 @@ type User = {
 const ContactForm = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [updateShiftData, setUpdateShiftData] = useState(new FormData());
   const { toast } = useToast();
   const ref = React.useRef<HTMLFormElement>(null);
   const [users, setUsers] = useState<User[]>([]);
@@ -102,6 +118,26 @@ const ContactForm = () => {
   //   "location": "VA"
   // }
 
+  const updateShift = async () => {
+    console.log("📗 LOG [ updateShiftData ]:", updateShiftData);
+    const res = await updateShiftAction(updateShiftData);
+    console.log("📗 [ Client message: ]:", res.message);
+    console.log("📗 [ Data Submitted ]:", res.data);
+
+    if (res.error) {
+      console.error("📕 [ Error ]:", res.message);
+      setError(res.message);
+    } else {
+      toast({
+        variant: "success",
+        title: "Success",
+        description: "Shift was updated successfully",
+        action: <ToastAction altText="Try again">Success</ToastAction>,
+      });
+    }
+    setOpenDialog(false);
+  };
+
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     const getId = (name: string) => {
@@ -121,7 +157,14 @@ const ContactForm = () => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
-    formData.append("shiftDate", values.shiftDate.toLocaleString()); // Convert Date object to string
+    formData.append(
+      "shiftDate",
+      values.shiftDate.toLocaleString("en-us", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    ); // Convert Date object to string
     formData.append("salary", getSalary(values.name));
     formData.append("employeeType", getEmployeeType(values.name));
     formData.append("user", getId(values.name));
@@ -135,6 +178,13 @@ const ContactForm = () => {
 
     const res = await contactFormAction(formData);
 
+    if (res.message === "Shift Already Exists") {
+      // TODO: Show modal to replace the shift
+      setUpdateShiftData(formData);
+      setOpenDialog(true);
+      setPending(false);
+      return;
+    }
     // Reset the form
     form.reset(defaultValues);
     setPending(false);
@@ -352,6 +402,24 @@ const ContactForm = () => {
           </Form>
         </CardContent>
       </Card>
+      <Dialog open={openDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Warning</DialogTitle>
+            <DialogDescription>
+              Shift already exists, would you like to update the shift anyway?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="secondary" onClick={() => setOpenDialog(false)}>
+              Cancel
+            </Button>
+            <Button type="submit" onClick={() => updateShift()}>
+              Update Shift
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
