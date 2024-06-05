@@ -114,8 +114,6 @@ const ContactForm = () => {
   const updateShift = async () => {
     console.log("📗 LOG [ updateShiftData ]:", updateShiftData);
     const res = await updateShiftAction(updateShiftData);
-    console.log("📗 [ Client message: ]:", res.message);
-    console.log("📗 [ Data Submitted ]:", res.data);
 
     if (res.error) {
       console.error("📕 [ Error ]:", res.message);
