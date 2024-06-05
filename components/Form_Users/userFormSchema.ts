@@ -18,7 +18,7 @@ export const schema = z.object({
     message: "Location must be filled",
   }),
   employeeType: z.string().min(2, {
-    message: "Name cannot be empty",
+    message: "Shift cannot be empty",
   }),
   salary: z.string().min(2, {
     message: "Salary cannot be empty",

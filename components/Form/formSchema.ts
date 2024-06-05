@@ -17,4 +17,7 @@ export const schema = z.object({
   location: z.string().min(2, {
     message: "Location must be filled",
   }),
+  shiftType: z.string().min(2, {
+    message: "Shift must be filled",
+  }),
 });

@@ -64,6 +64,42 @@ const getParsedLocation = (location: string) => {
   }
   return parsedLocation;
 };
+
+const getShiftCode = (shiftType: string) => {
+  let shiftCode = "";
+  if (shiftType === "driver") {
+    shiftCode = "(D)";
+  } else if (shiftType === "helper") {
+    shiftCode = "(H)";
+  } else if (shiftType === "thirdMan") {
+    shiftCode = "(T)";
+  } else {
+    shiftCode = "Unknown";
+  }
+  return shiftCode;
+};
+
+const getTotalforEmployee = (employee: any) => {
+  let total = 0;
+  employee.shifts.forEach((shift: any) => {
+    switch (shift.shiftType) {
+      case "driver":
+        total += 200;
+        break;
+      case "helper":
+        total += 150;
+        break;
+      case "thirdMan":
+        total += 135;
+        break;
+      default:
+        total += 0;
+    }
+  });
+
+  return total;
+};
+
 //
 //
 // - Main -
@@ -167,6 +203,7 @@ const DashboardForm = () => {
             day: shift.day.day,
             dayIndex: shift.day.index,
             location: shift.location,
+            shiftType: shift.shiftType,
           };
         });
 
@@ -326,20 +363,22 @@ const DashboardForm = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="">Name</TableHead>
-              <TableHead className="w-[100px]">Sunday</TableHead>
-              <TableHead className="w-[100px]">Monday</TableHead>
-              <TableHead className="w-[100px]">Tuesday</TableHead>
-              <TableHead className="w-[100px]">Wednesday</TableHead>
-              <TableHead className="w-[100px]">Thursday</TableHead>
-              <TableHead className="w-[100px]">Friday</TableHead>
-              <TableHead className="w-[100px]">Saturday</TableHead>
+              <TableHead className="">Sunday</TableHead>
+              <TableHead className="">Monday</TableHead>
+              <TableHead className="">Tuesday</TableHead>
+              <TableHead className="">Wednesday</TableHead>
+              <TableHead className="">Thursday</TableHead>
+              <TableHead className="">Friday</TableHead>
+              <TableHead className="">Saturday</TableHead>
               <TableHead className="text-right">Total</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data &&
               data.map((data: any) => {
-                const total = data.shifts.length * data.salary;
+                console.log("📗 LOG [ data on dashboard ]:", data);
+                // const total = data.shifts.length * data.salary;
+                const total = getTotalforEmployee(data);
                 return (
                   <TableRow key={data.user}>
                     <TableCell className="font-medium">{data.user}</TableCell>
@@ -357,7 +396,11 @@ const DashboardForm = () => {
                       );
                       return (
                         <TableCell key={index}>
-                          {shift ? getParsedLocation(shift.location) : ""}
+                          {shift
+                            ? `${getParsedLocation(
+                                shift.location
+                              )} ${getShiftCode(shift.shiftType)} `
+                            : ""}
                         </TableCell>
                       );
                     })}

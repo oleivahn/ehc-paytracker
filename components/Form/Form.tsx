@@ -58,6 +58,7 @@ type User = {
   email: string;
   salary: string;
   employeeType: string;
+  shiftType: string;
   __v: number;
 };
 
@@ -84,6 +85,7 @@ const ContactForm = () => {
   const defaultValues = {
     name: "",
     shiftDate: new Date(),
+    shiftType: "",
     location: "",
   };
 
@@ -123,6 +125,7 @@ const ContactForm = () => {
     formData.append("salary", getSalary(values.name));
     formData.append("employeeType", getEmployeeType(values.name));
     formData.append("user", getId(values.name));
+    formData.append("shiftType", values.shiftType);
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -254,6 +257,43 @@ const ContactForm = () => {
                   </FormItem>
                 )}
               />
+              {/* Shift Type */}
+              <FormField
+                control={form.control}
+                name="shiftType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Work Type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          {field.value ? (
+                            <SelectValue placeholder="Select type of shift" />
+                          ) : (
+                            "Select shift"
+                          )}
+                          {/* <SelectValue placeholder="Select a warehouse" /> */}
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="driver">Driver</SelectItem>
+                        <SelectItem value="helper">Helper</SelectItem>
+                        <SelectItem value="thirdMan">3rd Man</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {/* <FormDescription>
+                      You can manage email addresses in your{" "}
+                      <Link href="/examples/forms">email settings</Link>.
+                    </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               {/* Dropdown */}
               <FormField
                 control={form.control}
@@ -281,10 +321,10 @@ const ContactForm = () => {
                         <SelectItem value="hubGroup">Hub Group</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormDescription>
+                    {/* <FormDescription>
                       You can manage email addresses in your{" "}
                       <Link href="/examples/forms">email settings</Link>.
-                    </FormDescription>
+                    </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}

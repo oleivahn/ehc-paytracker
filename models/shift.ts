@@ -15,6 +15,10 @@ const ShiftSchema = new Schema({
     type: String,
     required: true,
   },
+  shiftType: {
+    type: String,
+    required: true,
+  },
   salary: {
     type: String,
     required: true,

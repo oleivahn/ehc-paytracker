@@ -68,6 +68,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       user: new Types.ObjectId(userId),
       salary: formData.salary as string,
       employeeType: formData.employeeType as string,
+      shiftType: formData.shiftType as string,
     });
     await newShift.save();
 
