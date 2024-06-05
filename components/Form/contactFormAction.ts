@@ -160,7 +160,6 @@ export const updateShiftAction = async (data: FormData) => {
   const userId = formData.user as string;
 
   try {
-    // Do something here
     await connectDB();
 
     const updatedShift = await Shift.findOneAndUpdate(

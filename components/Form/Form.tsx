@@ -111,13 +111,6 @@ const ContactForm = () => {
     defaultValues: defaultValues,
   });
 
-  // {
-  //   "_id": { "$oid": "665e1347a8a09c914a9c3b3e" },
-  //   "name": "Omar",
-  //   "shiftDate": "25-mar-24",
-  //   "location": "VA"
-  // }
-
   const updateShift = async () => {
     console.log("📗 LOG [ updateShiftData ]:", updateShiftData);
     const res = await updateShiftAction(updateShiftData);
