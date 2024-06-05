@@ -162,25 +162,40 @@ export const updateShiftAction = async (data: FormData) => {
   try {
     await connectDB();
 
-    const updatedShift = await Shift.findOneAndUpdate(
-      {
-        name: formData.name as string,
-        shiftDate: formData.shiftDate as string,
-      },
-      {
-        name: formData.name as string,
-        shiftDate: formData.shiftDate as string,
-        location: formData.location as string,
-        // user: new mongoose.Types.ObjectId(userId),
-        salary: formData.salary as string,
-        employeeType: formData.employeeType as string,
-        shiftType: formData.shiftType as string,
-      },
-      {
-        new: true,
-      }
-    );
-    console.log("📗 LOG [ updatedShift ]:", updatedShift);
+    const deleteOldShift = await Shift.findOneAndDelete({
+      name: formData.name as string,
+      shiftDate: formData.shiftDate as string,
+    });
+    // const updatedShift = await Shift.findOneAndUpdate(
+    //   {
+    //     name: formData.name as string,
+    //     shiftDate: formData.shiftDate as string,
+    //   },
+    //   {
+    //     name: formData.name as string,
+    //     shiftDate: formData.shiftDate as string,
+    //     location: formData.location as string,
+    //     // user: new mongoose.Types.ObjectId(userId),
+    //     salary: formData.salary as string,
+    //     employeeType: formData.employeeType as string,
+    //     shiftType: formData.shiftType as string,
+    //   },
+    //   {
+    //     new: true,
+    //   }
+    // );
+    console.log("📗 LOG [ updatedShift ]:", deleteOldShift);
+
+    const newShift = new Shift({
+      name: formData.name as string,
+      shiftDate: formData.shiftDate as string,
+      location: formData.location as string,
+      user: new Types.ObjectId(userId),
+      salary: formData.salary as string,
+      employeeType: formData.employeeType as string,
+      shiftType: formData.shiftType as string,
+    });
+    await newShift.save();
 
     revalidatePath("/contactUs");
     console.log(green("Record updated successfully"));
