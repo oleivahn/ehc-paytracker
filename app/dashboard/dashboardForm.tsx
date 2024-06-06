@@ -105,6 +105,12 @@ const getTotalforEmployee = (employee: any) => {
         case "driver":
           total += 700;
           break;
+        case "helper":
+          total += 700;
+          break;
+        case "thirdMan":
+          total += 700;
+          break;
         default:
           total += 0;
       }
@@ -126,7 +132,7 @@ const DashboardForm = () => {
   const ref = React.useRef<HTMLFormElement>(null);
 
   const getData = async () => {
-    const res = await getShiftsAction();
+    const res = await getShiftsAction(new Date());
     console.log("📗 [ getShiftsAction ]:", res);
     setData(Array.isArray(res.data) ? res.data : []);
   };
