@@ -358,7 +358,7 @@ const DashboardForm = () => {
               : ""}
           </h3>
           <p>
-            <span className="pr-4 font-bold">Fidelitone:</span>
+            <span className="pr-4">Fidelitone:</span>
             {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
               ? weeks.fidelitoneWeek.firstday.replace(/, 2024/g, "")
               : ""}{" "}
@@ -368,7 +368,7 @@ const DashboardForm = () => {
               : ""}
           </p>
           <p>
-            <span className="pr-4 font-bold">Hub Group:</span>
+            <span className="pr-4">Hub Group:</span>
             {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
               ? weeks.hupGroupWeek.firstday.replace(/, 2024/g, "")
               : ""}{" "}
@@ -428,7 +428,7 @@ const DashboardForm = () => {
                   </TableRow>
                 );
               })}
-            <TableRow>
+            {/* <TableRow>
               <TableCell className="font-medium">Broooks</TableCell>
               <TableCell></TableCell>
               <TableCell className="text-center font-bold">
@@ -490,20 +490,20 @@ const DashboardForm = () => {
               </TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1000}</TableCell>
-            </TableRow>
+            </TableRow> */}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={8}>Total</TableCell>
               <TableCell className="text-right">
                 $
-                {(
-                  data.reduce(
+                {data
+                  .reduce(
                     (sum: number, user: any) =>
                       sum + user.shifts.length * user.salary,
                     0
-                  ) + 4000
-                ).toFixed(2)}
+                  )
+                  .toFixed(2)}
               </TableCell>
             </TableRow>
           </TableFooter>
