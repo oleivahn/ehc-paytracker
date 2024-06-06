@@ -132,7 +132,7 @@ const DashboardForm = () => {
   const ref = React.useRef<HTMLFormElement>(null);
 
   const getData = async () => {
-    const res = await getShiftsAction(new Date());
+    const res = await getShiftsAction();
     console.log("📗 [ getShiftsAction ]:", res);
     setData(Array.isArray(res.data) ? res.data : []);
   };
