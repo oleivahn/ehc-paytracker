@@ -80,22 +80,36 @@ const getShiftCode = (shiftType: string) => {
 };
 
 const getTotalforEmployee = (employee: any) => {
+  console.log("📗 LOG [ employee ]:", employee);
   let total = 0;
-  employee.shifts.forEach((shift: any) => {
-    switch (shift.shiftType) {
-      case "driver":
-        total += 200;
-        break;
-      case "helper":
-        total += 150;
-        break;
-      case "thirdMan":
-        total += 135;
-        break;
-      default:
-        total += 0;
-    }
-  });
+
+  if (employee.user !== "Jose Furet") {
+    employee.shifts.forEach((shift: any) => {
+      switch (shift.shiftType) {
+        case "driver":
+          total += 200;
+          break;
+        case "helper":
+          total += 150;
+          break;
+        case "thirdMan":
+          total += 135;
+          break;
+        default:
+          total += 0;
+      }
+    });
+  } else {
+    employee.shifts.forEach((shift: any) => {
+      switch (shift.shiftType) {
+        case "driver":
+          total += 700;
+          break;
+        default:
+          total += 0;
+      }
+    });
+  }
 
   return total;
 };
