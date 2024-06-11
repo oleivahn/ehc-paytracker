@@ -411,6 +411,7 @@ const DashboardForm = () => {
                       "Friday",
                       "Saturday",
                     ].map((day, index) => {
+                      // console.log("📗 LOG!!! [ day ]:", day);
                       const shift = data.shifts.find(
                         (shift: any) => shift.day === day
                       );
