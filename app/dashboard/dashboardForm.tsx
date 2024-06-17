@@ -80,22 +80,42 @@ const getShiftCode = (shiftType: string) => {
 };
 
 const getTotalforEmployee = (employee: any) => {
+  console.log("📗 LOG [ employee ]:", employee);
   let total = 0;
-  employee.shifts.forEach((shift: any) => {
-    switch (shift.shiftType) {
-      case "driver":
-        total += 200;
-        break;
-      case "helper":
-        total += 150;
-        break;
-      case "thirdMan":
-        total += 135;
-        break;
-      default:
-        total += 0;
-    }
-  });
+
+  if (employee.user !== "Jose Furet") {
+    employee.shifts.forEach((shift: any) => {
+      switch (shift.shiftType) {
+        case "driver":
+          total += 200;
+          break;
+        case "helper":
+          total += 150;
+          break;
+        case "thirdMan":
+          total += 135;
+          break;
+        default:
+          total += 0;
+      }
+    });
+  } else {
+    employee.shifts.forEach((shift: any) => {
+      switch (shift.shiftType) {
+        case "driver":
+          total += 700;
+          break;
+        case "helper":
+          total += 700;
+          break;
+        case "thirdMan":
+          total += 700;
+          break;
+        default:
+          total += 0;
+      }
+    });
+  }
 
   return total;
 };
@@ -338,7 +358,7 @@ const DashboardForm = () => {
               : ""}
           </h3>
           <p>
-            <span className="pr-4 font-bold">Fidelitone:</span>
+            <span className="pr-4">Fidelitone:</span>
             {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
               ? weeks.fidelitoneWeek.firstday.replace(/, 2024/g, "")
               : ""}{" "}
@@ -348,7 +368,7 @@ const DashboardForm = () => {
               : ""}
           </p>
           <p>
-            <span className="pr-4 font-bold">Hub Group:</span>
+            <span className="pr-4">Hub Group:</span>
             {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
               ? weeks.hupGroupWeek.firstday.replace(/, 2024/g, "")
               : ""}{" "}
@@ -391,6 +411,7 @@ const DashboardForm = () => {
                       "Friday",
                       "Saturday",
                     ].map((day, index) => {
+                      // console.log("📗 LOG!!! [ day ]:", day);
                       const shift = data.shifts.find(
                         (shift: any) => shift.day === day
                       );
@@ -408,7 +429,7 @@ const DashboardForm = () => {
                   </TableRow>
                 );
               })}
-            <TableRow>
+            {/* <TableRow>
               <TableCell className="font-medium">Broooks</TableCell>
               <TableCell></TableCell>
               <TableCell className="text-center font-bold">
@@ -470,20 +491,20 @@ const DashboardForm = () => {
               </TableCell>
               <TableCell></TableCell>
               <TableCell className="text-right">${1000}</TableCell>
-            </TableRow>
+            </TableRow> */}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell colSpan={8}>Total</TableCell>
               <TableCell className="text-right">
                 $
-                {(
-                  data.reduce(
+                {data
+                  .reduce(
                     (sum: number, user: any) =>
                       sum + user.shifts.length * user.salary,
                     0
-                  ) + 4000
-                ).toFixed(2)}
+                  )
+                  .toFixed(2)}
               </TableCell>
             </TableRow>
           </TableFooter>

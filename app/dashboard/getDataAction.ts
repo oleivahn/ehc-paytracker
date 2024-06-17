@@ -44,7 +44,7 @@ const getWeek = (date?: string) => {
   const firstdayTemp = firstdayOb;
 
   const lastday = new Date(
-    firstdayTemp.setDate(firstdayTemp.getDate() + 6)
+    firstdayTemp.setDate(firstdayTemp.getDate() + 7)
   ).toLocaleDateString("en-us", {
     year: "numeric",
     month: "short",
