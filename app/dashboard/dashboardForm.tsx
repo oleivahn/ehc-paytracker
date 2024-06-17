@@ -353,7 +353,7 @@ const DashboardForm = () => {
 
       <div className="my-4 w-full rounded-lg bg-white pb-6 pt-4 shadow-lg dark:bg-darker md:mt-6 md:w-[1200px] md:px-6 md:pb-8">
         <div className="mb-4 px-4">
-          <h3 className="mb-2 pt-6 text-xl font-bold text-primary md:pt-4 md:text-2xl">
+          <h3 className="mb-2 pt-6 text-xl font-bold text-primary md:pt-4 md:text-3xl">
             {weeks.thisWeek && weeks.thisWeek.firstday
               ? weeks.thisWeek.firstday.replace(/, 2024/g, "")
               : "Select a week"}{" "}
@@ -362,7 +362,7 @@ const DashboardForm = () => {
               ? weeks.thisWeek.lastday.replace(/, 2024/g, "") + ", 2024"
               : ""}
           </h3>
-          <p>
+          <p className="opacity-30">
             <span className="pr-4">Fidelitone:</span>
             {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
               ? weeks.fidelitoneWeek.firstday.replace(/, 2024/g, "")
@@ -372,7 +372,7 @@ const DashboardForm = () => {
               ? weeks.fidelitoneWeek.lastday.replace(/, 2024/g, "")
               : ""}
           </p>
-          <p>
+          <p className="opacity-30">
             <span className="pr-4">Hub Group:</span>
             {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
               ? weeks.hupGroupWeek.firstday.replace(/, 2024/g, "")
@@ -384,7 +384,9 @@ const DashboardForm = () => {
           </p>
         </div>
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableCaption>
+            Driver: $200 - Helper: $150 - 3rdMan: $135
+          </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="">Name</TableHead>
