@@ -120,9 +120,9 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
   const hupGroupWeek = await getWeek(previousWeek);
   const thisWeek = await getWeek(formData.startDate as string);
 
-  console.log("📗 LOG [ thisWeek ]:", thisWeek);
-  console.log("📗 LOG [ fidelitoneWeek ]:", fidelitoneWeek);
-  console.log("📗 LOG [ hupGroupWeek ]:", hupGroupWeek);
+  // console.log("📗 LOG [ thisWeek ]:", thisWeek);
+  // console.log("📗 LOG [ fidelitoneWeek ]:", fidelitoneWeek);
+  // console.log("📗 LOG [ hupGroupWeek ]:", hupGroupWeek);
 
   try {
     // - Do something here
@@ -136,7 +136,7 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
         $lt: new Date(thisWeek.lastday),
       },
     });
-    console.log("📗 LOG [ shifts ]:", shifts);
+    // console.log("📗 LOG [ shifts ]:", shifts);
 
     // TODO: Add the day property here to each one of the shifts
     const shiftsWithDay = shifts.map((shift) => {
@@ -146,7 +146,6 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
         // location: getParsedLocation(shift.location),
       };
     });
-    console.log("📗 LOG [ shifts ]:", shiftsWithDay);
 
     //  split shifts by name
     const shiftsByUser = shiftsWithDay.reduce((acc, shift) => {
@@ -156,8 +155,6 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       acc[shift.name].push(shift);
       return acc;
     }, {});
-
-    console.log("📗 LOG [ ShiftByUser ]:", shiftsByUser);
 
     interface Shift {
       day: {

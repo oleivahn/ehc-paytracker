@@ -195,6 +195,7 @@ const DashboardForm = () => {
 
     setPending(true);
     const res = await getDataAction(formData);
+    console.log("📗 LOG [ res ]:", res);
 
     // Grab the data coming from the server and format it
     type Shift = {
@@ -217,6 +218,7 @@ const DashboardForm = () => {
         let salary = "";
         let employeeType = "";
         let shifts = (res.data as any)[user].map((shift: any) => {
+          console.log("📗 LOG [ SHIFTY SHIFTY ]:", shift);
           salary = shift.salary;
           employeeType = shift.employeeType;
           return {
@@ -240,6 +242,7 @@ const DashboardForm = () => {
 
     // Reset the form
     form.reset(defaultValues);
+
     setData(result);
     setWeeks(res.weeks);
     // setData(JSON.stringify(result, null, 2));
@@ -346,7 +349,9 @@ const DashboardForm = () => {
           </Form>
         </CardContent>
       </Card>
-      <div className="my-4 w-full rounded-lg bg-white pb-6 pt-4 shadow-lg dark:bg-darker md:mt-6 md:w-[1050px] md:px-6 md:pb-8">
+      {/* TODO: Get the real conditional rendering here */}
+
+      <div className="my-4 w-full rounded-lg bg-white pb-6 pt-4 shadow-lg dark:bg-darker md:mt-6 md:w-[1200px] md:px-6 md:pb-8">
         <div className="mb-4 px-4">
           <h3 className="mb-2 pt-6 text-xl font-bold text-primary md:pt-4 md:text-2xl">
             {weeks.thisWeek && weeks.thisWeek.firstday
@@ -383,13 +388,27 @@ const DashboardForm = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="">Name</TableHead>
-              <TableHead className="">Sunday</TableHead>
-              <TableHead className="">Monday</TableHead>
-              <TableHead className="">Tuesday</TableHead>
-              <TableHead className="">Wednesday</TableHead>
-              <TableHead className="">Thursday</TableHead>
-              <TableHead className="">Friday</TableHead>
-              <TableHead className="">Saturday</TableHead>
+
+              {weeks &&
+                [
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ].map((day, index) => {
+                  const firstDayofWeek =
+                    weeks?.thisWeek?.firstday || "Sunday 1";
+                  const dayNumber = parseInt(firstDayofWeek.split(" ")[1]);
+
+                  return (
+                    <TableHead className="text-nowrap" key={index}>{`${day}, ${
+                      index + dayNumber
+                    }`}</TableHead>
+                  );
+                })}
               <TableHead className="text-right">Total</TableHead>
             </TableRow>
           </TableHeader>
@@ -429,69 +448,6 @@ const DashboardForm = () => {
                   </TableRow>
                 );
               })}
-            {/* <TableRow>
-              <TableCell className="font-medium">Broooks</TableCell>
-              <TableCell></TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell></TableCell>
-              <TableCell className="text-right">${1500}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Yasiel</TableCell>
-              <TableCell></TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell></TableCell>
-              <TableCell className="text-right">${1500}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Leiva</TableCell>
-              <TableCell className="text-center font-bold"></TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell className="text-center font-bold">
-                {"\u00B7"}
-              </TableCell>
-              <TableCell></TableCell>
-              <TableCell className="text-right">${1000}</TableCell>
-            </TableRow> */}
           </TableBody>
           <TableFooter>
             <TableRow>
@@ -510,6 +466,7 @@ const DashboardForm = () => {
           </TableFooter>
         </Table>
       </div>
+
       {data && (
         <div className="mt-8">
           {/* <pre>{JSON.stringify(weeks, null, 2)}</pre>
