@@ -68,11 +68,11 @@ const getParsedLocation = (location: string) => {
 const getShiftCode = (shiftType: string) => {
   let shiftCode = "";
   if (shiftType === "driver") {
-    shiftCode = "(D)";
+    shiftCode = "(Driver)";
   } else if (shiftType === "helper") {
-    shiftCode = "(H)";
+    shiftCode = "(Helper)";
   } else if (shiftType === "thirdMan") {
-    shiftCode = "(T)";
+    shiftCode = "(3rd Man)";
   } else {
     shiftCode = "Unknown";
   }
