@@ -403,7 +403,11 @@ const DashboardForm = () => {
                 ].map((day, index) => {
                   const firstDayofWeek =
                     weeks?.thisWeek?.firstday || "Sunday 1";
-                  const dayNumber = parseInt(firstDayofWeek.split(" ")[1]);
+                  console.log("📗 LOG [ firstDayofWeek ]:", firstDayofWeek);
+
+                  // TODO: Fix the day number (getDate()?)
+                  const dayNumber = new Date(firstDayofWeek).getDate();
+                  console.log("📗 LOG [ dayNumber ]:", dayNumber);
 
                   return (
                     <TableHead className="text-nowrap" key={index}>{`${day}, ${
