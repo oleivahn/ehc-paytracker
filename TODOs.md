@@ -2,6 +2,12 @@
 
 <!-- TODO: -->
 
+- [ ] Agregar un boton para borrar todos los dias
+- [ ] Agregar boton para decir si van out of state
+- [ ] Agregar boton para borrar todos los empleados
+- [ ] Convertir las fechas a un formato mas amigable, 2024-05-26
+- [ ] Convertir los empleados a un formato all lowercase
+
 - [] **Next** Send email - Resend
 
 - [ ] Make it a regular route, I need to learn how to actually make the form work with the api, not actions
