@@ -76,8 +76,6 @@ type User = {
   __v: number;
 };
 
-//
-//
 // - Main Component
 const ContactForm = () => {
   const [pending, setPending] = useState(false);
@@ -129,22 +127,23 @@ const ContactForm = () => {
     setOpenDialog(false);
   };
 
+  const getId = (name: string) => {
+    const user = users.find((user) => user.name === name);
+    return user ? user._id : "";
+  };
+  const getSalary = (name: string) => {
+    const user = users.find((user) => user.name === name);
+    return user ? user.salary : "";
+  };
+  const getEmployeeType = (name: string) => {
+    const user = users.find((user) => user.name === name);
+    return user ? user.employeeType : "";
+  };
+
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
-    const getId = (name: string) => {
-      const user = users.find((user) => user.name === name);
-      return user ? user._id : "";
-    };
-    const getSalary = (name: string) => {
-      const user = users.find((user) => user.name === name);
-      return user ? user.salary : "";
-    };
-    const getEmployeeType = (name: string) => {
-      const user = users.find((user) => user.name === name);
-      return user ? user.employeeType : "";
-    };
-
     console.log("📗 LOG [ values ]:", values);
+    // - Getting the values of the form
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
@@ -215,7 +214,6 @@ const ContactForm = () => {
               className="space-y-6"
             >
               {/* TODO: Move the calendar to the right */}
-              {/* <div className="flex justify-items-end"> */}
               {/* Date */}
               <FormField
                 control={form.control}
@@ -371,6 +369,7 @@ const ContactForm = () => {
                 )}
               />
 
+              {/* Submit Button */}
               <div className="mt-16 flex justify-end">
                 <Button
                   type="submit"
