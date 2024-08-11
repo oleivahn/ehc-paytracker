@@ -16,7 +16,7 @@ export type FormState = {
   error?: boolean | null;
 };
 
-// - Form Action
+// - Add a new shift to MongoDB
 export const contactFormAction = async (data: FormData): Promise<FormState> => {
   console.log("📗 LOG on FormAction [ data ]:", data);
   // await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -116,31 +116,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
   }
 };
 
-export const getUsersAction = async () => {
-  try {
-    // Do something here
-    await connectDB();
-
-    // Get all users and return them
-    const users = await User.find();
-
-    revalidatePath("/contactUs");
-    console.log(green("Record created successfully"));
-    return {
-      message: "Got users successfully!",
-      data: JSON.parse(JSON.stringify(users)),
-    };
-  } catch (error: unknown) {
-    console.log(red("DB Error: Could not create record:"));
-    console.log((error as Error).message);
-    return {
-      message: (error as Error).message,
-      data: {},
-      error: true,
-    };
-  }
-};
-
+// - Update a shift in MongoDB
 export const updateShiftAction = async (data: FormData) => {
   console.log("📗 LOG [ data tp update ]:", data);
   // await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -214,6 +190,32 @@ export const updateShiftAction = async (data: FormData) => {
     return {
       message: (error as Error).message,
       data: formData,
+      error: true,
+    };
+  }
+};
+
+// - Get all users
+export const getUsersAction = async () => {
+  try {
+    // Do something here
+    await connectDB();
+
+    // Get all users and return them
+    const users = await User.find();
+
+    revalidatePath("/contactUs");
+    console.log(green("Record created successfully"));
+    return {
+      message: "Got users successfully!",
+      data: JSON.parse(JSON.stringify(users)),
+    };
+  } catch (error: unknown) {
+    console.log(red("DB Error: Could not create record:"));
+    console.log((error as Error).message);
+    return {
+      message: (error as Error).message,
+      data: {},
       error: true,
     };
   }

@@ -81,6 +81,11 @@
       "file": "components/Form/contactFormAction.ts",
       "description": "## SAVE DATA ON DATABASE\r\n\r\nSend the data to Mongo and then refresh the page on the browser (revalidatePath)\r\n\r\n### **_This finishes the tour..._**",
       "line": 99
+    },
+    {
+      "file": "components/Form/contactFormAction.ts",
+      "description": "## DONT FORGET TO APPLY THE CHANGES TO THE UPDATE METHOD AS WELL\r\n\r\n**This is easy to miss BUT MUST BE DONE**",
+      "line": 144
     }
   ]
 }
