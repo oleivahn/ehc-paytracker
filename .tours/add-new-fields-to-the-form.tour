@@ -1,0 +1,86 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Add new fields to the form",
+  "steps": [
+    {
+      "file": "models/shift.ts",
+      "description": "## MongoDB Model: Add the MongoDb field type to the 'table':\r\nrequired? Optional? Boolean?\r\n\r\n",
+      "line": 30,
+      "selection": {
+        "start": {
+          "line": 5,
+          "character": 1
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      }
+    },
+    {
+      "file": "components/Form/formSchema.ts",
+      "description": "## Define the ZOD validation schema. \r\nThis will be used on the FRONT and BACK end to validate the data. Cannot skip this if using ShadCn Forms",
+      "line": 23,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 1
+        },
+        "end": {
+          "line": 1,
+          "character": 4
+        }
+      }
+    },
+    {
+      "file": "components/Form/Form.tsx",
+      "description": "## Update the default values of the form",
+      "line": 104
+    },
+    {
+      "file": "components/Form/Form.tsx",
+      "description": "## Add the Markup on the form itself, this is why we need the default values.\r\n\r\nIt reads from that to get the actual field value",
+      "line": 340
+    },
+    {
+      "file": "components/Form/Form.tsx",
+      "description": "## On the form submit, append the data to the formData object to send to the backend.\r\n\r\nformData is a MUST when using form actions on NEXT and React 19+. It's a basic HTML feature actually\r\n\r\nGo to next step for more info...",
+      "line": 145
+    },
+    {
+      "file": "components/Form/Form.tsx",
+      "description": "## formData can ONLY send string values so everything MUST be converted to strings and parsed again to their respective values again on the backend.\r\n\r\n### **It is what it is...**\r\n",
+      "line": 164
+    },
+    {
+      "file": "components/Form/Form.tsx",
+      "description": "## Send the data to the backend for validation again.\r\n\r\nShadCn did the front end validation already at this point...\r\nThat's why we use their forms with Zod",
+      "line": 172
+    },
+    {
+      "file": "components/Form/contactFormAction.ts",
+      "description": "## We receive the data here as a FormData type\r\n\r\nThis is not negotiable. It is built in on server actions",
+      "line": 20
+    },
+    {
+      "file": "components/Form/contactFormAction.ts",
+      "description": "## (Backend Validation) Convert FormData to a regular object to validate in Zod\r\n\r\nHere we need to convert that FormData object into a simple JavaScript object in order to validate the correct field types before sending them to Mongo\r\n\r\n**This is VERY ANNOYING**\r\n\r\n",
+      "line": 25
+    },
+    {
+      "file": "components/Form/contactFormAction.ts",
+      "description": "## Backend Validation with Zod\r\n\r\nIf this fails... then the app stops here and nothing happens... \r\nsafeParse is used so the app doesn't break, it will just **return** an object with an error if it fails\r\n---",
+      "line": 48
+    },
+    {
+      "file": "components/Form/contactFormAction.ts",
+      "description": "## Prep ACTUAL data after validation\r\n\r\nIf everything went well...\r\nPrep a correct data object to store it on MONGO\r\n\r\nThis needs to match the **DB Model (shift)** you created on step 1",
+      "line": 88
+    },
+    {
+      "file": "components/Form/contactFormAction.ts",
+      "description": "## SAVE DATA ON DATABASE\r\n\r\nSend the data to Mongo and then refresh the page on the browser (revalidatePath)\r\n\r\n### **_This finishes the tour..._**",
+      "line": 99
+    }
+  ]
+}

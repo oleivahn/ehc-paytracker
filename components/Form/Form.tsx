@@ -17,8 +17,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// - UI Components
-// import { Button } from "../ui/button";
+// ShadCn - Components
 import {
   Card,
   CardContent,
@@ -64,6 +63,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { toast, useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type User = {
   _id: string;
@@ -99,8 +99,10 @@ const ContactForm = () => {
   const defaultValues = {
     name: "",
     shiftDate: new Date(),
+    easyDate: "",
     shiftType: "",
     location: "",
+    outOfState: false,
   };
 
   // - Validation
@@ -143,7 +145,8 @@ const ContactForm = () => {
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     console.log("📗 LOG [ values ]:", values);
-    // - Getting the values of the form
+
+    // - CAN ONLY SEND STRINGS
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("location", values.location);
@@ -154,11 +157,13 @@ const ContactForm = () => {
         month: "short",
         day: "numeric",
       })
-    ); // Convert Date object to string
+    ); // Convert Date object to string (format: "Aug 10, 2024")
+    formData.append("easyDate", values.shiftDate.toISOString().split("T")[0]); // Convert Date object to string (format: "2024-10-29")
     formData.append("salary", getSalary(values.name));
     formData.append("employeeType", getEmployeeType(values.name));
     formData.append("user", getId(values.name));
     formData.append("shiftType", values.shiftType);
+    formData.append("outOfState", JSON.stringify(values.outOfState)); // Convert boolean to string
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -178,6 +183,7 @@ const ContactForm = () => {
     // Reset the form
     form.reset(defaultValues);
     setPending(false);
+
     console.log("📗 [ Client message: ]:", res.message);
     console.log("📗 [ Data Submitted ]:", res.data);
     if (res.error) {
@@ -187,7 +193,7 @@ const ContactForm = () => {
       toast({
         variant: "success",
         title: "Success",
-        description: "Your message has been sent!",
+        description: "Success!",
         action: <ToastAction altText="Try again">Success</ToastAction>,
       });
     }
@@ -302,7 +308,7 @@ const ContactForm = () => {
                 name="shiftType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Work Type</FormLabel>
+                    <FormLabel>Shift Type</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -328,6 +334,21 @@ const ContactForm = () => {
                       You can manage email addresses in your{" "}
                       <Link href="/examples/forms">email settings</Link>.
                     </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Out of state */}
+              <FormField
+                control={form.control}
+                name="outOfState"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="mr-3">Out of State</FormLabel>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                     <FormMessage />
                   </FormItem>
                 )}

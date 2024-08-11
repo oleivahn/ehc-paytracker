@@ -68,15 +68,25 @@ const getParsedLocation = (location: string) => {
 const getShiftCode = (shiftType: string) => {
   let shiftCode = "";
   if (shiftType === "driver") {
-    shiftCode = "(Driver)";
+    shiftCode = "Driver";
   } else if (shiftType === "helper") {
-    shiftCode = "(Helper)";
+    shiftCode = "Ayudante";
   } else if (shiftType === "thirdMan") {
-    shiftCode = "(3rd Man)";
+    shiftCode = "3rd Man";
   } else {
     shiftCode = "Unknown";
   }
   return shiftCode;
+};
+
+const isOutOfState = (outOfState: boolean) => {
+  let isOutOfState = "";
+  if (outOfState === true) {
+    isOutOfState = " + OOS";
+  } else {
+    isOutOfState = "";
+  }
+  return isOutOfState;
 };
 
 const getTotalforEmployee = (employee: any) => {
@@ -87,13 +97,25 @@ const getTotalforEmployee = (employee: any) => {
     employee.shifts.forEach((shift: any) => {
       switch (shift.shiftType) {
         case "driver":
-          total += 200;
+          if (shift.outOfState === true) {
+            total += 250;
+          } else {
+            total += 200;
+          }
           break;
         case "helper":
-          total += 150;
+          if (shift.outOfState === true) {
+            total += 200;
+          } else {
+            total += 150;
+          }
           break;
         case "thirdMan":
-          total += 135;
+          if (shift.outOfState === true) {
+            total += 165;
+          } else {
+            total += 135;
+          }
           break;
         default:
           total += 0;
@@ -134,6 +156,7 @@ const DashboardForm = () => {
   const getData = async () => {
     const res = await getShiftsAction();
     console.log("📗 [ getShiftsAction ]:", res);
+    console.log("📗 [ shiftsInfo ]:", res.data);
     setData(Array.isArray(res.data) ? res.data : []);
   };
 
@@ -177,7 +200,7 @@ const DashboardForm = () => {
   }, []);
 
   const defaultValues = {
-    shiftDate: undefined,
+    shiftDate: new Date(),
   };
 
   // Validation
@@ -226,6 +249,7 @@ const DashboardForm = () => {
             dayIndex: shift.day.index,
             location: shift.location,
             shiftType: shift.shiftType,
+            outOfState: shift.outOfState,
           };
         });
 
@@ -288,7 +312,7 @@ const DashboardForm = () => {
                 name="shiftDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Start Date</FormLabel>
+                    <FormLabel>Select Week</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -387,6 +411,9 @@ const DashboardForm = () => {
             <p className="mt-2 opacity-30">
               Driver: $200 - Helper: $150 - 3rdMan: $135
             </p>
+            <p className="mt-2 opacity-30">
+              Out of State Driver: $250 - Helper: $200 - 3rdMan: $165
+            </p>
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -436,17 +463,35 @@ const DashboardForm = () => {
                       "Friday",
                       "Saturday",
                     ].map((day, index) => {
-                      // console.log("📗 LOG!!! [ day ]:", day);
+                      console.log("📗 LOG!!! [ day ]:", day);
                       const shift = data.shifts.find(
                         (shift: any) => shift.day === day
                       );
                       return (
                         <TableCell key={index}>
-                          {shift
-                            ? `${getParsedLocation(
-                                shift.location
-                              )} ${getShiftCode(shift.shiftType)} `
-                            : ""}
+                          <div>
+                            <span
+                              className={
+                                shift
+                                  ? `${
+                                      shift.location === "fidelitone" &&
+                                      "text-[#ffbb52]"
+                                    }`
+                                  : ""
+                              }
+                            >
+                              {shift
+                                ? `${getParsedLocation(shift.location)}`
+                                : ""}
+                            </span>
+                          </div>
+                          <span className="text-[#2db0ff]">
+                            {shift
+                              ? `${getShiftCode(
+                                  shift.shiftType
+                                )} ${isOutOfState(shift.outOfState)}`
+                              : ""}
+                          </span>
                         </TableCell>
                       );
                     })}

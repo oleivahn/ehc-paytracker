@@ -146,6 +146,7 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
         // location: getParsedLocation(shift.location),
       };
     });
+    console.log("📗 LOG [ shiftsWithDay ]:", shiftsWithDay);
 
     //  split shifts by name
     const shiftsByUser = shiftsWithDay.reduce((acc, shift) => {
@@ -155,6 +156,8 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       acc[shift.name].push(shift);
       return acc;
     }, {});
+
+    console.log("📗 LOG [ shiftsByUser ]:", shiftsByUser);
 
     interface Shift {
       day: {

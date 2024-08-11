@@ -1,9 +1,11 @@
 {
   "workbench.editor.customLabels.enabled": true,
   "workbench.editor.customLabels.patterns": {
-    "app/contactUs/page.tsx": "ContactUs Page",
-    "app/page.tsx": "Home Page",
-    "app/api/test/route.ts": "Test Route",
-    "app/api/(auth)/users/route.ts": "Auth Route"
+    "*/app/contactUs/page.tsx": "ContactUs Page",
+    "*/app/api/test/route.ts": "Test Route",
+    "*/app/api/(auth)/users/route.ts": "Auth Route",
+    "*/app/page.tsx": "Home Page",
+    "*/app/new_day/page.tsx": "NewDay Page",
+    "*/app/dashboard/page.tsx": "Dashboard Page"
   }
 }

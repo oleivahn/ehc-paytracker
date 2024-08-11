@@ -18,13 +18,23 @@ export type FormState = {
 
 // - Form Action
 export const contactFormAction = async (data: FormData): Promise<FormState> => {
-  console.log("📗 LOG [ data ]:", data);
+  console.log("📗 LOG on FormAction [ data ]:", data);
   // await new Promise((resolve) => setTimeout(resolve, 2000));
-  const formData = Object.fromEntries(data);
-  console.log("📗 LOG [ formData ]:", formData);
+
+  // Convert FormData to a regular object
+  const formData: { [key: string]: any } = {};
+  data.forEach((value, key) => (formData[key] = value));
+
+  formData.outOfState = formData.outOfState === "true" ? true : false;
+  console.log("📗 LOG [ formData2 ]:", formData);
+
+  // ! DO NOT USE Object.fromEntries(data) as it will not work with FormData, can't update the object
+  // const formData = Object.fromEntries(data);
+  // console.log("Object?", typeof formData);
+  // console.log("📗 LOG on FormAction [ formData ]:", formData);
 
   const userId = formData.user as string;
-  console.log("📗 LOG [ userId ]:", userId);
+  console.log("📗 LOG on FormAction [ userId ]:", userId);
 
   // if (!userId || !Types.ObjectId.isValid(userId)) {
   if (!userId) {
@@ -34,6 +44,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     };
   }
 
+  // Parse the form data on the server to avoid any client side manipulation
   const parsed = schema.safeParse(formData);
 
   if (!parsed.success) {
@@ -44,7 +55,6 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
   }
 
   try {
-    // Do something here
     await connectDB();
 
     // Check if shift exists
@@ -78,15 +88,18 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     const newShift = new Shift({
       name: formData.name as string,
       shiftDate: formData.shiftDate as string,
+      easyDate: formData.easyDate as string,
       location: formData.location as string,
       user: new Types.ObjectId(userId),
       salary: formData.salary as string,
       employeeType: formData.employeeType as string,
       shiftType: formData.shiftType as string,
+      outOfState: formData.outOfState as boolean,
     });
-    await newShift.save();
 
+    await newShift.save();
     revalidatePath("/contactUs");
+
     console.log(green("Record created successfully"));
     return {
       message: "Form Action Success!",
@@ -131,8 +144,12 @@ export const getUsersAction = async () => {
 export const updateShiftAction = async (data: FormData) => {
   console.log("📗 LOG [ data tp update ]:", data);
   // await new Promise((resolve) => setTimeout(resolve, 2000));
-  const formData = Object.fromEntries(data);
-  console.log("📗 LOG [ formData to update ]:", formData);
+
+  // Convert FormData to a regular object
+  const formData: { [key: string]: any } = {};
+  data.forEach((value, key) => (formData[key] = value));
+
+  formData.outOfState = formData.outOfState === "true" ? true : false;
 
   // Check if shift exists
   const shiftExists = await Shift.exists({
@@ -149,6 +166,7 @@ export const updateShiftAction = async (data: FormData) => {
   }
 
   const parsed = schema.safeParse(formData);
+  console.log("📗 LOG [ parsed ]:", parsed);
 
   if (!parsed.success) {
     return {
@@ -170,11 +188,13 @@ export const updateShiftAction = async (data: FormData) => {
       {
         name: formData.name as string,
         shiftDate: formData.shiftDate as string,
+        easyDate: formData.easyDate as string,
         location: formData.location as string,
         // user: new mongoose.Types.ObjectId(userId),
         salary: formData.salary as string,
         employeeType: formData.employeeType as string,
         shiftType: formData.shiftType as string,
+        outOfState: formData.outOfState as string,
       },
       {
         new: true,
@@ -186,7 +206,7 @@ export const updateShiftAction = async (data: FormData) => {
     console.log(green("Record updated successfully"));
     return {
       message: "Form Action Success!",
-      data: formData,
+      data: parsed.data,
     };
   } catch (error: unknown) {
     console.log(red("DB Error: Could not update record:"));

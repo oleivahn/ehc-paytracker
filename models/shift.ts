@@ -11,6 +11,10 @@ const ShiftSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  easyDate: {
+    type: String,
+    required: true,
+  },
   location: {
     type: String,
     required: true,
@@ -26,6 +30,10 @@ const ShiftSchema = new Schema({
   employeeType: {
     type: String,
     required: true,
+  },
+  outOfState: {
+    type: Boolean,
+    default: false,
   },
   user: [
     {

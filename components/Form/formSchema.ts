@@ -20,4 +20,6 @@ export const schema = z.object({
   shiftType: z.string().min(2, {
     message: "Shift must be filled",
   }),
+  easyDate: z.string().optional(),
+  outOfState: z.boolean().optional(),
 });
