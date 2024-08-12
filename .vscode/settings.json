@@ -1,4 +1,28 @@
 {
+  "workbench.colorCustomizations": {
+    "statusBar.foreground": "#dadada",
+    "window.activeBorder": "#a5a5a5",
+    "window.inactiveBorder": "#ff0000",
+    "statusBar.debuggingBackground": "#ad1c1ce3",
+    "statusBar.debuggingForeground": "#dadada",
+    "statusBar.debuggingBorder": "#791c1ce3",
+    "statusBar.noFolderBackground": "#0073a8fb",
+    "statusBar.background": "#0073a8fb",
+    "statusBar.noFolderBorder": "#1ed6ff09",
+    "statusBar.noFolderForeground": "#e4e4e4",
+    "button.background": "#b03db4",
+    "debugConsole.infoForeground": "#dadada",
+    "diffEditor.removedTextBackground": "#d6060677",
+    "diffEditor.insertedTextBackground": "#04921750",
+    "tab.activeBorder": "#f8832f",
+    "tab.activeBackground": "#01294d",
+    // Desc: The background of the sidebar where the icons are
+    // "activityBar.background": "#16191d"
+    // Desc: Top bar colors
+    "titleBar.activeBackground": "#0d417c",
+    "titleBar.activeForeground": "#faf7fc"
+    // "titleBar.inactiveBackground": "#8b3313",
+  },
   "workbench.editor.customLabels.enabled": true,
   "workbench.editor.customLabels.patterns": {
     "*/app/contactUs/page.tsx": "ContactUs Page",
