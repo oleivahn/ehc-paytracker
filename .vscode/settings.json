@@ -13,7 +13,7 @@
     "button.background": "#b03db4",
     "debugConsole.infoForeground": "#dadada",
     "diffEditor.removedTextBackground": "#d6060677",
-    "diffEditor.insertedTextBackground": "#04921750",
+    // "diffEditor.insertedTextBackground": "#04921750",
     "tab.activeBorder": "#f8832f",
     "tab.activeBackground": "#01294d",
     // Desc: The background of the sidebar where the icons are
