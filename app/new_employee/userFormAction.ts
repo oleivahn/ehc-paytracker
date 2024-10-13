@@ -1,6 +1,6 @@
 "use server";
 
-import { schema } from "@/components/Form_Users/userFormSchema";
+import { schema } from "@/app/new_employee/userFormSchema";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
 

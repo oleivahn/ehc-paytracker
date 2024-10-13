@@ -61,8 +61,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
             disableTransitionOnChange
           >
             <div className="relative flex min-h-screen flex-col">
+              {/* //*Navbar */}
               <Navbar />
 
+              {/* //*Content */}
               <div className="min-h-screen bg-darker pb-10 dark:bg-background">
                 {children}
               </div>
