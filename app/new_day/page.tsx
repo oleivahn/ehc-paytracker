@@ -77,7 +77,7 @@ type User = {
 };
 
 // - Main Component
-const ContactUs = () => {
+const NewDay = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
@@ -435,4 +435,4 @@ const ContactUs = () => {
   );
 };
 
-export default ContactUs;
+export default NewDay;

@@ -196,7 +196,7 @@ const DashboardForm = () => {
     console.log(firstday);
     console.log(lastday);
 
-    getData();
+    // getData();
   }, []);
 
   const defaultValues = {
@@ -218,7 +218,7 @@ const DashboardForm = () => {
 
     setPending(true);
     const res = await getDataAction(formData);
-    console.log("📗 LOG [ res ]:", res);
+    console.log("📗 LOG [ res ] AFTER getDataAction:", res);
 
     // Grab the data coming from the server and format it
     type Shift = {
@@ -237,6 +237,7 @@ const DashboardForm = () => {
     let result: UserShifts[] = [];
 
     if (res.data) {
+      console.log("📗 LOG [ res.data ] BEFORE SHIFTS LOOP:", res.data);
       for (let user in res.data as Object) {
         let salary = "";
         let employeeType = "";

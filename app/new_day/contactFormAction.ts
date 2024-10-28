@@ -98,7 +98,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     });
 
     await newShift.save();
-    revalidatePath("/contactUs");
+    revalidatePath("/NewDay");
 
     console.log(green("Record created successfully"));
     return {
@@ -178,7 +178,7 @@ export const updateShiftAction = async (data: FormData) => {
     );
     console.log("📗 LOG [ updatedShift ]:", updatedShift);
 
-    revalidatePath("/contactUs");
+    revalidatePath("/NewDay");
     console.log(green("Record updated successfully"));
     return {
       message: "Form Action Success!",
@@ -198,20 +198,21 @@ export const updateShiftAction = async (data: FormData) => {
 // - Get all users
 export const getUsersAction = async () => {
   try {
-    // Do something here
     await connectDB();
 
     // Get all users and return them
     const users = await User.find();
 
-    revalidatePath("/contactUs");
-    console.log(green("Record created successfully"));
+    revalidatePath("/NewDay");
+    console.log(green("Users fetched successfully"));
+    console.log("📗 LOG [ users ]:", users);
+
     return {
       message: "Got users successfully!",
       data: JSON.parse(JSON.stringify(users)),
     };
   } catch (error: unknown) {
-    console.log(red("DB Error: Could not create record:"));
+    console.log(red("DB Error: Could not retrieve user records:"));
     console.log((error as Error).message);
     return {
       message: (error as Error).message,

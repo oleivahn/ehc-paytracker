@@ -5,6 +5,14 @@ import { date } from "zod";
 const UserSchema = new Schema({
   name: {
     type: String,
+    // required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
     required: true,
   },
   startDate: {
@@ -13,16 +21,16 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
     // unique: true,
   },
   salary: {
     type: String,
-    required: true,
+    // required: true,
   },
   employeeType: {
     type: String,
-    required: true,
+    // required: true,
   },
   // shifts: [
   //   {

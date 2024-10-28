@@ -90,7 +90,7 @@ export const getShiftsAction = async (): Promise<FormState> => {
   try {
     await connectDB();
 
-    revalidatePath("/contactUs");
+    revalidatePath("/NewDay");
     console.log(green("Record created successfully"));
     return {
       message: "Got users successfully!",
@@ -165,7 +165,7 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       };
     }
 
-    revalidatePath("/contactUs");
+    revalidatePath("/NewDay");
     console.log(green("Record created successfully"));
 
     return {

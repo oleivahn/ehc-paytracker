@@ -55,16 +55,18 @@ import { ToastAction } from "@/components/ui/toast";
 //
 //
 // - Main Component
-const Testimonies = () => {
+const NewEmployee = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const { toast } = useToast();
   const ref = React.useRef<HTMLFormElement>(null);
 
+  // Update defaultValues
   const defaultValues = {
+    firstName: "",
+    lastName: "",
     name: "",
     startDate: undefined,
-    // shiftDate: undefined,
     email: "",
     salary: "",
     employeeType: "",
@@ -79,11 +81,13 @@ const Testimonies = () => {
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     const formData = new FormData();
-    formData.append("name", values.name);
+    formData.append("firstName", values.firstName);
+    formData.append("lastName", values.lastName);
+    // formData.append("name", values.name);
     formData.append("startDate", values.startDate.toLocaleString()); // Convert Date object to string
     formData.append("email", values.email);
-    formData.append("employeeType", values.employeeType);
-    formData.append("salary", values.salary.toString()); // Convert number to string
+    // formData.append("employeeType", values.employeeType);
+    // formData.append("salary", values.salary.toString()); // Convert number to string
 
     console.log("🚧 LOG [ formData ]:", formData);
 
@@ -175,8 +179,40 @@ const Testimonies = () => {
                 )}
               />
               {/* </div> */}
-              {/* Name */}
+              {/* First Name */}
               <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter first name" {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Last Name */}
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter last name" {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Name */}
+              {/* <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
@@ -189,9 +225,10 @@ const Testimonies = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
+
               {/* Employee type */}
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="employeeType"
                 render={({ field }) => (
@@ -209,7 +246,6 @@ const Testimonies = () => {
                           ) : (
                             "Select an employee type"
                           )}
-                          {/* <SelectValue placeholder="Select a warehouse" /> */}
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -225,9 +261,10 @@ const Testimonies = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
+
               {/* salary */}
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="salary"
                 render={({ field }) => (
@@ -240,7 +277,7 @@ const Testimonies = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               {/* Email */}
               <FormField
                 control={form.control}
@@ -283,4 +320,4 @@ const Testimonies = () => {
   );
 };
 
-export default Testimonies;
+export default NewEmployee;

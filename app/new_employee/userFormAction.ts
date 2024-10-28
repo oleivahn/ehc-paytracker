@@ -18,6 +18,7 @@ export type FormState = {
 export const contactFormAction = async (data: FormData): Promise<FormState> => {
   // await new Promise((resolve) => setTimeout(resolve, 2000));
   const formData = Object.fromEntries(data);
+  console.log("📗 LOG [ Creating new user with formData ]:", formData);
   const parsed = schema.safeParse(formData);
 
   if (!parsed.success) {
