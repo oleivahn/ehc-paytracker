@@ -295,7 +295,7 @@ const DashboardForm = () => {
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
         <CardHeader className="mb-4">
           <CardTitle className="text-3xl font-bold text-primary md:text-4xl">
-            Select a week to view a report
+            Select a week to view a report!
           </CardTitle>
         </CardHeader>
         <CardContent>
