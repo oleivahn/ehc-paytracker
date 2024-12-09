@@ -386,10 +386,30 @@ const DashboardForm = () => {
               ? weeks.thisWeek.lastday.replace(/, 2024/g, "") + ", 2024"
               : ""}
           </h3>
+          <p className="opacity-30">
+            <span className="pr-4">Fidelitone: </span>
+            {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
+              ? weeks.fidelitoneWeek.firstday.replace(/, 2024/g, "")
+              : ""}{" "}
+            -{" "}
+            {weeks.thisWeek && weeks.thisWeek.lastday
+              ? weeks.fidelitoneWeek.lastday.replace(/, 2024/g, "")
+              : ""}
+          </p>
+          <p className="opacity-30">
+            <span className="pr-4">Hub Group:</span>
+            {weeks.hupGroupWeek && weeks.hupGroupWeek.firstday
+              ? weeks.hupGroupWeek.firstday.replace(/, 2024/g, "")
+              : ""}{" "}
+            -{" "}
+            {weeks.hupGroupWeek && weeks.hupGroupWeek.lastday
+              ? weeks.hupGroupWeek.lastday.replace(/, 2024/g, "")
+              : ""}
+          </p>
         </div>
         <Table>
           <TableCaption>
-            <p className="opacity-30">
+            {/* <p className="opacity-30">
               <span className="pr-4">Fidelitone: </span>
               {weeks.fidelitoneWeek && weeks.fidelitoneWeek.firstday
                 ? weeks.fidelitoneWeek.firstday.replace(/, 2024/g, "")
@@ -408,7 +428,7 @@ const DashboardForm = () => {
               {weeks.hupGroupWeek && weeks.hupGroupWeek.lastday
                 ? weeks.hupGroupWeek.lastday.replace(/, 2024/g, "")
                 : ""}
-            </p>
+            </p> */}
             <p className="mt-2 opacity-30">
               Driver: $200 - Helper: $150 - 3rdMan: $135
             </p>
