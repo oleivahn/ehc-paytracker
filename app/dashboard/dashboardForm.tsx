@@ -318,31 +318,132 @@ const DashboardForm = () => {
 
     setPending(true);
     const res = await getYearlyDataAction(formData);
-
-    // Type assertion to ensure res.data matches YearlyData[]
-    setYearlyData(res.data as YearlyData[]);
-
-    // Grab the data coming from the server and format it
-    type Shift = {
-      day: string;
-      dayIndex: number;
-      location: string;
-    };
-
-    type UserShifts = {
-      user: string;
-      salary: string;
-      employeeType: string;
-      shifts: Shift[];
-    };
-
-    let result: UserShifts[] = [];
+    console.log("Raw response data:", res.data);
 
     if (res.data) {
-      console.log("📗 UI LOG [ res.data ] BEFORE SHIFTS LOOP:", res.data);
+      const processedData = res.data.map((employee: any) => {
+        let totalEarnings = 0;
+        let shiftCounts = {
+          driver: {
+            regular: 0,
+            outOfState: 0,
+            total: 0,
+          },
+          helper: {
+            regular: 0,
+            outOfState: 0,
+            total: 0,
+          },
+          thirdMan: {
+            regular: 0,
+            outOfState: 0,
+            total: 0,
+          },
+        };
+
+        // Array to store detailed shift information
+        let detailedShifts: Array<{
+          date: string;
+          shiftType: string;
+          location: string;
+          outOfState: boolean;
+          earnings: number;
+        }> = [];
+
+        if (!employee || !employee.shiftTypes) {
+          console.error("Invalid employee data:", employee);
+          return {
+            name: employee?.name || "Unknown",
+            totalShifts: 0,
+            shiftCounts,
+            totalEarnings: 0,
+            detailedShifts: [],
+          };
+        }
+
+        if (employee.name !== "Jose Furet") {
+          // Loop through each shift type group
+          employee.shiftTypes.forEach((shiftTypeGroup: any) => {
+            // Loop through individual shifts within the group
+            shiftTypeGroup.shifts.forEach((shift: any) => {
+              const shiftType = shift.shiftType as keyof typeof shiftCounts;
+              let shiftEarnings = 0;
+
+              // Increment appropriate counters
+              if (shift.outOfState) {
+                shiftCounts[shiftType].outOfState++;
+              } else {
+                shiftCounts[shiftType].regular++;
+              }
+              shiftCounts[shiftType].total++;
+
+              // Calculate earnings
+              switch (shiftType) {
+                case "driver":
+                  shiftEarnings = shift.outOfState ? 250 : 200;
+                  break;
+                case "helper":
+                  shiftEarnings = shift.outOfState ? 200 : 150;
+                  break;
+                case "thirdMan":
+                  shiftEarnings = shift.outOfState ? 165 : 135;
+                  break;
+              }
+
+              totalEarnings += shiftEarnings;
+
+              // Add to detailed shifts array
+              detailedShifts.push({
+                date: new Date(shift.shiftDate).toLocaleDateString(),
+                shiftType: shift.shiftType,
+                location: shift.location,
+                outOfState: shift.outOfState,
+                earnings: shiftEarnings,
+              });
+            });
+          });
+        } else {
+          // Special case for Jose Furet - $700 per shift
+          totalEarnings = employee.totalShifts * 700;
+
+          // For Jose, we'll use the shiftType counts from the groups
+          employee.shiftTypes.forEach((shiftTypeGroup: any) => {
+            const shiftType = shiftTypeGroup.type as keyof typeof shiftCounts;
+            shiftCounts[shiftType].total = shiftTypeGroup.count;
+            shiftCounts[shiftType].regular = shiftTypeGroup.count;
+
+            // Add detailed shifts for Jose
+            shiftTypeGroup.shifts.forEach((shift: any) => {
+              detailedShifts.push({
+                date: new Date(shift.shiftDate).toLocaleDateString(),
+                shiftType: shift.shiftType,
+                location: shift.location,
+                outOfState: shift.outOfState,
+                earnings: 700,
+              });
+            });
+          });
+        }
+
+        // Sort detailed shifts by date
+        detailedShifts.sort(
+          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        return {
+          name: employee.name,
+          totalShifts: employee.totalShifts,
+          shiftCounts,
+          totalEarnings: totalEarnings,
+          detailedShifts,
+        };
+      });
+
+      console.log("Processed yearly totals:", processedData);
+      setYearlyData(processedData);
     }
 
-    // console.log(result);
+    setPending(false);
   };
 
   // - Markup
