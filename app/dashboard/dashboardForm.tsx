@@ -595,28 +595,22 @@ const DashboardForm = () => {
           <TableHeader>
             <TableRow>
               <TableHead className="">Name</TableHead>
-              {weeks &&
-                [
-                  "Sunday",
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                ].map((day, index) => {
-                  const firstDayofWeek =
-                    weeks?.thisWeek?.firstday || "Sunday 1";
-                  console.log("📗 LOG [ firstDayofWeek ]:", firstDayofWeek);
+              {weeks?.thisWeek?.firstday &&
+                [0, 1, 2, 3, 4, 5, 6].map((dayOffset) => {
+                  // Create a new Date object from the first day of the week
+                  const firstDate = new Date(weeks.thisWeek.firstday);
+                  const currentDate = new Date(firstDate);
+                  currentDate.setDate(firstDate.getDate() + dayOffset);
 
-                  // TODO: Fix the day number (getDate()?)
-                  const dayNumber = new Date(firstDayofWeek).getDate();
-                  console.log("📗 LOG [ dayNumber ]:", dayNumber);
+                  const dayName = currentDate.toLocaleDateString("en-US", {
+                    weekday: "long",
+                  });
+                  const dayNumber = currentDate.getDate();
 
                   return (
-                    <TableHead className="text-nowrap" key={index}>{`${day}, ${
-                      index + dayNumber
-                    }`}</TableHead>
+                    <TableHead className="text-nowrap" key={dayOffset}>
+                      {`${dayName}, ${dayNumber}`}
+                    </TableHead>
                   );
                 })}
               <TableHead className="text-right">Total</TableHead>
