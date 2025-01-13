@@ -461,10 +461,20 @@ const DashboardForm = () => {
       {yearlyData && yearlyData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
           <CardHeader>
-            <CardTitle>2024 Yearly Totals</CardTitle>
+            <CardTitle>2024 Yearly Totals - May 24, 2024 and up</CardTitle>
           </CardHeader>
           <CardContent>
-            <pre>{JSON.stringify(yearlyData, null, 2)}</pre>
+            <pre>
+              {JSON.stringify(
+                yearlyData.map((employee) => ({
+                  name: employee.name,
+                  totalShifts: employee.totalShifts,
+                  totalEarnings: employee.totalEarnings,
+                })),
+                null,
+                2
+              )}
+            </pre>
             {/* <Table>
               <TableHeader>
                 <TableRow>
