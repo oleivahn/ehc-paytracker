@@ -189,3 +189,44 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
     };
   }
 };
+
+export async function getYearlyDataAction(formData: FormData) {
+  try {
+    const year = formData.get("year");
+    await connectDB();
+    console.log("📗 LOG [ connectDB ]:", connectDB);
+
+    // Create date range for 2024
+    const startDate = new Date(2024, 0, 1); // January 1, 2024
+    const endDate = new Date(2024, 11, 31); // December 31, 2024
+
+    // Get all shifts within 2024
+    const shifts = await Shift.find({
+      shiftDate: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    });
+
+    console.log("📗 LOG [ shifts ]:", shifts);
+
+    // Add day information to shifts
+    const shiftsWithDay = shifts.map((shift) => ({
+      ...shift._doc,
+      day: getDayOfTheWeek(shift.shiftDate),
+    }));
+
+    return {
+      data: JSON.parse(JSON.stringify(shifts)),
+      message: "Successfully fetched shifts for 2024",
+    };
+  } catch (error) {
+    console.log(red("Error fetching yearly data:"));
+    console.log((error as Error).message);
+    return {
+      data: [],
+      message: "Failed to fetch yearly data",
+      error: true,
+    };
+  }
+}

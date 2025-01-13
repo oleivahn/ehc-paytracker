@@ -7,7 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { schema } from "./dashboardValidationSchema";
-import { getDataAction, getShiftsAction } from "./getDataAction";
+import {
+  getDataAction,
+  getShiftsAction,
+  getYearlyDataAction,
+} from "./getDataAction";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -142,6 +146,23 @@ const getTotalforEmployee = (employee: any) => {
   return total;
 };
 
+const getYearlyTotal = (employee: any) => {
+  return getTotalforEmployee(employee);
+};
+
+interface YearlyData {
+  name: string;
+  totalShifts: number;
+  totalHours: number;
+  totalEarnings: number;
+  shifts: Array<{
+    shiftDate: Date;
+    hours: number;
+    earnings: number;
+    location: string;
+  }>;
+}
+
 //
 //
 // - Main -
@@ -152,6 +173,7 @@ const DashboardForm = () => {
   const [data, setData] = useState<any>([]);
   const [weeks, setWeeks] = useState<any>([]);
   const ref = React.useRef<HTMLFormElement>(null);
+  const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
 
   const getData = async () => {
     const res = await getShiftsAction();
@@ -290,9 +312,108 @@ const DashboardForm = () => {
     }
   };
 
+  const handleYearlyReport = async () => {
+    const formData = new FormData();
+    formData.append("year", "2024");
+
+    setPending(true);
+    const res = await getYearlyDataAction(formData);
+
+    // Type assertion to ensure res.data matches YearlyData[]
+    setYearlyData(res.data as YearlyData[]);
+
+    // Grab the data coming from the server and format it
+    type Shift = {
+      day: string;
+      dayIndex: number;
+      location: string;
+    };
+
+    type UserShifts = {
+      user: string;
+      salary: string;
+      employeeType: string;
+      shifts: Shift[];
+    };
+
+    let result: UserShifts[] = [];
+
+    if (res.data) {
+      console.log("📗 UI LOG [ res.data ] BEFORE SHIFTS LOOP:", res.data);
+    }
+
+    // console.log(result);
+  };
+
   // - Markup
   return (
     <div className="mt-10 flex flex-col items-center md:px-4">
+      <Button
+        onClick={handleYearlyReport}
+        className="mb-6 w-full md:w-[650px]"
+        variant="outline"
+        disabled={pending}
+      >
+        Generate 2024 Yearly Report
+      </Button>
+
+      {yearlyData && yearlyData.length > 0 && (
+        <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
+          <CardHeader>
+            <CardTitle>2024 Yearly Totals</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <pre>{JSON.stringify(yearlyData, null, 2)}</pre>
+            {/* <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Employee</TableHead>
+                  <TableHead className="text-right">Total Shifts</TableHead>
+                  <TableHead className="text-right">Total Hours</TableHead>
+                  <TableHead className="text-right">Total Earnings</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {yearlyData.map((employee) => (
+                  <TableRow key={employee.name}>
+                    <TableCell>{employee.name}</TableCell>
+                    <TableCell className="text-right">
+                      {employee.totalShifts}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {employee.totalHours}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      ${employee.totalEarnings.toFixed(2)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell>Total</TableCell>
+                  <TableCell className="text-right">
+                    {yearlyData.reduce(
+                      (acc, curr) => acc + curr.totalShifts,
+                      0
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {yearlyData.reduce((acc, curr) => acc + curr.totalHours, 0)}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    $
+                    {yearlyData
+                      .reduce((acc, curr) => acc + curr.totalEarnings, 0)
+                      .toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table> */}
+          </CardContent>
+        </Card>
+      )}
+
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
         <CardHeader className="mb-4">
           <CardTitle className="text-3xl font-bold text-primary md:text-4xl">
