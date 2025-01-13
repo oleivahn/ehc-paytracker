@@ -449,82 +449,6 @@ const DashboardForm = () => {
   // - Markup
   return (
     <div className="mt-10 flex flex-col items-center md:px-4">
-      <Button
-        onClick={handleYearlyReport}
-        className="mb-6 w-full md:w-[650px]"
-        variant="outline"
-        disabled={pending}
-      >
-        Generate 2024 Yearly Report
-      </Button>
-
-      {yearlyData && yearlyData.length > 0 && (
-        <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
-          <CardHeader>
-            <CardTitle>2024 Yearly Totals - May 24, 2024 and up</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <pre>
-              {JSON.stringify(
-                yearlyData.map((employee) => ({
-                  name: employee.name,
-                  totalShifts: employee.totalShifts,
-                  totalEarnings: employee.totalEarnings,
-                })),
-                null,
-                2
-              )}
-            </pre>
-            {/* <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Employee</TableHead>
-                  <TableHead className="text-right">Total Shifts</TableHead>
-                  <TableHead className="text-right">Total Hours</TableHead>
-                  <TableHead className="text-right">Total Earnings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {yearlyData.map((employee) => (
-                  <TableRow key={employee.name}>
-                    <TableCell>{employee.name}</TableCell>
-                    <TableCell className="text-right">
-                      {employee.totalShifts}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {employee.totalHours}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      ${employee.totalEarnings.toFixed(2)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell>Total</TableCell>
-                  <TableCell className="text-right">
-                    {yearlyData.reduce(
-                      (acc, curr) => acc + curr.totalShifts,
-                      0
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {yearlyData.reduce((acc, curr) => acc + curr.totalHours, 0)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    $
-                    {yearlyData
-                      .reduce((acc, curr) => acc + curr.totalEarnings, 0)
-                      .toFixed(2)}
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table> */}
-          </CardContent>
-        </Card>
-      )}
-
       <Card className="w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
         <CardHeader className="mb-4">
           <CardTitle className="text-3xl font-bold text-primary md:text-4xl">
@@ -771,11 +695,33 @@ const DashboardForm = () => {
         </Table>
       </div>
 
-      {data && (
-        <div className="mt-8">
-          {/* <pre>{JSON.stringify(weeks, null, 2)}</pre>
-          <pre>{JSON.stringify(data, null, 2)}</pre> */}
-        </div>
+      <Button
+        onClick={handleYearlyReport}
+        className="mb-6 w-full md:w-[650px]"
+        disabled={pending}
+      >
+        Generate 2024 Yearly Report
+      </Button>
+
+      {yearlyData && yearlyData.length > 0 && (
+        <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
+          <CardHeader>
+            <CardTitle>2024 Yearly Totals - May 24, 2024 and up</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <pre>
+              {JSON.stringify(
+                yearlyData.map((employee) => ({
+                  name: employee.name,
+                  totalShifts: employee.totalShifts,
+                  totalEarnings: employee.totalEarnings,
+                })),
+                null,
+                2
+              )}
+            </pre>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
