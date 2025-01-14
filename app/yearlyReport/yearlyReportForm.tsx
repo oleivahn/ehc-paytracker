@@ -167,7 +167,6 @@ export const YearlyReportForm = () => {
       <Button
         onClick={handleYearlyReport}
         className="mb-6 w-full md:w-[650px]"
-        variant="outline"
         disabled={pending}
       >
         Generate 2024 Yearly Report
@@ -186,7 +185,9 @@ export const YearlyReportForm = () => {
                 </h3>
                 <div className="mb-4">
                   <p>Total Shifts: {employee.totalShifts}</p>
-                  <p>Total Earnings: ${employee.totalEarnings}</p>
+                  <p>
+                    Total Earnings: ${employee.totalEarnings.toLocaleString()}
+                  </p>
                 </div>
 
                 <div className="mb-4">

@@ -94,56 +94,34 @@ const isOutOfState = (outOfState: boolean) => {
 };
 
 const getTotalforEmployee = (employee: any) => {
-  console.log("📗 LOG [ employee ]:", employee);
-  let total = 0;
+  if (!employee.shifts) return 0;
 
-  if (employee.user !== "Jose Furet") {
-    employee.shifts.forEach((shift: any) => {
-      switch (shift.shiftType) {
-        case "driver":
-          if (shift.outOfState === true) {
-            total += 250;
-          } else {
-            total += 200;
-          }
-          break;
-        case "helper":
-          if (shift.outOfState === true) {
-            total += 200;
-          } else {
-            total += 150;
-          }
-          break;
-        case "thirdMan":
-          if (shift.outOfState === true) {
-            total += 165;
-          } else {
-            total += 135;
-          }
-          break;
-        default:
-          total += 0;
-      }
-    });
-  } else {
-    employee.shifts.forEach((shift: any) => {
-      switch (shift.shiftType) {
-        case "driver":
-          total += 700;
-          break;
-        case "helper":
-          total += 700;
-          break;
-        case "thirdMan":
-          total += 700;
-          break;
-        default:
-          total += 0;
-      }
-    });
-  }
+  const rates = {
+    regular: {
+      driver: 200,
+      helper: 150,
+      thirdMan: 135,
+    },
+    outOfState: {
+      driver: 250,
+      helper: 200,
+      thirdMan: 165,
+    },
+    jose: {
+      driver: 700,
+      helper: 700,
+      thirdMan: 700,
+    },
+  };
 
-  return total;
+  return employee.shifts.reduce((total: number, shift: any) => {
+    if (employee.user === "Jose Furet") {
+      return total + rates.jose[shift.shiftType as keyof typeof rates.jose];
+    }
+
+    const rateTable = shift.outOfState ? rates.outOfState : rates.regular;
+    return total + rateTable[shift.shiftType as keyof typeof rateTable];
+  }, 0);
 };
 
 const getYearlyTotal = (employee: any) => {
@@ -285,10 +263,10 @@ const DashboardForm = () => {
       }
     }
 
-    console.log(result);
+    console.log("📗 LOG [ data results ]:", result);
 
     // Reset the form
-    form.reset(defaultValues);
+    // form.reset(defaultValues);
 
     setData(result);
     setWeeks(res.weeks);
@@ -708,7 +686,7 @@ const DashboardForm = () => {
                 yearlyData.map((employee) => ({
                   name: employee.name,
                   totalShifts: employee.totalShifts,
-                  totalEarnings: employee.totalEarnings,
+                  totalEarnings: `$${employee.totalEarnings.toLocaleString()}`,
                 })),
                 null,
                 2
