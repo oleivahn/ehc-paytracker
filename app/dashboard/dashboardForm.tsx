@@ -268,6 +268,13 @@ const DashboardForm = () => {
     // Reset the form
     // form.reset(defaultValues);
 
+    // Calculate totals across all users
+    const totals = calculateTotalEarnings(result);
+    console.log(
+      "📗 LOG [ Total earnings across all users ]: $",
+      totals.toFixed(2)
+    );
+
     setData(result);
     setWeeks(res.weeks);
     // setData(JSON.stringify(result, null, 2));
@@ -422,6 +429,28 @@ const DashboardForm = () => {
     }
 
     setPending(false);
+  };
+
+  const calculateTotalEarnings = (users: any[]) => {
+    return users.reduce((acc, user) => {
+      let userTotal = 0;
+      user.shifts.forEach((shift: any) => {
+        let shiftAmount = 0;
+
+        // Calculate based on shift type and out of state status
+        if (shift.shiftType === "driver") {
+          shiftAmount = shift.outOfState ? 250 : 200;
+        } else if (shift.shiftType === "helper") {
+          shiftAmount = shift.outOfState ? 200 : 150;
+        } else if (shift.shiftType === "thirdMan") {
+          shiftAmount = shift.outOfState ? 165 : 135;
+        }
+
+        userTotal += shiftAmount;
+      });
+
+      return acc + userTotal;
+    }, 0);
   };
 
   // - Markup
@@ -653,14 +682,14 @@ const DashboardForm = () => {
             <TableRow>
               <TableCell colSpan={8}>Total</TableCell>
               <TableCell className="text-right">
-                $
-                {data
+                ${calculateTotalEarnings(data)}
+                {/* {data
                   .reduce(
                     (sum: number, user: any) =>
                       sum + user.shifts.length * user.salary,
                     0
                   )
-                  .toFixed(2)}
+                  .toFixed(2)} */}
               </TableCell>
             </TableRow>
           </TableFooter>
