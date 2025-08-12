@@ -11,6 +11,7 @@ import { dark } from "@clerk/themes";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthErrorHandler } from "@/components/auth-error-handler";
 
 export const metadata: Metadata = {
   title: "EHC Paytracker",
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       appearance={{
         baseTheme: theme,
       }}
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
     >
       <html lang="en">
         <body
@@ -60,15 +62,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem
             disableTransitionOnChange
           >
-            <div className="relative flex min-h-screen flex-col">
-              {/* //*Navbar */}
-              <Navbar />
+            <AuthErrorHandler>
+              <div className="relative flex min-h-screen flex-col">
+                {/* //*Navbar */}
+                <Navbar />
 
-              {/* //*Content */}
-              <div className="min-h-screen bg-darker pb-10 dark:bg-background">
-                {children}
+                {/* //*Content */}
+                <div className="min-h-screen bg-darker pb-10 dark:bg-background">
+                  {children}
+                </div>
               </div>
-            </div>
+            </AuthErrorHandler>
             <Toaster />
           </ThemeProvider>
         </body>

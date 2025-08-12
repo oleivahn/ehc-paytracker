@@ -8,7 +8,16 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware((auth, req) => {
-  if (isProtectedRoute(req)) auth().protect();
+  if (isProtectedRoute(req)) {
+    try {
+      auth().protect();
+    } catch (error) {
+      // Handle token expiry gracefully
+      console.log("Auth error:", error);
+      // This will redirect to sign-in if token is expired
+      auth().protect();
+    }
+  }
 });
 
 export const config = {

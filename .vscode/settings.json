@@ -13,14 +13,13 @@
     "button.background": "#b03db4",
     "debugConsole.infoForeground": "#dadada",
     "diffEditor.removedTextBackground": "#d6060677",
-    // "diffEditor.insertedTextBackground": "#04921750",
     "tab.activeBorder": "#f8832f",
     "tab.activeBackground": "#01294d",
-    // Desc: The background of the sidebar where the icons are
-    // "activityBar.background": "#16191d"
     // Desc: Top bar colors
-    "titleBar.activeBackground": "#0d417c",
-    "titleBar.activeForeground": "#faf7fc"
+    "titleBar.activeBackground": "#3523B3",
+    "titleBar.inactiveBackground": "#2a1f6f",
+    "titleBar.activeForeground": "#faf7fc",
+    "titleBar.inactiveForeground": "#faf7fc"
     // "titleBar.inactiveBackground": "#8b3313",
   },
   "workbench.editor.customLabels.enabled": true,
