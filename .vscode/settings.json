@@ -16,16 +16,16 @@
     "tab.activeBorder": "#f8832f",
     "tab.activeBackground": "#01294d",
     // Desc: Top bar colors - Nightwolf
-    // "titleBar.activeBackground": "#241392",
-    // "titleBar.inactiveBackground": "#291b81",
-    // "titleBar.activeForeground": "#faf7fc",
-    // "titleBar.inactiveForeground": "#faf7fc"
+    "titleBar.activeBackground": "#241392",
+    "titleBar.inactiveBackground": "#291b81",
+    "titleBar.activeForeground": "#faf7fc",
+    "titleBar.inactiveForeground": "#faf7fc"
 
     // Desc: Top bar colors - Bearded
-    "titleBar.activeBackground": "#600f2b",
-    "titleBar.activeForeground": "#faf7fc",
-    "titleBar.inactiveBackground": "#491729",
-    "titleBar.inactiveForeground": "#faf7fc"
+    // "titleBar.activeBackground": "#600f2b",
+    // "titleBar.activeForeground": "#faf7fc",
+    // "titleBar.inactiveBackground": "#491729",
+    // "titleBar.inactiveForeground": "#faf7fc"
   },
   // "workbench.colorTheme": "Bearded Theme Surprising Blueberry",
   "workbench.iconTheme": "vscode-icons",
