@@ -15,13 +15,21 @@
     "diffEditor.removedTextBackground": "#d6060677",
     "tab.activeBorder": "#f8832f",
     "tab.activeBackground": "#01294d",
-    // Desc: Top bar colors
-    "titleBar.activeBackground": "#3523B3",
-    "titleBar.inactiveBackground": "#2a1f6f",
+    // Desc: Top bar colors - Nightwolf
+    // "titleBar.activeBackground": "#241392",
+    // "titleBar.inactiveBackground": "#291b81",
+    // "titleBar.activeForeground": "#faf7fc",
+    // "titleBar.inactiveForeground": "#faf7fc"
+
+    // Desc: Top bar colors - Bearded
+    "titleBar.activeBackground": "#600f2b",
     "titleBar.activeForeground": "#faf7fc",
+    "titleBar.inactiveBackground": "#491729",
     "titleBar.inactiveForeground": "#faf7fc"
-    // "titleBar.inactiveBackground": "#8b3313",
   },
+  // "workbench.colorTheme": "Bearded Theme Surprising Blueberry",
+  "workbench.iconTheme": "vscode-icons",
+
   "workbench.editor.customLabels.enabled": true,
   "workbench.editor.customLabels.patterns": {
     "*/app/api/test/route.ts": "Test Route",
