@@ -60,7 +60,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
 
     // Check if shift exists
     const shiftExists = await Shift.exists({
-      name: formData.name as string,
+      name: (formData.name as string).toLowerCase(),
       shiftDate: formData.shiftDate as string,
     });
     console.log("🔥 [ shiftExists ]:", shiftExists);
@@ -87,7 +87,9 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
 
     // const newShift = new Shift(formData);
     const newShift = new Shift({
-      name: formData.name as string,
+      name: (formData.name as string).toLowerCase(),
+      firstName: user.firstName.toLowerCase(),
+      lastName: user.lastName.toLowerCase(),
       shiftDate: formData.shiftDate as string,
       easyDate: formData.easyDate as string,
       location: formData.location as string,
@@ -130,7 +132,7 @@ export const updateShiftAction = async (data: FormData) => {
 
   // Check if shift exists
   const shiftExists = await Shift.exists({
-    name: formData.name as string,
+    name: (formData.name as string).toLowerCase(),
     shiftDate: formData.shiftDate as string,
   });
   console.log("📗 LOG [ shiftExists on update ]:", shiftExists);
@@ -157,13 +159,25 @@ export const updateShiftAction = async (data: FormData) => {
   try {
     await connectDB();
 
+    // Get user data to extract firstName and lastName
+    const user = await User.findById(userId);
+    if (!user) {
+      return {
+        message: "User Not Found",
+        data: "No User Found",
+        error: true,
+      };
+    }
+
     const updatedShift = await Shift.findOneAndUpdate(
       {
-        name: formData.name as string,
+        name: (formData.name as string).toLowerCase(),
         shiftDate: formData.shiftDate as string,
       },
       {
-        name: formData.name as string,
+        name: (formData.name as string).toLowerCase(),
+        firstName: user.firstName.toLowerCase(),
+        lastName: user.lastName.toLowerCase(),
         shiftDate: formData.shiftDate as string,
         easyDate: formData.easyDate as string,
         location: formData.location as string,
