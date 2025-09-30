@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
+import { capitalizeName } from "@/lib/utils";
 
 export const GET = async () => {
   try {
@@ -9,7 +10,27 @@ export const GET = async () => {
 
     const users = await User.find();
 
-    return new NextResponse(JSON.stringify(users), { status: 200 });
+    // Capitalize the name field for each user, fallback to firstName + lastName if name is empty
+    const usersWithCapitalizedNames = users.map((user) => {
+      const userObj = user.toObject();
+      let displayName = userObj.name;
+
+      // If name is empty or doesn't exist, create it from firstName and lastName
+      if (!displayName || displayName.trim() === "") {
+        displayName = `${userObj.firstName || ""} ${
+          userObj.lastName || ""
+        }`.trim();
+      }
+
+      return {
+        ...userObj,
+        name: capitalizeName(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
+      };
+    });
+
+    return new NextResponse(JSON.stringify(usersWithCapitalizedNames), {
+      status: 200,
+    });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Unknown error";
 

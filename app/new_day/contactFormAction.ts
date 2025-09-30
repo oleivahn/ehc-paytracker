@@ -8,6 +8,7 @@ import User from "@/models/user";
 import { green, red } from "console-log-colors";
 import mongoose, { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
+import { capitalizeName } from "@/lib/utils";
 
 // - What we return
 export type FormState = {
@@ -203,13 +204,31 @@ export const getUsersAction = async () => {
     // Get all users and return them
     const users = await User.find();
 
+    // Capitalize the name field for each user, fallback to firstName + lastName if name is empty
+    const usersWithCapitalizedNames = users.map((user) => {
+      const userObj = user.toObject();
+      let displayName = userObj.name;
+
+      // If name is empty or doesn't exist, create it from firstName and lastName
+      if (!displayName || displayName.trim() === "") {
+        displayName = `${userObj.firstName || ""} ${
+          userObj.lastName || ""
+        }`.trim();
+      }
+
+      return {
+        ...userObj,
+        name: capitalizeName(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
+      };
+    });
+
     revalidatePath("/NewDay");
     console.log(green("Users fetched successfully"));
-    console.log("📗 LOG [ users ]:", users);
+    console.log("📗 LOG [ users ]:", usersWithCapitalizedNames);
 
     return {
       message: "Got users successfully!",
-      data: JSON.parse(JSON.stringify(users)),
+      data: JSON.parse(JSON.stringify(usersWithCapitalizedNames)),
     };
   } catch (error: unknown) {
     console.log(red("DB Error: Could not retrieve user records:"));

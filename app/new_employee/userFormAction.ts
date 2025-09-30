@@ -31,14 +31,28 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
   try {
     // Connect to the database and save the new user
     await connectDB();
-    const newUser = new User(formData);
+
+    // Create the name field by combining firstName and lastName and convert text fields to lowercase
+    const userDataWithName = {
+      ...formData,
+      firstName: formData.firstName.toString().toLowerCase(),
+      lastName: formData.lastName.toString().toLowerCase(),
+      email: formData.email.toString().toLowerCase(),
+      name: `${formData.firstName.toString().toLowerCase()} ${formData.lastName
+        .toString()
+        .toLowerCase()}`,
+    };
+
+    const newUser = new User(userDataWithName);
     await newUser.save();
 
     revalidatePath("/new_employee");
-    console.log(green("User created successfully"));
+    console.log(
+      green("User created successfully with name: " + userDataWithName.name)
+    );
     return {
       message: "Form Action Success!",
-      data: formData,
+      data: userDataWithName,
     };
   } catch (error: unknown) {
     console.log(red("DB Error: Could not create record:"));
