@@ -41,6 +41,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       name: `${formData.firstName.toString().toLowerCase()} ${formData.lastName
         .toString()
         .toLowerCase()}`,
+      active: true, // Default to active for new employees
     };
 
     const newUser = new User(userDataWithName);

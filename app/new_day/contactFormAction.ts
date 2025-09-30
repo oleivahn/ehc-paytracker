@@ -215,8 +215,8 @@ export const getUsersAction = async () => {
   try {
     await connectDB();
 
-    // Get all users and return them
-    const users = await User.find();
+    // Get only active users
+    const users = await User.find({ active: { $ne: false } });
 
     // Capitalize the name field for each user, fallback to firstName + lastName if name is empty
     const usersWithCapitalizedNames = users.map((user) => {

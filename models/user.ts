@@ -32,6 +32,10 @@ const UserSchema = new Schema({
     type: String,
     // required: true,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
   // shifts: [
   //   {
   //     // Reference is the name of the model we are linking it to, this is the relationship
