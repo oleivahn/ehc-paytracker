@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getYearlyDataAction } from "../dashboard/getDataAction";
+import { capitalizeWords } from "@/lib/utils";
 
 interface YearlyData {
   name: string;
@@ -181,7 +182,7 @@ export const YearlyReportForm = () => {
             {yearlyData.map((employee, index) => (
               <div key={index} className="mb-8 border-b pb-6">
                 <h3 className="mb-4 text-xl font-bold text-primary">
-                  {employee.name}
+                  {capitalizeWords(employee.name)}
                 </h3>
                 <div className="mb-4">
                   <p>Total Shifts: {employee.totalShifts}</p>

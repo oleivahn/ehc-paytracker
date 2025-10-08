@@ -15,7 +15,7 @@ import {
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, capitalizeWords } from "@/lib/utils";
 
 // - UI Components
 import { Button } from "@/components/ui/button";
@@ -631,7 +631,9 @@ const DashboardForm = () => {
                 const total = getTotalforEmployee(data);
                 return (
                   <TableRow key={data.user}>
-                    <TableCell className="font-medium">{data.user}</TableCell>
+                    <TableCell className="font-medium">
+                      {capitalizeWords(data.user)}
+                    </TableCell>
                     {[
                       "Sunday",
                       "Monday",

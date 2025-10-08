@@ -15,7 +15,7 @@ import {
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, capitalizeWords } from "@/lib/utils";
 
 // ShadCn - Components
 import {
@@ -290,7 +290,7 @@ const NewDay = () => {
                         {users.map((user, i) => (
                           <div key={i}>
                             <SelectItem value={user.name} id={user._id}>
-                              {user.name}
+                              {capitalizeWords(user.name)}
                             </SelectItem>
                             <input type="hidden" name="user" value={user._id} />
                           </div>
