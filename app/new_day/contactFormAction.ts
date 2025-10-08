@@ -8,7 +8,7 @@ import User from "@/models/user";
 import { green, red } from "console-log-colors";
 import mongoose, { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
-import { capitalizeName } from "@/lib/utils";
+import { capitalizeWords } from "@/lib/utils";
 
 // - What we return
 export type FormState = {
@@ -232,7 +232,7 @@ export const getUsersAction = async () => {
 
       return {
         ...userObj,
-        name: capitalizeName(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
+        name: capitalizeWords(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
       };
     });
 

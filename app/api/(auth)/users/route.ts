@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
-import { capitalizeName } from "@/lib/utils";
+import { capitalizeWords } from "@/lib/utils";
 
 export const GET = async () => {
   try {
@@ -24,7 +24,7 @@ export const GET = async () => {
 
       return {
         ...userObj,
-        name: capitalizeName(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
+        name: capitalizeWords(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
       };
     });
 
