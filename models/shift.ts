@@ -1,9 +1,17 @@
 import mongoose, { Schema, model, models } from "mongoose";
 import { date } from "zod";
 
-// - Define the schema for the User collection
+// - Define the schema for the Shift collection
 const ShiftSchema = new Schema({
   name: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
     type: String,
     required: true,
   },

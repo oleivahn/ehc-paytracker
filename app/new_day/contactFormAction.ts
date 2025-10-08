@@ -8,6 +8,7 @@ import User from "@/models/user";
 import { green, red } from "console-log-colors";
 import mongoose, { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
+import { capitalizeName } from "@/lib/utils";
 
 // - What we return
 export type FormState = {
@@ -59,7 +60,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
 
     // Check if shift exists
     const shiftExists = await Shift.exists({
-      name: formData.name as string,
+      name: (formData.name as string).toLowerCase(),
       shiftDate: formData.shiftDate as string,
     });
     console.log("🔥 [ shiftExists ]:", shiftExists);
@@ -86,7 +87,9 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
 
     // const newShift = new Shift(formData);
     const newShift = new Shift({
-      name: formData.name as string,
+      name: (formData.name as string).toLowerCase(),
+      firstName: user.firstName.toLowerCase(),
+      lastName: user.lastName.toLowerCase(),
       shiftDate: formData.shiftDate as string,
       easyDate: formData.easyDate as string,
       location: formData.location as string,
@@ -129,7 +132,7 @@ export const updateShiftAction = async (data: FormData) => {
 
   // Check if shift exists
   const shiftExists = await Shift.exists({
-    name: formData.name as string,
+    name: (formData.name as string).toLowerCase(),
     shiftDate: formData.shiftDate as string,
   });
   console.log("📗 LOG [ shiftExists on update ]:", shiftExists);
@@ -156,13 +159,25 @@ export const updateShiftAction = async (data: FormData) => {
   try {
     await connectDB();
 
+    // Get user data to extract firstName and lastName
+    const user = await User.findById(userId);
+    if (!user) {
+      return {
+        message: "User Not Found",
+        data: "No User Found",
+        error: true,
+      };
+    }
+
     const updatedShift = await Shift.findOneAndUpdate(
       {
-        name: formData.name as string,
+        name: (formData.name as string).toLowerCase(),
         shiftDate: formData.shiftDate as string,
       },
       {
-        name: formData.name as string,
+        name: (formData.name as string).toLowerCase(),
+        firstName: user.firstName.toLowerCase(),
+        lastName: user.lastName.toLowerCase(),
         shiftDate: formData.shiftDate as string,
         easyDate: formData.easyDate as string,
         location: formData.location as string,
@@ -200,16 +215,34 @@ export const getUsersAction = async () => {
   try {
     await connectDB();
 
-    // Get all users and return them
-    const users = await User.find();
+    // Get only active users
+    const users = await User.find({ active: { $ne: false } });
+
+    // Capitalize the name field for each user, fallback to firstName + lastName if name is empty
+    const usersWithCapitalizedNames = users.map((user) => {
+      const userObj = user.toObject();
+      let displayName = userObj.name;
+
+      // If name is empty or doesn't exist, create it from firstName and lastName
+      if (!displayName || displayName.trim() === "") {
+        displayName = `${userObj.firstName || ""} ${
+          userObj.lastName || ""
+        }`.trim();
+      }
+
+      return {
+        ...userObj,
+        name: capitalizeName(displayName) || `User ${userObj._id}`, // Fallback to User ID if still empty
+      };
+    });
 
     revalidatePath("/NewDay");
     console.log(green("Users fetched successfully"));
-    console.log("📗 LOG [ users ]:", users);
+    console.log("📗 LOG [ users ]:", usersWithCapitalizedNames);
 
     return {
       message: "Got users successfully!",
-      data: JSON.parse(JSON.stringify(users)),
+      data: JSON.parse(JSON.stringify(usersWithCapitalizedNames)),
     };
   } catch (error: unknown) {
     console.log(red("DB Error: Could not retrieve user records:"));
