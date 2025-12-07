@@ -4,6 +4,8 @@
 
 When generating code with GitHub Copilot, please adhere to the following guidelines to ensure consistency and maintainability across the codebase:
 
+<!-- - Be friendly and professional in comments and documentation. -->
+
 - Use double quotes instead of single quotes for strings.
 - Prefer using `let` and `const` for variable declarations instead of `var`.
 - Variables should be named using camelCase.
