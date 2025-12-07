@@ -1,5 +1,7 @@
 # Ox Intructions for GitHub Copilot
 
+Javascript, React, Node.js
+
 ## Copilot Instructions
 
 When generating code with GitHub Copilot, please adhere to the following guidelines to ensure consistency and maintainability across the codebase:
