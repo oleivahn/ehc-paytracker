@@ -2,6 +2,13 @@
 
 <!-- TODO: -->
 
+- [ ] Add next and previous to the calendar
+- [ ] Week should stay active when selecting a new one. Currently it resets to current data
+- [ ] Add employee reports for last 5 months, etc
+- [ ] Add employee management (add, remove, edit)
+- [ ] Save the documents of pictures on aws s3
+- [ ] Add employee search
+
 - [ ] Save the shift with first name and last name
 - [ ] Form the shifts array with first name and last name
 
