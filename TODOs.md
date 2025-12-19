@@ -9,6 +9,8 @@
 - [ ] Save the documents of pictures on aws s3
 - [ ] Add employee search
 - [ ] Add cookies to save theme preference
+- [ ] Role based access (admin, user)
+- [ ]
 
 - [ ] Save the shift with first name and last name
 - [ ] Form the shifts array with first name and last name
