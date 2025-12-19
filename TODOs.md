@@ -11,6 +11,7 @@
 
 - [ ] Save the shift with first name and last name
 - [ ] Form the shifts array with first name and last name
+- [ ] Change the report generation to 2025 (Let the user select the year?)
 
 - [ ] Agregar un boton para borrar todos los dias
 - [x] Agregar boton para decir si van out of state
