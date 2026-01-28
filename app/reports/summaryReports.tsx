@@ -128,15 +128,12 @@ export const SummaryReports = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-6 flex w-full flex-col gap-4 md:w-[650px] md:flex-row md:items-center md:justify-between">
-        <YearSelector
-          selectedYear={selectedYear}
-          onYearChange={setSelectedYear}
-        />
-        <div className="flex items-center gap-2">
-          {pending && (
-            <span className="text-sm text-muted-foreground">Loading...</span>
-          )}
+      <div className="mb-6 w-full md:w-[650px]">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <YearSelector
+            selectedYear={selectedYear}
+            onYearChange={setSelectedYear}
+          />
           {summaryData.length > 0 && (
             <Button
               onClick={() =>
@@ -146,12 +143,16 @@ export const SummaryReports = () => {
                 )
               }
               variant="outline"
-              className="w-full md:w-auto"
             >
               Print
             </Button>
           )}
         </div>
+        {pending && (
+          <span className="mt-2 block text-sm text-muted-foreground">
+            Loading...
+          </span>
+        )}
       </div>
 
       {summaryData.length > 0 && (
