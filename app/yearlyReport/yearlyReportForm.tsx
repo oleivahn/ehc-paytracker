@@ -2,7 +2,14 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getYearlyDataAction } from "../dashboard/getDataAction";
+import { Input } from "@/components/ui/input";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { getYearlyDataAction } from "./getYearlyDataAction";
 import { capitalizeWords } from "@/lib/utils";
 
 interface YearlyData {
@@ -38,10 +45,11 @@ interface YearlyData {
 export const YearlyReportForm = () => {
   const [pending, setPending] = useState(false);
   const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleYearlyReport = async () => {
     const formData = new FormData();
-    formData.append("year", "2024");
+    formData.append("year", "2025");
 
     setPending(true);
     const res = await getYearlyDataAction(formData);
@@ -156,6 +164,11 @@ export const YearlyReportForm = () => {
         };
       });
 
+      // Sort alphabetically by employee name
+      processedData.sort((a: YearlyData, b: YearlyData) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+      );
+
       console.log("Processed yearly totals:", processedData);
       setYearlyData(processedData);
     }
@@ -170,59 +183,90 @@ export const YearlyReportForm = () => {
         className="mb-6 w-full md:w-[650px]"
         disabled={pending}
       >
-        Generate 2024 Yearly Report
+        Generate 2025 Yearly Report
       </Button>
 
       {yearlyData && yearlyData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[950px] md:px-6 md:py-8">
           <CardHeader>
-            <CardTitle>2024 Yearly Totals</CardTitle>
+            <CardTitle>2025 Yearly Totals</CardTitle>
+            <div className="mt-4">
+              <Input
+                type="text"
+                placeholder="Search by employee name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="max-w-sm"
+              />
+            </div>
           </CardHeader>
           <CardContent>
-            {yearlyData.map((employee, index) => (
-              <div key={index} className="mb-8 border-b pb-6">
-                <h3 className="mb-4 text-xl font-bold text-primary">
-                  {capitalizeWords(employee.name)}
-                </h3>
-                <div className="mb-4">
-                  <p>Total Shifts: {employee.totalShifts}</p>
-                  <p>
-                    Total Earnings: ${employee.totalEarnings.toLocaleString()}
-                  </p>
-                </div>
-
-                <div className="mb-4">
-                  <h4 className="mb-2 font-semibold">Shift Breakdown:</h4>
-                  {Object.entries(employee.shiftCounts).map(
-                    ([type, counts]) => (
-                      <div key={type} className="ml-4">
-                        <p className="capitalize">{type}:</p>
-                        <ul className="ml-4">
-                          <li>Regular: {counts.regular}</li>
-                          <li>Out of State: {counts.outOfState}</li>
-                          <li>Total: {counts.total}</li>
-                        </ul>
+            <Accordion type="single" collapsible className="w-full">
+              {yearlyData
+                .filter((employee) =>
+                  employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                .map((employee, index) => (
+                  <AccordionItem key={index} value={`item-${index}`}>
+                    <AccordionTrigger className="hover:no-underline">
+                      <div className="flex w-full items-center justify-between pr-4">
+                        <span className="text-lg font-bold text-primary">
+                          {capitalizeWords(employee.name)}
+                        </span>
+                        <div className="flex gap-6 text-sm text-muted-foreground">
+                          <span>Shifts: {employee.totalShifts}</span>
+                          <span>
+                            ${employee.totalEarnings.toLocaleString()}
+                          </span>
+                        </div>
                       </div>
-                    )
-                  )}
-                </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="pt-4">
+                        <div className="mb-4">
+                          <h4 className="mb-2 font-semibold">
+                            Shift Breakdown:
+                          </h4>
+                          {Object.entries(employee.shiftCounts).map(
+                            ([type, counts]) => (
+                              <div key={type} className="ml-4">
+                                <p className="capitalize">{type}:</p>
+                                <ul className="ml-4">
+                                  <li>Regular: {counts.regular}</li>
+                                  <li>Out of State: {counts.outOfState}</li>
+                                  <li>Total: {counts.total}</li>
+                                </ul>
+                              </div>
+                            )
+                          )}
+                        </div>
 
-                <div>
-                  <h4 className="mb-2 font-semibold">Detailed Shifts:</h4>
-                  <div className="max-h-60 overflow-y-auto">
-                    {employee.detailedShifts.map((shift, shiftIndex) => (
-                      <div key={shiftIndex} className="mb-2 ml-4">
-                        <p>
-                          {shift.date} - {shift.location} - {shift.shiftType}
-                          {shift.outOfState ? " (Out of State)" : ""} - $
-                          {shift.earnings}
-                        </p>
+                        <div>
+                          <h4 className="mb-2 font-semibold">
+                            Detailed Shifts:
+                          </h4>
+                          <div className="max-h-60 overflow-y-auto">
+                            {employee.detailedShifts.map(
+                              (shift, shiftIndex) => (
+                                <div key={shiftIndex} className="mb-2 ml-4">
+                                  <p>
+                                    {shift.date} - {shift.location} -{" "}
+                                    {shift.shiftType}
+                                    {shift.outOfState
+                                      ? " (Out of State)"
+                                      : ""}{" "}
+                                    - ${shift.earnings}
+                                  </p>
+                                </div>
+                              )
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+            </Accordion>
           </CardContent>
         </Card>
       )}

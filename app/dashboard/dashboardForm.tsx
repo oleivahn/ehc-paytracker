@@ -7,11 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { schema } from "./dashboardValidationSchema";
-import {
-  getDataAction,
-  getShiftsAction,
-  getYearlyDataAction,
-} from "./getDataAction";
+import { getDataAction, getShiftsAction } from "./getDataAction";
 
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -124,34 +120,17 @@ const getTotalforEmployee = (employee: any) => {
   }, 0);
 };
 
-const getYearlyTotal = (employee: any) => {
-  return getTotalforEmployee(employee);
-};
-
-interface YearlyData {
-  name: string;
-  totalShifts: number;
-  totalHours: number;
-  totalEarnings: number;
-  shifts: Array<{
-    shiftDate: Date;
-    hours: number;
-    earnings: number;
-    location: string;
-  }>;
-}
-
 //
 //
 // - Main -
 const DashboardForm = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const { toast } = useToast();
   const [data, setData] = useState<any>([]);
   const [weeks, setWeeks] = useState<any>([]);
   const ref = React.useRef<HTMLFormElement>(null);
-  const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
 
   const getData = async () => {
     const res = await getShiftsAction();
@@ -297,140 +276,6 @@ const DashboardForm = () => {
     }
   };
 
-  const handleYearlyReport = async () => {
-    const formData = new FormData();
-    formData.append("year", "2024");
-
-    setPending(true);
-    const res = await getYearlyDataAction(formData);
-    console.log("Raw response data:", res.data);
-
-    if (res.data) {
-      const processedData = res.data.map((employee: any) => {
-        let totalEarnings = 0;
-        let shiftCounts = {
-          driver: {
-            regular: 0,
-            outOfState: 0,
-            total: 0,
-          },
-          helper: {
-            regular: 0,
-            outOfState: 0,
-            total: 0,
-          },
-          thirdMan: {
-            regular: 0,
-            outOfState: 0,
-            total: 0,
-          },
-        };
-
-        // Array to store detailed shift information
-        let detailedShifts: Array<{
-          date: string;
-          shiftType: string;
-          location: string;
-          outOfState: boolean;
-          earnings: number;
-        }> = [];
-
-        if (!employee || !employee.shiftTypes) {
-          console.error("Invalid employee data:", employee);
-          return {
-            name: employee?.name || "Unknown",
-            totalShifts: 0,
-            shiftCounts,
-            totalEarnings: 0,
-            detailedShifts: [],
-          };
-        }
-
-        if (employee.name !== "Jose Furet") {
-          // Loop through each shift type group
-          employee.shiftTypes.forEach((shiftTypeGroup: any) => {
-            // Loop through individual shifts within the group
-            shiftTypeGroup.shifts.forEach((shift: any) => {
-              const shiftType = shift.shiftType as keyof typeof shiftCounts;
-              let shiftEarnings = 0;
-
-              // Increment appropriate counters
-              if (shift.outOfState) {
-                shiftCounts[shiftType].outOfState++;
-              } else {
-                shiftCounts[shiftType].regular++;
-              }
-              shiftCounts[shiftType].total++;
-
-              // Calculate earnings
-              switch (shiftType) {
-                case "driver":
-                  shiftEarnings = shift.outOfState ? 250 : 200;
-                  break;
-                case "helper":
-                  shiftEarnings = shift.outOfState ? 200 : 150;
-                  break;
-                case "thirdMan":
-                  shiftEarnings = shift.outOfState ? 165 : 135;
-                  break;
-              }
-
-              totalEarnings += shiftEarnings;
-
-              // Add to detailed shifts array
-              detailedShifts.push({
-                date: new Date(shift.shiftDate).toLocaleDateString(),
-                shiftType: shift.shiftType,
-                location: shift.location,
-                outOfState: shift.outOfState,
-                earnings: shiftEarnings,
-              });
-            });
-          });
-        } else {
-          // Special case for Jose Furet - $700 per shift
-          totalEarnings = employee.totalShifts * 700;
-
-          // For Jose, we'll use the shiftType counts from the groups
-          employee.shiftTypes.forEach((shiftTypeGroup: any) => {
-            const shiftType = shiftTypeGroup.type as keyof typeof shiftCounts;
-            shiftCounts[shiftType].total = shiftTypeGroup.count;
-            shiftCounts[shiftType].regular = shiftTypeGroup.count;
-
-            // Add detailed shifts for Jose
-            shiftTypeGroup.shifts.forEach((shift: any) => {
-              detailedShifts.push({
-                date: new Date(shift.shiftDate).toLocaleDateString(),
-                shiftType: shift.shiftType,
-                location: shift.location,
-                outOfState: shift.outOfState,
-                earnings: 700,
-              });
-            });
-          });
-        }
-
-        // Sort detailed shifts by date
-        detailedShifts.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
-
-        return {
-          name: employee.name,
-          totalShifts: employee.totalShifts,
-          shiftCounts,
-          totalEarnings: totalEarnings,
-          detailedShifts,
-        };
-      });
-
-      console.log("Processed yearly totals:", processedData);
-      setYearlyData(processedData);
-    }
-
-    setPending(false);
-  };
-
   const calculateTotalEarnings = (users: any[]) => {
     return users.reduce((acc, user) => {
       let userTotal = 0;
@@ -477,7 +322,7 @@ const DashboardForm = () => {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Select Week</FormLabel>
-                    <Popover>
+                    <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -500,7 +345,10 @@ const DashboardForm = () => {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            field.onChange(date);
+                            setCalendarOpen(false);
+                          }}
                           // disabled={(date) =>
                           //   date > new Date() || date < new Date("1900-01-01")
                           // }
@@ -697,35 +545,6 @@ const DashboardForm = () => {
           </TableFooter>
         </Table>
       </div>
-
-      <Button
-        onClick={handleYearlyReport}
-        className="mb-6 w-full md:w-[650px]"
-        disabled={pending}
-      >
-        Generate 2024 Yearly Report
-      </Button>
-
-      {yearlyData && yearlyData.length > 0 && (
-        <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[650px] md:px-6 md:py-8">
-          <CardHeader>
-            <CardTitle>2024 Yearly Totals - May 24, 2024 and up</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <pre>
-              {JSON.stringify(
-                yearlyData.map((employee) => ({
-                  name: employee.name,
-                  totalShifts: employee.totalShifts,
-                  totalEarnings: `$${employee.totalEarnings.toLocaleString()}`,
-                })),
-                null,
-                2
-              )}
-            </pre>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 };

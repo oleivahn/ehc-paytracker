@@ -70,6 +70,7 @@ export default function Navbar() {
   const RIGHT_NAV_ITEMS: NavItem[] = [
     { href: "/dashboard", label: "Dashboard", protected: true },
     { href: "/new_day", label: "New Day", protected: false },
+    { href: "/yearlyReport", label: "Reports", protected: false },
   ];
 
   return (
