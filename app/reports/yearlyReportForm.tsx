@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -50,134 +50,137 @@ export const YearlyReportForm = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
-  const handleYearlyReport = async () => {
-    const formData = new FormData();
-    formData.append("year", selectedYear.toString());
+  // Auto-load data on mount and when year changes
+  useEffect(() => {
+    const fetchYearlyData = async () => {
+      const formData = new FormData();
+      formData.append("year", selectedYear.toString());
 
-    setPending(true);
-    const res = await getYearlyDataAction(formData);
-    console.log("Raw response data:", res.data);
+      setPending(true);
+      const res = await getYearlyDataAction(formData);
 
-    if (res.data) {
-      const processedData = res.data.map((employee: any) => {
-        let totalEarnings = 0;
-        let shiftCounts = {
-          driver: {
-            regular: 0,
-            outOfState: 0,
-            total: 0,
-          },
-          helper: {
-            regular: 0,
-            outOfState: 0,
-            total: 0,
-          },
-          thirdMan: {
-            regular: 0,
-            outOfState: 0,
-            total: 0,
-          },
-        };
-
-        let detailedShifts: Array<{
-          date: string;
-          shiftType: string;
-          location: string;
-          outOfState: boolean;
-          earnings: number;
-        }> = [];
-
-        if (!employee || !employee.shiftTypes) {
-          console.error("Invalid employee data:", employee);
-          return {
-            name: employee?.name || "Unknown",
-            totalShifts: 0,
-            shiftCounts,
-            totalEarnings: 0,
-            detailedShifts: [],
+      if (res.data) {
+        const processedData = res.data.map((employee: any) => {
+          let totalEarnings = 0;
+          let shiftCounts = {
+            driver: {
+              regular: 0,
+              outOfState: 0,
+              total: 0,
+            },
+            helper: {
+              regular: 0,
+              outOfState: 0,
+              total: 0,
+            },
+            thirdMan: {
+              regular: 0,
+              outOfState: 0,
+              total: 0,
+            },
           };
-        }
 
-        if (employee.name !== "Jose Furet") {
-          employee.shiftTypes.forEach((shiftTypeGroup: any) => {
-            shiftTypeGroup.shifts.forEach((shift: any) => {
-              const shiftType = shift.shiftType as keyof typeof shiftCounts;
-              let shiftEarnings = 0;
+          let detailedShifts: Array<{
+            date: string;
+            shiftType: string;
+            location: string;
+            outOfState: boolean;
+            earnings: number;
+          }> = [];
 
-              if (shift.outOfState) {
-                shiftCounts[shiftType].outOfState++;
-              } else {
-                shiftCounts[shiftType].regular++;
-              }
-              shiftCounts[shiftType].total++;
+          if (!employee || !employee.shiftTypes) {
+            console.error("Invalid employee data:", employee);
+            return {
+              name: employee?.name || "Unknown",
+              totalShifts: 0,
+              shiftCounts,
+              totalEarnings: 0,
+              detailedShifts: [],
+            };
+          }
 
-              switch (shiftType) {
-                case "driver":
-                  shiftEarnings = shift.outOfState ? 250 : 200;
-                  break;
-                case "helper":
-                  shiftEarnings = shift.outOfState ? 200 : 150;
-                  break;
-                case "thirdMan":
-                  shiftEarnings = shift.outOfState ? 165 : 135;
-                  break;
-              }
+          if (employee.name !== "Jose Furet") {
+            employee.shiftTypes.forEach((shiftTypeGroup: any) => {
+              shiftTypeGroup.shifts.forEach((shift: any) => {
+                const shiftType = shift.shiftType as keyof typeof shiftCounts;
+                let shiftEarnings = 0;
 
-              totalEarnings += shiftEarnings;
+                if (shift.outOfState) {
+                  shiftCounts[shiftType].outOfState++;
+                } else {
+                  shiftCounts[shiftType].regular++;
+                }
+                shiftCounts[shiftType].total++;
 
-              detailedShifts.push({
-                date: new Date(shift.shiftDate).toLocaleDateString(),
-                shiftType: shift.shiftType,
-                location: shift.location,
-                outOfState: shift.outOfState,
-                earnings: shiftEarnings,
+                switch (shiftType) {
+                  case "driver":
+                    shiftEarnings = shift.outOfState ? 250 : 200;
+                    break;
+                  case "helper":
+                    shiftEarnings = shift.outOfState ? 200 : 150;
+                    break;
+                  case "thirdMan":
+                    shiftEarnings = shift.outOfState ? 165 : 135;
+                    break;
+                }
+
+                totalEarnings += shiftEarnings;
+
+                detailedShifts.push({
+                  date: new Date(shift.shiftDate).toLocaleDateString(),
+                  shiftType: shift.shiftType,
+                  location: shift.location,
+                  outOfState: shift.outOfState,
+                  earnings: shiftEarnings,
+                });
               });
             });
-          });
-        } else {
-          totalEarnings = employee.totalShifts * 700;
+          } else {
+            totalEarnings = employee.totalShifts * 700;
 
-          employee.shiftTypes.forEach((shiftTypeGroup: any) => {
-            const shiftType = shiftTypeGroup.type as keyof typeof shiftCounts;
-            shiftCounts[shiftType].total = shiftTypeGroup.count;
-            shiftCounts[shiftType].regular = shiftTypeGroup.count;
+            employee.shiftTypes.forEach((shiftTypeGroup: any) => {
+              const shiftType = shiftTypeGroup.type as keyof typeof shiftCounts;
+              shiftCounts[shiftType].total = shiftTypeGroup.count;
+              shiftCounts[shiftType].regular = shiftTypeGroup.count;
 
-            shiftTypeGroup.shifts.forEach((shift: any) => {
-              detailedShifts.push({
-                date: new Date(shift.shiftDate).toLocaleDateString(),
-                shiftType: shift.shiftType,
-                location: shift.location,
-                outOfState: shift.outOfState,
-                earnings: 700,
+              shiftTypeGroup.shifts.forEach((shift: any) => {
+                detailedShifts.push({
+                  date: new Date(shift.shiftDate).toLocaleDateString(),
+                  shiftType: shift.shiftType,
+                  location: shift.location,
+                  outOfState: shift.outOfState,
+                  earnings: 700,
+                });
               });
             });
-          });
-        }
+          }
 
-        detailedShifts.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          detailedShifts.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+
+          return {
+            name: employee.name,
+            totalShifts: employee.totalShifts,
+            shiftCounts,
+            totalEarnings: totalEarnings,
+            detailedShifts,
+          };
+        });
+
+        // Sort alphabetically by employee name
+        processedData.sort((a: YearlyData, b: YearlyData) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
         );
 
-        return {
-          name: employee.name,
-          totalShifts: employee.totalShifts,
-          shiftCounts,
-          totalEarnings: totalEarnings,
-          detailedShifts,
-        };
-      });
+        setYearlyData(processedData);
+      }
 
-      // Sort alphabetically by employee name
-      processedData.sort((a: YearlyData, b: YearlyData) =>
-        a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-      );
+      setPending(false);
+    };
 
-      console.log("Processed yearly totals:", processedData);
-      setYearlyData(processedData);
-    }
-
-    setPending(false);
-  };
+    fetchYearlyData();
+  }, [selectedYear]);
 
   return (
     <div className="flex flex-col items-center">
@@ -186,29 +189,9 @@ export const YearlyReportForm = () => {
           selectedYear={selectedYear}
           onYearChange={setSelectedYear}
         />
-        <div className="flex gap-2">
-          <Button
-            onClick={handleYearlyReport}
-            className="w-full md:w-auto"
-            disabled={pending}
-          >
-            {pending ? "Generating..." : `Generate ${selectedYear} Report`}
-          </Button>
-          {/* {yearlyData && yearlyData.length > 0 && (
-            <Button
-              onClick={() =>
-                printElement(
-                  "employee-report-content",
-                  `${selectedYear} Employee Reports`
-                )
-              }
-              variant="outline"
-              className="w-full md:w-auto"
-            >
-              Print
-            </Button>
-          )} */}
-        </div>
+        {pending && (
+          <span className="text-sm text-muted-foreground">Loading...</span>
+        )}
       </div>
 
       {yearlyData && yearlyData.length > 0 && (
