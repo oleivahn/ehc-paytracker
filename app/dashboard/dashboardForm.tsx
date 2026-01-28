@@ -139,43 +139,61 @@ const DashboardForm = () => {
     setData(Array.isArray(res.data) ? res.data : []);
   };
 
+  // Load current week on initial page load
   useEffect(() => {
-    console.log("FIRST RUN:");
-    // - Get date - 2 weeks
-    const currentTime = new Date();
-    currentTime.setDate(currentTime.getDate() - 14);
-    console.log("📗 LOG [ currentTime ]:", currentTime);
+    const loadCurrentWeek = async () => {
+      const formData = new FormData();
+      formData.append("startDate", new Date().toISOString());
 
-    const newDate = new Date(currentTime).toLocaleDateString("en-us", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-    console.log("📗 LOG [ newDate ]:", newDate);
+      setPending(true);
+      const res = await getDataAction(formData);
 
-    // - Get the date's week
-    const curr = new Date(newDate); // get current date
-    let first = curr.getDate() - curr.getDay();
-    const firstdayOb = new Date(curr.setDate(first));
-    const firstday = firstdayOb.toLocaleDateString("en-us", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+      type Shift = {
+        day: string;
+        dayIndex: number;
+        location: string;
+      };
 
-    const firstdayTemp = firstdayOb;
+      type UserShifts = {
+        user: string;
+        salary: string;
+        employeeType: string;
+        shifts: Shift[];
+      };
 
-    const lastday = new Date(
-      firstdayTemp.setDate(firstdayTemp.getDate() + 6)
-    ).toLocaleDateString("en-us", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-    console.log(firstday);
-    console.log(lastday);
+      let result: UserShifts[] = [];
 
-    // getData();
+      if (res.data) {
+        for (let user in res.data as Object) {
+          let salary = "";
+          let employeeType = "";
+          let shifts = (res.data as any)[user].map((shift: any) => {
+            salary = shift.salary;
+            employeeType = shift.employeeType;
+            return {
+              day: shift.day.day,
+              dayIndex: shift.day.index,
+              location: shift.location,
+              shiftType: shift.shiftType,
+              outOfState: shift.outOfState,
+            };
+          });
+
+          result.push({
+            user: user,
+            salary: salary,
+            employeeType: employeeType,
+            shifts: shifts,
+          });
+        }
+      }
+
+      setData(result);
+      setWeeks(res.weeks);
+      setPending(false);
+    };
+
+    loadCurrentWeek();
   }, []);
 
   const defaultValues = {
