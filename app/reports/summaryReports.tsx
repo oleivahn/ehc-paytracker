@@ -94,8 +94,8 @@ export const SummaryReports = () => {
           name: employee.name,
           totalShifts: employee.totalShifts,
           totalEarnings,
-          firstShift: firstDate ? firstDate.toLocaleDateString() : "",
-          lastShift: lastDate ? lastDate.toLocaleDateString() : "",
+          firstShift: firstDate ? (firstDate as Date).toLocaleDateString() : "",
+          lastShift: lastDate ? (lastDate as Date).toLocaleDateString() : "",
         };
       });
 
