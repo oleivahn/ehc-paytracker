@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getYearlyDataAction } from "./getYearlyDataAction";
+import { YearSelector } from "./yearSelector";
 import { capitalizeWords } from "@/lib/utils";
 
 interface SummaryData {
@@ -25,10 +26,11 @@ interface SummaryData {
 export const SummaryReports = () => {
   const [pending, setPending] = useState(false);
   const [summaryData, setSummaryData] = useState<SummaryData[]>([]);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const handleGenerateSummary = async () => {
     const formData = new FormData();
-    formData.append("year", "2025");
+    formData.append("year", selectedYear.toString());
 
     setPending(true);
     const res = await getYearlyDataAction(formData);
@@ -118,18 +120,24 @@ export const SummaryReports = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <Button
-        onClick={handleGenerateSummary}
-        className="mb-6 w-full md:w-[650px]"
-        disabled={pending}
-      >
-        {pending ? "Generating..." : "Generate 2025 Summary Report"}
-      </Button>
+      <div className="mb-6 flex w-full flex-col gap-4 md:w-[650px] md:flex-row md:items-center md:justify-between">
+        <YearSelector
+          selectedYear={selectedYear}
+          onYearChange={setSelectedYear}
+        />
+        <Button
+          onClick={handleGenerateSummary}
+          className="w-full md:w-auto"
+          disabled={pending}
+        >
+          {pending ? "Generating..." : `Generate ${selectedYear} Summary`}
+        </Button>
+      </div>
 
       {summaryData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[950px] md:px-6 md:py-8">
           <CardHeader>
-            <CardTitle>2025 Yearly Summary</CardTitle>
+            <CardTitle>{selectedYear} Yearly Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>

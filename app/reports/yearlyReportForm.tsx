@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getYearlyDataAction } from "./getYearlyDataAction";
+import { YearSelector } from "./yearSelector";
 import { capitalizeWords } from "@/lib/utils";
 
 interface YearlyData {
@@ -46,10 +47,11 @@ export const YearlyReportForm = () => {
   const [pending, setPending] = useState(false);
   const [yearlyData, setYearlyData] = useState<YearlyData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const handleYearlyReport = async () => {
     const formData = new FormData();
-    formData.append("year", "2025");
+    formData.append("year", selectedYear.toString());
 
     setPending(true);
     const res = await getYearlyDataAction(formData);
@@ -178,18 +180,24 @@ export const YearlyReportForm = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <Button
-        onClick={handleYearlyReport}
-        className="mb-6 w-full md:w-[650px]"
-        disabled={pending}
-      >
-        Generate 2025 Yearly Report
-      </Button>
+      <div className="mb-6 flex w-full flex-col gap-4 md:w-[650px] md:flex-row md:items-center md:justify-between">
+        <YearSelector
+          selectedYear={selectedYear}
+          onYearChange={setSelectedYear}
+        />
+        <Button
+          onClick={handleYearlyReport}
+          className="w-full md:w-auto"
+          disabled={pending}
+        >
+          {pending ? "Generating..." : `Generate ${selectedYear} Report`}
+        </Button>
+      </div>
 
       {yearlyData && yearlyData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[950px] md:px-6 md:py-8">
           <CardHeader>
-            <CardTitle>2025 Yearly Totals</CardTitle>
+            <CardTitle>{selectedYear} Yearly Totals</CardTitle>
             <div className="mt-4">
               <Input
                 type="text"

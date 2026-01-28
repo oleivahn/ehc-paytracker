@@ -3,10 +3,9 @@ import { YearlyReportForm } from "./yearlyReportForm";
 import { SummaryReports } from "./summaryReports";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function YearlyReportPage() {
+export default function ReportsPage() {
   return (
     <main className="container mx-auto p-4">
-      {/* <h1 className="mb-8 text-3xl font-bold">Yearly Reports</h1> */}
       <Tabs defaultValue="employee-reports" className="w-full">
         <TabsList className="mb-6">
           <TabsTrigger value="employee-reports">Employee Reports</TabsTrigger>
