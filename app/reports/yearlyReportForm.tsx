@@ -12,6 +12,7 @@ import {
 import { getYearlyDataAction } from "./getYearlyDataAction";
 import { YearSelector } from "./yearSelector";
 import { capitalizeWords } from "@/lib/utils";
+import { printElement } from "@/lib/printPage";
 
 interface YearlyData {
   name: string;
@@ -185,97 +186,117 @@ export const YearlyReportForm = () => {
           selectedYear={selectedYear}
           onYearChange={setSelectedYear}
         />
-        <Button
-          onClick={handleYearlyReport}
-          className="w-full md:w-auto"
-          disabled={pending}
-        >
-          {pending ? "Generating..." : `Generate ${selectedYear} Report`}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={handleYearlyReport}
+            className="w-full md:w-auto"
+            disabled={pending}
+          >
+            {pending ? "Generating..." : `Generate ${selectedYear} Report`}
+          </Button>
+          {/* {yearlyData && yearlyData.length > 0 && (
+            <Button
+              onClick={() =>
+                printElement(
+                  "employee-report-content",
+                  `${selectedYear} Employee Reports`
+                )
+              }
+              variant="outline"
+              className="w-full md:w-auto"
+            >
+              Print
+            </Button>
+          )} */}
+        </div>
       </div>
 
       {yearlyData && yearlyData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[950px] md:px-6 md:py-8">
-          <CardHeader>
-            <CardTitle>{selectedYear} Yearly Totals</CardTitle>
-            <div className="mt-4">
-              <Input
-                type="text"
-                placeholder="Search by employee name..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-sm"
-              />
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Accordion type="single" collapsible className="w-full">
-              {yearlyData
-                .filter((employee) =>
-                  employee.name.toLowerCase().includes(searchTerm.toLowerCase())
-                )
-                .map((employee, index) => (
-                  <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger className="hover:no-underline">
-                      <div className="flex w-full items-center justify-between pr-4">
-                        <span className="text-lg font-bold text-primary">
-                          {capitalizeWords(employee.name)}
-                        </span>
-                        <div className="flex gap-6 text-sm text-muted-foreground">
-                          <span>Shifts: {employee.totalShifts}</span>
-                          <span>
-                            ${employee.totalEarnings.toLocaleString()}
+          <div id="employee-report-content">
+            <CardHeader>
+              <CardTitle>{selectedYear} Yearly Totals</CardTitle>
+              <div className="mt-4">
+                <Input
+                  type="text"
+                  placeholder="Search by employee name..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="max-w-sm"
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Accordion type="single" collapsible className="w-full">
+                {yearlyData
+                  .filter((employee) =>
+                    employee.name
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase())
+                  )
+                  .map((employee, index) => (
+                    <AccordionItem key={index} value={`item-${index}`}>
+                      <AccordionTrigger className="hover:no-underline">
+                        <div className="flex w-full items-center justify-between pr-4">
+                          <span className="text-lg font-bold text-primary">
+                            {capitalizeWords(employee.name)}
                           </span>
+                          <div className="flex gap-6 text-sm text-muted-foreground">
+                            <span>Shifts: {employee.totalShifts}</span>
+                            <span>
+                              ${employee.totalEarnings.toLocaleString()}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="pt-4">
-                        <div className="mb-4">
-                          <h4 className="mb-2 font-semibold">
-                            Shift Breakdown:
-                          </h4>
-                          {Object.entries(employee.shiftCounts).map(
-                            ([type, counts]) => (
-                              <div key={type} className="ml-4">
-                                <p className="capitalize">{type}:</p>
-                                <ul className="ml-4">
-                                  <li>Regular: {counts.regular}</li>
-                                  <li>Out of State: {counts.outOfState}</li>
-                                  <li>Total: {counts.total}</li>
-                                </ul>
-                              </div>
-                            )
-                          )}
-                        </div>
-
-                        <div>
-                          <h4 className="mb-2 font-semibold">
-                            Detailed Shifts:
-                          </h4>
-                          <div className="max-h-60 overflow-y-auto">
-                            {employee.detailedShifts.map(
-                              (shift, shiftIndex) => (
-                                <div key={shiftIndex} className="mb-2 ml-4">
-                                  <p>
-                                    {shift.date} - {shift.location} -{" "}
-                                    {shift.shiftType}
-                                    {shift.outOfState
-                                      ? " (Out of State)"
-                                      : ""}{" "}
-                                    - ${shift.earnings}
-                                  </p>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="pt-4">
+                          <div className="mb-4">
+                            <h4 className="mb-2 font-semibold">
+                              Shift Breakdown:
+                            </h4>
+                            {Object.entries(employee.shiftCounts).map(
+                              ([type, counts]) => (
+                                <div key={type} className="ml-4">
+                                  <p className="capitalize">{type}:</p>
+                                  <ul className="ml-4">
+                                    <li>Regular: {counts.regular}</li>
+                                    <li>Out of State: {counts.outOfState}</li>
+                                    <li>Total: {counts.total}</li>
+                                  </ul>
                                 </div>
                               )
                             )}
                           </div>
+
+                          <div>
+                            <h4 className="mb-2 font-semibold">
+                              Detailed Shifts:
+                            </h4>
+                            <div className="max-h-60 overflow-y-auto">
+                              {employee.detailedShifts.map(
+                                (shift, shiftIndex) => (
+                                  <div key={shiftIndex} className="mb-2 ml-4">
+                                    <p>
+                                      {shift.date} - {shift.location} -{" "}
+                                      {shift.shiftType}
+                                      {shift.outOfState
+                                        ? " (Out of State)"
+                                        : ""}{" "}
+                                      - ${shift.earnings}
+                                    </p>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-            </Accordion>
-          </CardContent>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+              </Accordion>
+            </CardContent>
+          </div>
         </Card>
       )}
     </div>

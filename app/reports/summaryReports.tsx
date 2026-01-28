@@ -14,6 +14,7 @@ import {
 import { getYearlyDataAction } from "./getYearlyDataAction";
 import { YearSelector } from "./yearSelector";
 import { capitalizeWords } from "@/lib/utils";
+import { printElement } from "@/lib/printPage";
 
 interface SummaryData {
   name: string;
@@ -125,59 +126,77 @@ export const SummaryReports = () => {
           selectedYear={selectedYear}
           onYearChange={setSelectedYear}
         />
-        <Button
-          onClick={handleGenerateSummary}
-          className="w-full md:w-auto"
-          disabled={pending}
-        >
-          {pending ? "Generating..." : `Generate ${selectedYear} Summary`}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={handleGenerateSummary}
+            className="w-full md:w-auto"
+            disabled={pending}
+          >
+            {pending ? "Generating..." : `Generate ${selectedYear} Summary`}
+          </Button>
+          {summaryData.length > 0 && (
+            <Button
+              onClick={() =>
+                printElement(
+                  "summary-report-content",
+                  `${selectedYear} Yearly Summary`
+                )
+              }
+              variant="outline"
+              className="w-full md:w-auto"
+            >
+              Print
+            </Button>
+          )}
+        </div>
       </div>
 
       {summaryData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[950px] md:px-6 md:py-8">
-          <CardHeader>
-            <CardTitle>{selectedYear} Yearly Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Pay Period</TableHead>
-                  <TableHead className="text-center">Total Shifts</TableHead>
-                  <TableHead className="text-right">Total Earnings</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {summaryData.map((employee, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium">
-                      {capitalizeWords(employee.name)}
-                    </TableCell>
-                    <TableCell>
-                      {employee.firstShift} - {employee.lastShift}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {employee.totalShifts}
-                    </TableCell>
+          <div id="summary-report-content">
+            <CardHeader>
+              <CardTitle>{selectedYear} Yearly Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Pay Period</TableHead>
+                    <TableHead className="text-center">Total Shifts</TableHead>
+                    <TableHead className="text-right">Total Earnings</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {summaryData.map((employee, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">
+                        {capitalizeWords(employee.name)}
+                      </TableCell>
+                      <TableCell>
+                        {employee.firstShift} - {employee.lastShift}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {employee.totalShifts}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        ${employee.totalEarnings.toLocaleString()}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TableCell colSpan={2}>Grand Total</TableCell>
+                    <TableCell className="text-center">{totalShifts}</TableCell>
                     <TableCell className="text-right">
-                      ${employee.totalEarnings.toLocaleString()}
+                      ${grandTotal.toLocaleString()}
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={2}>Grand Total</TableCell>
-                  <TableCell className="text-center">{totalShifts}</TableCell>
-                  <TableCell className="text-right">
-                    ${grandTotal.toLocaleString()}
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </CardContent>
+                </TableFooter>
+              </Table>
+            </CardContent>
+          </div>
         </Card>
       )}
     </div>

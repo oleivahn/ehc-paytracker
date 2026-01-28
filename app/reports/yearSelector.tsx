@@ -18,9 +18,9 @@ export const YearSelector = ({
   onYearChange,
 }: YearSelectorProps) => {
   const currentYear = new Date().getFullYear();
-  const startYear = 2023;
+  const startYear = 2024;
 
-  // Generate years from current year down to 2023
+  // Generate years from current year down to 2024
   const years = [];
   for (let year = currentYear; year >= startYear; year--) {
     years.push(year);
