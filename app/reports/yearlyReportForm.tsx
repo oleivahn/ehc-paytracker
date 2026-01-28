@@ -12,7 +12,7 @@ import {
 import { getYearlyDataAction } from "./getYearlyDataAction";
 import { YearSelector } from "./yearSelector";
 import { capitalizeWords } from "@/lib/utils";
-import { printElement } from "@/lib/printPage";
+import { printElement } from "@/lib/printTemplates/printYearlySummary";
 
 interface YearlyData {
   name: string;
