@@ -7,8 +7,8 @@ export const printPage = () => {
 };
 
 /**
- * Prints a specific element by ID
- * Creates a new window with just that element's content
+ * Opens a specific element's content in a new tab for print preview
+ * User can then decide whether to print from there
  */
 export const printElement = (elementId: string, title?: string) => {
   const element = document.getElementById(elementId);
@@ -77,10 +77,4 @@ export const printElement = (elementId: string, title?: string) => {
 
   printWindow.document.close();
   printWindow.focus();
-
-  // Wait for content to load before printing
-  setTimeout(() => {
-    printWindow.print();
-    printWindow.close();
-  }, 250);
 };
