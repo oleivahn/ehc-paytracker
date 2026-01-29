@@ -67,49 +67,49 @@ export const WeeklyReports = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-6 flex w-full flex-col gap-4 md:w-[650px] md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium">Employee:</label>
-          <Select
-            value={selectedEmployee}
-            onValueChange={handleEmployeeSelect}
-            disabled={loadingEmployees}
-          >
-            <SelectTrigger className="w-[250px]">
-              <SelectValue
-                placeholder={
-                  loadingEmployees ? "Loading..." : "Select an employee"
-                }
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {employees.map((employee) => (
-                <SelectItem key={employee} value={employee}>
-                  {capitalizeWords(employee)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="mb-6 w-full md:w-[650px]">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium">Employee:</label>
+            <Select
+              value={selectedEmployee}
+              onValueChange={handleEmployeeSelect}
+              disabled={loadingEmployees}
+            >
+              <SelectTrigger className="w-[180px] md:w-[250px]">
+                <SelectValue
+                  placeholder={
+                    loadingEmployees ? "Loading..." : "Select an employee"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {employees.map((employee) => (
+                  <SelectItem key={employee} value={employee}>
+                    {capitalizeWords(employee)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-        {weeklyData && weeklyData.length > 0 && (
-          <Button
-            onClick={() =>
-              printLast3Months(selectedEmployee, weeklyData, totalEarnings)
-            }
-            variant="outline"
-            className="w-full md:w-auto"
-          >
-            Print Letter
-          </Button>
+          {weeklyData && weeklyData.length > 0 && (
+            <Button
+              onClick={() =>
+                printLast3Months(selectedEmployee, weeklyData, totalEarnings)
+              }
+              variant="outline"
+            >
+              Print Letter
+            </Button>
+          )}
+        </div>
+        {pending && (
+          <span className="mt-2 block text-sm text-muted-foreground">
+            Loading weekly data...
+          </span>
         )}
       </div>
-
-      {pending && (
-        <div className="text-center text-muted-foreground">
-          Loading weekly data...
-        </div>
-      )}
 
       {weeklyData && weeklyData.length > 0 && (
         <Card className="mb-6 w-full shadow-lg dark:bg-darker md:w-[650px]">

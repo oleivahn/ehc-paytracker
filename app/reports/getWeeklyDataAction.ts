@@ -124,14 +124,26 @@ export async function getWeeklyDataAction(
   }
 }
 
-// Get list of unique employee names from database
+// Get list of unique employee names from database (normalized to lowercase to avoid duplicates)
 export async function getEmployeeListAction(): Promise<string[]> {
   try {
     await connectDB();
 
     const employees = await Shift.distinct("name");
-    return employees.sort((a: string, b: string) =>
-      a.toLowerCase().localeCompare(b.toLowerCase())
+
+    // Normalize names to lowercase and remove duplicates
+    const normalizedNames = new Map<string, string>();
+    employees.forEach((name: string) => {
+      const lowerName = name.toLowerCase();
+      // Keep the first occurrence (or you could prefer a specific casing)
+      if (!normalizedNames.has(lowerName)) {
+        normalizedNames.set(lowerName, name);
+      }
+    });
+
+    // Return unique names sorted alphabetically
+    return Array.from(normalizedNames.keys()).sort((a, b) =>
+      a.localeCompare(b)
     );
   } catch (error) {
     console.error("Error fetching employee list:", error);
