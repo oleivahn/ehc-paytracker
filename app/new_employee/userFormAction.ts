@@ -4,8 +4,8 @@ import { schema } from "@/app/new_employee/userFormSchema";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { logger } from "@/lib/logger";
 
-import { green, red, yellow } from "console-log-colors";
 import { revalidatePath } from "next/cache";
 
 // - What we return
@@ -29,17 +29,16 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
   const timestamp = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}-${String(now.getFullYear()).slice(-2)}`;
   const timeOfDay = now.toLocaleTimeString();
 
-  // Enhanced logging
-  console.log("═".repeat(80));
-  console.log(`📝 NEW EMPLOYEE REQUEST`);
-  console.log(`👤 User ID: ${userId || "Unknown"}`);
-  console.log(`👤 User Name: ${userName}`);
-  console.log(`📅 Date: ${timestamp}`);
-  console.log(`🕐 Time: ${timeOfDay}`);
-  console.log("═".repeat(80));
-
   const formData = Object.fromEntries(data);
-  console.log("📗 LOG [ Creating new user with formData ]:", formData);
+
+  // Enhanced logging
+  logger.request("NEW EMPLOYEE REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+    data: formData,
+  });
 
   const parsed = schema.safeParse(formData);
 
@@ -70,20 +69,24 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     await newUser.save();
 
     revalidatePath("/new_employee");
-    console.log(
-      `✅ User created successfully with name: ${userDataWithName.name}`,
-    );
-    console.log(`   By: ${userName} (${userId || "Unknown"}) at ${timestamp} ${timeOfDay}`);
-    console.log("═".repeat(80));
+    logger.success(`User created successfully with name: ${userDataWithName.name}`, {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+    });
     return {
       message: "Form Action Success!",
       data: userDataWithName,
     };
   } catch (error: unknown) {
-    console.log("❌ DB Error: Could not create record:");
-    console.log(`   By: ${userName} (${userId || "Unknown"}) at ${timestamp} ${timeOfDay}`);
-    console.log((error as Error).message);
-    console.log("═".repeat(80));
+    logger.error("DB Error: Could not create record", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: (error as Error).message,
       data: formData,
