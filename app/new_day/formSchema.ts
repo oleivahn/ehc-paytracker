@@ -1,10 +1,8 @@
 import { z } from "zod";
 
-// Info: All these fields mustd be supplied for proper validation
+// Info: All these fields must be supplied for proper validation
+// Note: user field is computed from name and validated server-side
 export const schema = z.object({
-  // employeeId: z.string().min(2, {
-  //   message: "Employee ID must be at least 2 characters.",
-  // }),
   name: z.string().min(2, {
     message: "Name cannot be empty",
   }),

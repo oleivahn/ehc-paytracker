@@ -43,12 +43,11 @@ const ShiftSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  user: [
-    {
-      // Reference is the name of the model we are linking it to, this is the relationship
-      item: { type: mongoose.Schema.ObjectId, ref: "User" },
-    },
-  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 // - THIS IS WHERE YOU DEFINE THE TABLE NAME FOR MONGO_DB

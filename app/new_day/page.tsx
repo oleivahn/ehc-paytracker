@@ -131,21 +131,45 @@ const NewDay = () => {
   };
 
   const getId = (name: string) => {
-    const user = users.find((user) => user.name === name);
+    const user = users.find(
+      (user) => user.name.toLowerCase() === name.toLowerCase(),
+    );
+    if (!user) {
+      console.error(`⚠️ User not found for name: "${name}"`);
+      console.log(
+        "Available users:",
+        users.map((u) => u.name),
+      );
+    }
     return user ? user._id : "";
   };
   const getSalary = (name: string) => {
-    const user = users.find((user) => user.name === name);
+    const user = users.find(
+      (user) => user.name.toLowerCase() === name.toLowerCase(),
+    );
     return user ? user.salary : "";
   };
   const getEmployeeType = (name: string) => {
-    const user = users.find((user) => user.name === name);
+    const user = users.find(
+      (user) => user.name.toLowerCase() === name.toLowerCase(),
+    );
     return user ? user.employeeType : "";
   };
 
   // - Form Submit
   const submitForm = async (values: z.infer<typeof schema>) => {
     console.log("📗 LOG [ values ]:", values);
+
+    // Validate that we can get a valid user ID before proceeding
+    const employeeId = getId(values.name);
+    if (!employeeId) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Cannot find employee: ${values.name}. Please select a valid employee.`,
+      });
+      return;
+    }
 
     // - CAN ONLY SEND STRINGS
     const formData = new FormData();
@@ -157,16 +181,16 @@ const NewDay = () => {
         year: "numeric",
         month: "short",
         day: "numeric",
-      })
+      }),
     ); // Convert Date object to string (format: "Aug 10, 2024")
     formData.append("easyDate", values.shiftDate.toISOString().split("T")[0]); // Convert Date object to string (format: "2024-10-29")
     formData.append("salary", getSalary(values.name));
     formData.append("employeeType", getEmployeeType(values.name));
-    formData.append("user", getId(values.name));
+    formData.append("user", employeeId);
     formData.append("shiftType", values.shiftType);
     formData.append("outOfState", JSON.stringify(values.outOfState)); // Convert boolean to string
 
-    console.log("🚧 LOG [ formData ]:", formData);
+    console.log("🚧 LOG [ formData with user ID ]:", employeeId);
 
     setPending(true);
     // wait 1 second for testing purposes
@@ -235,7 +259,7 @@ const NewDay = () => {
                             variant={"outline"}
                             className={cn(
                               "w-[240px] pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              !field.value && "text-muted-foreground",
                             )}
                           >
                             {field.value ? (

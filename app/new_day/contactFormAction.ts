@@ -36,28 +36,38 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     data: formData,
   });
 
-  // ! DO NOT USE Object.fromEntries(data) as it will not work with FormData, can't update the object
-  // const formData = Object.fromEntries(data);
-  // console.log("Object?", typeof formData);
-  // console.log("📗 LOG on FormAction [ formData ]:", formData);
-
+  // Validate employee user ID first
   const employeeUserId = formData.user as string;
 
-  // if (!employeeUserId || !Types.ObjectId.isValid(employeeUserId)) {
   if (!employeeUserId) {
     return {
-      message: "Invalid form data sent to the server! [No User ID]",
-      data: "No User ID",
+      message: "Employee must be selected",
+      data: "No User ID provided",
     };
   }
 
-  // Parse the form data on the server to avoid any client side manipulation
+  // Validate ObjectId format
+  if (!Types.ObjectId.isValid(employeeUserId)) {
+    return {
+      message: "Invalid User ID format",
+      data: "Invalid User ID",
+    };
+  }
+
+  // Parse and validate the rest of the form data
   const parsed = schema.safeParse(formData);
 
   if (!parsed.success) {
+    logger.error("Validation failed for new shift", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: parsed.error.message,
+    });
     return {
       message: "Invalid form data sent to the server! [Parse Error]",
-      data: "Something didn't parse correctly!",
+      data: parsed.error.flatten().fieldErrors,
     };
   }
 
@@ -80,17 +90,26 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     const user = await User.findById(employeeUserId);
 
     if (!user) {
+      logger.error("User not found", {
+        userId,
+        userName,
+        timestamp,
+        timeOfDay,
+        error: `Employee ID ${employeeUserId} not found`,
+      });
       return {
         message: "User Not Found",
         data: "No User Found",
       };
     }
 
-    const shifts = await Shift.find({
-      user: new Types.ObjectId(employeeUserId),
+    // Create new shift with proper user reference
+    logger.data("Creating shift with employee ID", {
+      employeeUserId,
+      employeeUserIdType: typeof employeeUserId,
+      isValidObjectId: Types.ObjectId.isValid(employeeUserId),
     });
 
-    // const newShift = new Shift(formData);
     const newShift = new Shift({
       name: (formData.name as string).toLowerCase(),
       firstName: user.firstName.toLowerCase(),
@@ -98,11 +117,16 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       shiftDate: formData.shiftDate as string,
       easyDate: formData.easyDate as string,
       location: formData.location as string,
-      user: new Types.ObjectId(employeeUserId),
+      user: employeeUserId, // Let Mongoose handle the ObjectId conversion
       salary: formData.salary as string,
       employeeType: formData.employeeType as string,
       shiftType: formData.shiftType as string,
       outOfState: formData.outOfState as boolean,
+    });
+
+    logger.data("Shift object before save", {
+      shiftUser: newShift.user,
+      shiftUserType: typeof newShift.user,
     });
 
     await newShift.save();
@@ -152,6 +176,41 @@ export const updateShiftAction = async (data: FormData) => {
     data: formData,
   });
 
+  // Validate employee user ID first
+  const employeeUserId = formData.user as string;
+
+  if (!employeeUserId) {
+    return {
+      message: "Employee must be selected",
+      data: "No User ID provided",
+    };
+  }
+
+  // Validate ObjectId format
+  if (!Types.ObjectId.isValid(employeeUserId)) {
+    return {
+      message: "Invalid User ID format",
+      data: "Invalid User ID",
+    };
+  }
+
+  // Parse and validate the rest of the form data
+  const parsed = schema.safeParse(formData);
+
+  if (!parsed.success) {
+    logger.error("Validation failed for shift update", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: parsed.error.message,
+    });
+    return {
+      message: "Invalid form data sent to the server! [Parse Error]",
+      data: parsed.error.flatten().fieldErrors,
+    };
+  }
+
   // Check if shift exists
   const shiftExists = await Shift.exists({
     name: (formData.name as string).toLowerCase(),
@@ -165,23 +224,19 @@ export const updateShiftAction = async (data: FormData) => {
     };
   }
 
-  const parsed = schema.safeParse(formData);
-
-  if (!parsed.success) {
-    return {
-      message: "Invalid form data sent to the server! [Parse Error]",
-      data: "Something didn't parse correctly!",
-    };
-  }
-
-  const employeeUserId = formData.user as string;
-
   try {
     await connectDB();
 
     // Get user data to extract firstName and lastName
     const user = await User.findById(employeeUserId);
     if (!user) {
+      logger.error("User not found for shift update", {
+        userId,
+        userName,
+        timestamp,
+        timeOfDay,
+        error: `Employee ID ${employeeUserId} not found`,
+      });
       return {
         message: "User Not Found",
         data: "No User Found",
@@ -201,11 +256,11 @@ export const updateShiftAction = async (data: FormData) => {
         shiftDate: formData.shiftDate as string,
         easyDate: formData.easyDate as string,
         location: formData.location as string,
-        // user: new mongoose.Types.ObjectId(userId),
+        user: employeeUserId, // Let Mongoose handle the ObjectId conversion
         salary: formData.salary as string,
         employeeType: formData.employeeType as string,
         shiftType: formData.shiftType as string,
-        outOfState: formData.outOfState as string,
+        outOfState: formData.outOfState as boolean,
       },
       {
         new: true,
