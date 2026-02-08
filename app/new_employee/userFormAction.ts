@@ -3,7 +3,7 @@
 import { schema } from "@/app/new_employee/userFormSchema";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 import { green, red, yellow } from "console-log-colors";
 import { revalidatePath } from "next/cache";
@@ -19,6 +19,10 @@ export type FormState = {
 export const contactFormAction = async (data: FormData): Promise<FormState> => {
   // Get authenticated user info
   const { userId } = await auth();
+  const user = await currentUser();
+  const userName = user?.firstName && user?.lastName 
+    ? `${user.firstName} ${user.lastName}`
+    : user?.emailAddresses?.[0]?.emailAddress || "Unknown";
 
   // Format timestamp as mm-dd-yy
   const now = new Date();
@@ -26,12 +30,13 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
   const timeOfDay = now.toLocaleTimeString();
 
   // Enhanced logging
-  console.log(yellow("═".repeat(80)));
-  console.log(yellow(`📝 NEW EMPLOYEE REQUEST`));
-  console.log(yellow(`👤 User ID: ${userId || "Unknown"}`));
-  console.log(yellow(`📅 Date: ${timestamp}`));
-  console.log(yellow(`🕐 Time: ${timeOfDay}`));
-  console.log(yellow("═".repeat(80)));
+  console.log("═".repeat(80));
+  console.log(`📝 NEW EMPLOYEE REQUEST`);
+  console.log(`👤 User ID: ${userId || "Unknown"}`);
+  console.log(`👤 User Name: ${userName}`);
+  console.log(`📅 Date: ${timestamp}`);
+  console.log(`🕐 Time: ${timeOfDay}`);
+  console.log("═".repeat(80));
 
   const formData = Object.fromEntries(data);
   console.log("📗 LOG [ Creating new user with formData ]:", formData);
@@ -66,23 +71,19 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
 
     revalidatePath("/new_employee");
     console.log(
-      green(`✅ User created successfully with name: ${userDataWithName.name}`),
+      `✅ User created successfully with name: ${userDataWithName.name}`,
     );
-    console.log(
-      green(`   By: ${userId || "Unknown"} at ${timestamp} ${timeOfDay}`),
-    );
-    console.log(yellow("═".repeat(80)));
+    console.log(`   By: ${userName} (${userId || "Unknown"}) at ${timestamp} ${timeOfDay}`);
+    console.log("═".repeat(80));
     return {
       message: "Form Action Success!",
       data: userDataWithName,
     };
   } catch (error: unknown) {
-    console.log(red("❌ DB Error: Could not create record:"));
-    console.log(
-      red(`   By: ${userId || "Unknown"} at ${timestamp} ${timeOfDay}`),
-    );
-    console.log(red((error as Error).message));
-    console.log(yellow("═".repeat(80)));
+    console.log("❌ DB Error: Could not create record:");
+    console.log(`   By: ${userName} (${userId || "Unknown"}) at ${timestamp} ${timeOfDay}`);
+    console.log((error as Error).message);
+    console.log("═".repeat(80));
     return {
       message: (error as Error).message,
       data: formData,
