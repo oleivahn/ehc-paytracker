@@ -64,6 +64,7 @@ export const logger = {
       data?: any;
     },
   ) => {
+    console.log(yellow(`LOG: ${action}`));
     console.log(yellow("═".repeat(80)));
     console.log(yellow(`📝 ${action}`));
     console.log(yellow(`👤 User ID: ${meta.userId || "Unknown"}`));
