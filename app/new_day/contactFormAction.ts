@@ -4,8 +4,9 @@ import { schema } from "@/app/new_day/formSchema";
 import connectDB from "@/lib/database-connection";
 import Shift from "@/models/shift";
 import User from "@/models/user";
+import { logger } from "@/lib/logger";
+import { getAuthUserInfo } from "@/lib/authHelper";
 
-import { green, red } from "console-log-colors";
 import mongoose, { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 import { capitalizeWords } from "@/lib/utils";
@@ -19,26 +20,31 @@ export type FormState = {
 
 // - Add a new shift to MongoDB
 export const contactFormAction = async (data: FormData): Promise<FormState> => {
-  console.log("📗 LOG on FormAction [ data ]:", data);
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
 
   // Convert FormData to a regular object
   const formData: { [key: string]: any } = {};
   data.forEach((value, key) => (formData[key] = value));
 
   formData.outOfState = formData.outOfState === "true" ? true : false;
-  console.log("📗 LOG [ formData2 ]:", formData);
+
+  logger.request("NEW SHIFT REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+    data: formData,
+  });
 
   // ! DO NOT USE Object.fromEntries(data) as it will not work with FormData, can't update the object
   // const formData = Object.fromEntries(data);
   // console.log("Object?", typeof formData);
   // console.log("📗 LOG on FormAction [ formData ]:", formData);
 
-  const userId = formData.user as string;
-  console.log("📗 LOG on FormAction [ userId ]:", userId);
+  const employeeUserId = formData.user as string;
 
-  // if (!userId || !Types.ObjectId.isValid(userId)) {
-  if (!userId) {
+  // if (!employeeUserId || !Types.ObjectId.isValid(employeeUserId)) {
+  if (!employeeUserId) {
     return {
       message: "Invalid form data sent to the server! [No User ID]",
       data: "No User ID",
@@ -63,7 +69,6 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       name: (formData.name as string).toLowerCase(),
       shiftDate: formData.shiftDate as string,
     });
-    console.log("🔥 [ shiftExists ]:", shiftExists);
 
     if (shiftExists) {
       return {
@@ -72,8 +77,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       };
     }
 
-    const user = await User.findById(userId);
-    console.log("📗 LOG [ user ]:", user);
+    const user = await User.findById(employeeUserId);
 
     if (!user) {
       return {
@@ -82,8 +86,9 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       };
     }
 
-    const shifts = await Shift.find({ user: new Types.ObjectId(userId) });
-    console.log("📗 LOG [ shifts ]:", shifts);
+    const shifts = await Shift.find({
+      user: new Types.ObjectId(employeeUserId),
+    });
 
     // const newShift = new Shift(formData);
     const newShift = new Shift({
@@ -93,7 +98,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
       shiftDate: formData.shiftDate as string,
       easyDate: formData.easyDate as string,
       location: formData.location as string,
-      user: new Types.ObjectId(userId),
+      user: new Types.ObjectId(employeeUserId),
       salary: formData.salary as string,
       employeeType: formData.employeeType as string,
       shiftType: formData.shiftType as string,
@@ -103,14 +108,24 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     await newShift.save();
     revalidatePath("/NewDay");
 
-    console.log(green("Record created successfully"));
+    logger.success("Shift created successfully", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+    });
     return {
       message: "Form Action Success!",
       data: formData,
     };
   } catch (error: unknown) {
-    console.log(red("DB Error: Could not create record:"));
-    console.log((error as Error).message);
+    logger.error("DB Error: Could not create shift", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: (error as Error).message,
       data: formData,
@@ -121,8 +136,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
 
 // - Update a shift in MongoDB
 export const updateShiftAction = async (data: FormData) => {
-  console.log("📗 LOG [ data tp update ]:", data);
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
 
   // Convert FormData to a regular object
   const formData: { [key: string]: any } = {};
@@ -130,12 +144,19 @@ export const updateShiftAction = async (data: FormData) => {
 
   formData.outOfState = formData.outOfState === "true" ? true : false;
 
+  logger.request("UPDATE SHIFT REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+    data: formData,
+  });
+
   // Check if shift exists
   const shiftExists = await Shift.exists({
     name: (formData.name as string).toLowerCase(),
     shiftDate: formData.shiftDate as string,
   });
-  console.log("📗 LOG [ shiftExists on update ]:", shiftExists);
 
   if (!shiftExists) {
     return {
@@ -145,7 +166,6 @@ export const updateShiftAction = async (data: FormData) => {
   }
 
   const parsed = schema.safeParse(formData);
-  console.log("📗 LOG [ parsed ]:", parsed);
 
   if (!parsed.success) {
     return {
@@ -154,13 +174,13 @@ export const updateShiftAction = async (data: FormData) => {
     };
   }
 
-  const userId = formData.user as string;
+  const employeeUserId = formData.user as string;
 
   try {
     await connectDB();
 
     // Get user data to extract firstName and lastName
-    const user = await User.findById(userId);
+    const user = await User.findById(employeeUserId);
     if (!user) {
       return {
         message: "User Not Found",
@@ -189,19 +209,27 @@ export const updateShiftAction = async (data: FormData) => {
       },
       {
         new: true,
-      }
+      },
     );
-    console.log("📗 LOG [ updatedShift ]:", updatedShift);
-
     revalidatePath("/NewDay");
-    console.log(green("Record updated successfully"));
+    logger.success("Shift updated successfully", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+    });
     return {
       message: "Form Action Success!",
       data: parsed.data,
     };
   } catch (error: unknown) {
-    console.log(red("DB Error: Could not update record:"));
-    console.log((error as Error).message);
+    logger.error("DB Error: Could not update shift", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: (error as Error).message,
       data: formData,
@@ -212,6 +240,14 @@ export const updateShiftAction = async (data: FormData) => {
 
 // - Get all users
 export const getUsersAction = async () => {
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
+
+  logger.request("GET USERS REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+  });
   try {
     await connectDB();
 
@@ -237,16 +273,28 @@ export const getUsersAction = async () => {
     });
 
     revalidatePath("/NewDay");
-    console.log(green("Users fetched successfully"));
-    console.log("📗 LOG [ users ]:", usersWithCapitalizedNames);
+    logger.success(
+      `Users fetched successfully (${usersWithCapitalizedNames.length} users)`,
+      {
+        userId,
+        userName,
+        timestamp,
+        timeOfDay,
+      },
+    );
 
     return {
       message: "Got users successfully!",
       data: JSON.parse(JSON.stringify(usersWithCapitalizedNames)),
     };
   } catch (error: unknown) {
-    console.log(red("DB Error: Could not retrieve user records:"));
-    console.log((error as Error).message);
+    logger.error("DB Error: Could not retrieve users", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: (error as Error).message,
       data: {},

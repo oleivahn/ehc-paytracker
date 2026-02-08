@@ -4,8 +4,9 @@ import { schema } from "@/app/new_day/formSchema";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
 import Shift from "@/models/shift";
+import { logger } from "@/lib/logger";
+import { getAuthUserInfo } from "@/lib/authHelper";
 
-import { green, red } from "console-log-colors";
 import { Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 
@@ -44,7 +45,7 @@ const getWeek = (date?: string) => {
   const firstdayTemp = firstdayOb;
 
   const lastday = new Date(
-    firstdayTemp.setDate(firstdayTemp.getDate() + 7)
+    firstdayTemp.setDate(firstdayTemp.getDate() + 7),
   ).toLocaleDateString("en-us", {
     year: "numeric",
     month: "short",
@@ -61,7 +62,6 @@ const getPreviousWeek = (date: string, daysBefore: number) => {
   const currentTime = new Date(date);
   const goToWeek = daysBefore * 7; // Conver days to weeks
   currentTime.setDate(currentTime.getDate() - goToWeek);
-  console.log("📗 LOG [ currentTime ]:", currentTime);
 
   return new Date(currentTime).toLocaleDateString("en-us", {
     year: "numeric",
@@ -87,19 +87,38 @@ function getDayOfTheWeek(date: Date) {
 
 // - Form Action
 export const getShiftsAction = async (): Promise<FormState> => {
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
+
+  logger.request("GET SHIFTS REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+  });
+
   try {
     await connectDB();
 
     revalidatePath("/NewDay");
-    console.log(green("Record created successfully"));
+    logger.success("Shifts fetched successfully", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+    });
     return {
       message: "Got users successfully!",
       // data: JSON.parse(JSON.stringify(users)),
       data: "Got users successfully!",
     };
   } catch (error: unknown) {
-    console.log(red("DB Error: Could not create record:"));
-    console.log((error as Error).message);
+    logger.error("DB Error: Could not fetch shifts", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: (error as Error).message,
       data: {},
@@ -109,7 +128,16 @@ export const getShiftsAction = async (): Promise<FormState> => {
 };
 
 export const getDataAction = async (data: FormData): Promise<FormState> => {
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
   const formData = Object.fromEntries(data);
+
+  logger.request("GET DASHBOARD DATA REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+    data: formData,
+  });
 
   // Get day - 2 weeks and 3 weeks ago (mpn, tue ...)
   const previous2Weeks = await getPreviousWeek(formData.startDate as string, 2);
@@ -146,7 +174,6 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
         // location: getParsedLocation(shift.location),
       };
     });
-    console.log("📗 LOG [ shiftsWithDay ]:", shiftsWithDay);
 
     //  split shifts by name
     const shiftsByUser = shiftsWithDay.reduce((acc, shift) => {
@@ -157,8 +184,6 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       return acc;
     }, {});
 
-    console.log("📗 LOG [ shiftsByUser ]:", shiftsByUser);
-
     interface Shift {
       day: {
         index: number;
@@ -166,7 +191,12 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
     }
 
     revalidatePath("/NewDay");
-    console.log(green("Record created successfully"));
+    logger.success("Dashboard data fetched successfully", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+    });
 
     return {
       message: "Form Action Success!",
@@ -180,8 +210,13 @@ export const getDataAction = async (data: FormData): Promise<FormState> => {
       // error: true,
     };
   } catch (error: unknown) {
-    console.log(red("DB Error: Could not create record:"));
-    console.log((error as Error).message);
+    logger.error("DB Error: Could not fetch dashboard data", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: (error as Error).message,
       data: formData,

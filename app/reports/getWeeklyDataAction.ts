@@ -2,7 +2,8 @@
 
 import connectDB from "@/lib/database-connection";
 import Shift from "@/models/shift";
-import { green } from "console-log-colors";
+import { logger } from "@/lib/logger";
+import { getAuthUserInfo } from "@/lib/authHelper";
 
 export type WeeklyFormState = {
   message: string;
@@ -57,8 +58,18 @@ const getSundayOfWeek = (date: Date): Date => {
 };
 
 export async function getWeeklyDataAction(
-  employeeName: string
+  employeeName: string,
 ): Promise<WeeklyFormState> {
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
+
+  logger.request("GET WEEKLY DATA REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+    data: { employeeName },
+  });
+
   try {
     await connectDB();
 
@@ -67,9 +78,11 @@ export async function getWeeklyDataAction(
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 3);
 
-    console.log(green(`Fetching weekly data for ${employeeName}`));
-    console.log(green(`Start date: ${startDate.toISOString()}`));
-    console.log(green(`End date: ${endDate.toISOString()}`));
+    logger.data("Fetching weekly data", {
+      employeeName,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    });
 
     // Fetch all shifts for this employee in the date range
     const shifts = await Shift.find({
@@ -80,7 +93,7 @@ export async function getWeeklyDataAction(
       },
     }).sort({ shiftDate: -1 });
 
-    console.log(green(`Found ${shifts.length} shifts for ${employeeName}`));
+    logger.data("Shifts found", { count: shifts.length, employeeName });
 
     // Group shifts by week (using Sunday as the week start)
     const weeklyMap = new Map<string, { shifts: any[]; weekStart: Date }>();
@@ -110,12 +123,28 @@ export async function getWeeklyDataAction(
       }))
       .sort((a, b) => b.weekStart.getTime() - a.weekStart.getTime());
 
+    logger.success(
+      `Found ${weeklyData.length} weeks of data for ${employeeName}`,
+      {
+        userId,
+        userName,
+        timestamp,
+        timeOfDay,
+      },
+    );
+
     return {
       message: `Found ${weeklyData.length} weeks of data for ${employeeName}`,
       data: weeklyData,
     };
   } catch (error) {
-    console.error("Error fetching weekly data:", error);
+    logger.error("Error fetching weekly data", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       message: "Failed to fetch weekly data",
       data: null,
@@ -143,7 +172,7 @@ export async function getEmployeeListAction(): Promise<string[]> {
 
     // Return unique names sorted alphabetically
     return Array.from(normalizedNames.keys()).sort((a, b) =>
-      a.localeCompare(b)
+      a.localeCompare(b),
     );
   } catch (error) {
     console.error("Error fetching employee list:", error);

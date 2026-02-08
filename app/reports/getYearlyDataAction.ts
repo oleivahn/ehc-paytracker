@@ -2,7 +2,8 @@
 
 import connectDB from "@/lib/database-connection";
 import Shift from "@/models/shift";
-import { red, green } from "console-log-colors";
+import { logger } from "@/lib/logger";
+import { getAuthUserInfo } from "@/lib/authHelper";
 
 export type YearlyFormState = {
   message: string;
@@ -11,19 +12,26 @@ export type YearlyFormState = {
 };
 
 export async function getYearlyDataAction(
-  formData: FormData
+  formData: FormData,
 ): Promise<YearlyFormState> {
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
+
+  const year = parseInt(formData.get("year") as string) || 2025;
+
+  logger.request("GET YEARLY DATA REQUEST", {
+    userId,
+    userName,
+    timestamp,
+    timeOfDay,
+    data: { year },
+  });
+
   try {
     await connectDB();
 
-    const year = parseInt(formData.get("year") as string) || 2025;
     // Use UTC dates to avoid timezone issues
     const startDate = new Date(Date.UTC(year, 0, 1, 0, 0, 0)); // January 1st of the year (UTC)
     const endDate = new Date(Date.UTC(year, 11, 31, 23, 59, 59, 999)); // December 31st of the year (UTC)
-
-    console.log(green(`Fetching yearly data for ${year}`));
-    console.log(green(`Start date: ${startDate.toISOString()}`));
-    console.log(green(`End date: ${endDate.toISOString()}`));
 
     // First, let's see all unique dates in the database for this year
     const allShiftsCount = await Shift.countDocuments({
@@ -32,7 +40,7 @@ export async function getYearlyDataAction(
         $lte: endDate,
       },
     });
-    console.log(green(`Total shifts found for ${year}: ${allShiftsCount}`));
+    logger.data("Total shifts for year", { year, count: allShiftsCount });
 
     const yearlyStats = await Shift.aggregate([
       // Match shifts from the specified year
@@ -103,13 +111,25 @@ export async function getYearlyDataAction(
       },
     ]);
 
+    logger.success(`Successfully aggregated shifts for ${year}`, {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+    });
+
     return {
       data: JSON.parse(JSON.stringify(yearlyStats)),
       message: `Successfully aggregated shifts for ${year}`,
     };
   } catch (error) {
-    console.log(red("Error fetching yearly data:"));
-    console.log((error as Error).message);
+    logger.error("Error fetching yearly data", {
+      userId,
+      userName,
+      timestamp,
+      timeOfDay,
+      error: (error as Error).message,
+    });
     return {
       data: null,
       message: "Failed to fetch yearly data",
