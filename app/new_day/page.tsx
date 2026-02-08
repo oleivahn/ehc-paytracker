@@ -81,6 +81,7 @@ const NewDay = () => {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [updateShiftData, setUpdateShiftData] = useState(new FormData());
   const { toast } = useToast();
   const ref = React.useRef<HTMLFormElement>(null);
@@ -227,7 +228,7 @@ const NewDay = () => {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Shift Date</FormLabel>
-                    <Popover>
+                    <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                       <PopoverTrigger asChild>
                         <FormControl>
                           <Button
@@ -250,7 +251,10 @@ const NewDay = () => {
                         <Calendar
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(date) => {
+                            field.onChange(date);
+                            setCalendarOpen(false);
+                          }}
                           disabled={(date) =>
                             date > new Date() || date < new Date("1900-01-01")
                           }

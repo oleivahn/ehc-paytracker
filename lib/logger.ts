@@ -37,7 +37,6 @@ export const logger = {
    * Log a success message
    */
   success: (message: string, meta?: LogMeta) => {
-    console.log(green(`✅ SUCCESS: ${message}`));
     if (meta?.userId || meta?.userName) {
       const user = meta.userName
         ? `${meta.userName} (${meta.userId || "Unknown"})`
@@ -49,6 +48,7 @@ export const logger = {
       );
     }
     console.log(yellow("═".repeat(80)));
+    console.log(green(`✅ SUCCESS: ${message}`));
   },
 
   /**

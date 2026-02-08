@@ -3,8 +3,8 @@
 import { schema } from "@/app/new_employee/userFormSchema";
 import connectDB from "@/lib/database-connection";
 import User from "@/models/user";
-import { auth, currentUser } from "@clerk/nextjs/server";
 import { logger } from "@/lib/logger";
+import { getAuthUserInfo } from "@/lib/authHelper";
 
 import { revalidatePath } from "next/cache";
 
@@ -17,21 +17,11 @@ export type FormState = {
 
 // - Form Action
 export const contactFormAction = async (data: FormData): Promise<FormState> => {
-  // Get authenticated user info
-  const { userId } = await auth();
-  const user = await currentUser();
-  const userName = user?.firstName && user?.lastName 
-    ? `${user.firstName} ${user.lastName}`
-    : user?.emailAddresses?.[0]?.emailAddress || "Unknown";
-
-  // Format timestamp as mm-dd-yy
-  const now = new Date();
-  const timestamp = `${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}-${String(now.getFullYear()).slice(-2)}`;
-  const timeOfDay = now.toLocaleTimeString();
-
+  // Convert FormData to a regular object
   const formData = Object.fromEntries(data);
 
-  // Enhanced logging
+  // Logging (auth user info and timestamp)
+  const { userId, userName, timestamp, timeOfDay } = await getAuthUserInfo();
   logger.request("NEW EMPLOYEE REQUEST", {
     userId,
     userName,
@@ -40,6 +30,7 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     data: formData,
   });
 
+  // Validate form data using Zod schema
   const parsed = schema.safeParse(formData);
 
   if (!parsed.success) {
@@ -49,8 +40,8 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     };
   }
 
+  // Connect to the database and save the new user
   try {
-    // Connect to the database and save the new user
     await connectDB();
 
     // Create the name field by combining firstName and lastName and convert text fields to lowercase
@@ -69,12 +60,15 @@ export const contactFormAction = async (data: FormData): Promise<FormState> => {
     await newUser.save();
 
     revalidatePath("/new_employee");
-    logger.success(`User created successfully with name: ${userDataWithName.name}`, {
-      userId,
-      userName,
-      timestamp,
-      timeOfDay,
-    });
+    logger.success(
+      `User created successfully with name: ${userDataWithName.name}`,
+      {
+        userId,
+        userName,
+        timestamp,
+        timeOfDay,
+      },
+    );
     return {
       message: "Form Action Success!",
       data: userDataWithName,
